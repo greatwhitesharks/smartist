@@ -1,2 +1,2 @@
 ## smartist
-**smartist** is a collaborative platform to connect singers, lyricists and producers.
+**smartist** is a platform to connect singers, lyricists and producers.
