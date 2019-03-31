@@ -1,0 +1,118 @@
+.container-fluid.user-bg{
+    background: #6f5499; /* Old browsers */
+    background: -moz-linear-gradient(top, #6f5499 1%, #6f5499 55%, #e5e5e5 55%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #6f5499 1%,#6f5499 55%,#e5e5e5 55%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #6f5499 1%,#6f5499 55%,#e5e5e5 55%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6f5499', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+  
+}
+
+/**{
+  box-sizing: border-box;
+}
+*/
+.block{
+
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px 0px #666;
+    height: fit-content;
+}
+body{
+    background-color: #fefefe;
+    text-align: center;
+}
+
+.product{
+    cursor: pointer;
+    border: 1px solid #c5c5c5;
+    border-radius: 5px;
+    height:fit-content;
+}
+
+
+i.material-icons {
+    vertical-align: text-bottom;
+}
+
+.purple{
+    background-color:#563d7c;
+  
+  }
+  .purple a, .purple button{
+    color:#bea9df;
+    text-align:center;
+  }
+
+  .purple button.btn{
+      color:black;
+  }
+  
+  .purple button.btn:hover{
+    color:gray;
+}
+  .purple a:hover{
+    color:white;
+  }
+  .purple button:hover{
+    color:white;
+    
+  }
+  
+  .logo{
+    background-color:white;
+    width:36px; height:36px;
+  }
+  
+  .profile-pic{
+    width:36px;
+     height:36px;
+    background-color:white;
+    border-radius:36px;
+    
+  }
+  
+  #menu-button{
+    position:absolute;
+    box-sizing:border-box;
+    right:10px;
+  }
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+    url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+    url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+  
+  
