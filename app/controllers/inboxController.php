@@ -3,7 +3,7 @@
 require_once "../app/models/saveMessage.php";
 require_once "../app/models/readMessage.php";
 
-Class inbox{
+Class inboxController{
 
   
     function __construct(){
