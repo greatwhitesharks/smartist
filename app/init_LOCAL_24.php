@@ -1,6 +1,5 @@
-
 <?php
-$_SESSION['account_id']="@0002";
+
 
 require_once 'core/App.php';
 require_once 'core/Config.php';

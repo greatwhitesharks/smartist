@@ -1,34 +1,34 @@
 <?php
 
-require_once "../app/models/saveMessage.php";
-require_once "../app/models/readMessage.php";
+require_once "../app/models/message/saveMessage.php";
+require_once "../app/models/message/readMessage.php";
 
-Class inboxController{
-
-  
-    function __construct(){
-       
+class InboxController extends Controller{
+ 
+  function index($parameters =''){
+    if (isset($_SESSION['account_id'])){
+    $senderId=$_SESSION['account_id'];
+    self::view('/Inbox/index', 'Inbox' ,$senderId);
     }
-
-    
-  function defaultMethod(){
-    require_once "../app/views/inbox/inboxPage.php";
-   
+    else{
+      echo "Not Signed";
     }
-     
+  }
+
   function sendMessage(){
 
     $id = $_POST['id'];
     $subject=$_POST['subject'];
     $message =$_POST['message'];
-    $senderId="@0001";
+    $senderId=$_SESSION['account_id'];
 if ( $id !='' && $message!=''&& $subject!='')
     new saveMessage($id, $subject,$message,$senderId);
      
-    header('Location:http://localhost/MVC/public/inbox');
+    header('Location:http://localhost/smartist/public/Inbox');
   
   }
-  function run($rec_id){
+  function run(){
+     $rec_id=$_SESSION['account_id'];
      $output=readMessage($rec_id);
      $jout=json_encode($output);
      header('Cache-Control:no-cache');
