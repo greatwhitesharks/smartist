@@ -36,7 +36,8 @@
                </div>
         
              
-             <?php if (!isset($_SESSION['account_id'])){  ?>
+             <?php if (!isset($_SESSION['account_id'])) {
+    ?>
                <ul class="navbar-nav horizontal ml-lg-2 d-flex flex-row justify-content-around mt-4 mt-lg-0">
                  <li class="nav-item  mx-3 mx-sm-4 d-flex ">
                 <button type="button" class="btn btn-light">Login</button>   
@@ -45,7 +46,9 @@
                                 <button type="button" class="btn btn-light">Register</button>    
                                 </li>
                </ul>
-               <?php } else { ?>
+               <?php
+} else {
+        ?>
                  <a class="nav-link profile-pic ml-md-auto d-none d-lg-flex" href="#">
              
               
@@ -82,6 +85,7 @@
 
     
 
-               <?php } ?>
+               <?php
+    } ?>
            
              </nav>

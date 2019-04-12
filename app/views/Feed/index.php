@@ -238,20 +238,24 @@ div {
 
                                 <div class="row justify-content-center pb-3">
 
-                                    <?php if($product->product_type =="audio"){ ?>
+                                    <?php if ($product->product_type =="audio") {
+                                    ?>
                                         <button type="button" class="btn btn-primary"> <i class="material-icons">
                                                 play_arrow
                                                 </i> <span>Play</span></button>
-                                    <?php } else {?>
+                                    <?php
+                                } else {
+                                    ?>
 
                                      <button type="button" class="btn btn-primary"> <i class="material-icons">
                                                 view
                                                 </i> <span>View</span></button> 
-                                            <?php } ?>
+                                            <?php
+                                } ?>
                                     </div>
                                                      </div> -->
                                     
-                                                      <?php //endforeach; ?>
+                                                      <?php //endforeach;?>
 
                                                     </div>
       <!--   <form class="post-form">

@@ -1,8 +1,9 @@
 
-<?php $user =$data[0];
-$isFollowing = $data[1];
-if ($user){
- ?>
+<?php $user =$data['profile'];
+$isFollowing = $data['isFollowing'];
+
+if ($user) {
+    ?>
     <div class="container-fluid user-bg">
 
         <div class="row justify-content-center pt-5"  style="color: white;"  >
@@ -29,14 +30,18 @@ if ($user){
             </div>    
             <div class="col-3">
                 <div class="row">
-                    <h3 class="mr-2"><?= $user->display_name?></h3>
+                    <h3 class="mr-2"><?= $user->displayName?></h3>
                     <h5 style="line-height:1.7; color:#cecece;">(<?= $user->type ?>)
-                    <!--     <?php 
-                        if ($user->isOnline){ ?>
+                    <!--     <?php
+                        if ($user->isOnline) {
+                            ?>
                         <span class="ml-4 badge badge-success">Online</span>
-                   <?php } ?> -->
+                   <?php
+                        } ?> -->
                 </div>
-                <div class="row mb-2"><h5>@<?= $user->name  ?></h5></div>
+                <div class="row mb-2">
+                  <h5>@<?= $user->handle  ?></h5>
+                </div>
                 <div class="row">
                 <i class="material-icons">
                     location_on
@@ -52,17 +57,18 @@ if ($user){
             
                 <div class="row justify-content-end">
                 <div class="col-3">
-                      <?php  if(isset($_SESSION['account_id'])){ 
+                      <?php  if (isset($_SESSION['account_id'])) {
                             if ($_SESSION['account_id']== $user->id) {
-
                                 ?>
                                  <button type="button" id="editProfile" class="btn btn-light">Edit Profile</button>
 
                             <?php
-                            }
-                            else{ ?>
+                            } else {
+                                ?>
                                   <button type="button" class="btn btn-light">Send Message</button>
-                         <?php  }} ?>
+                         <?php
+                            }
+                        } ?>
                 </div>
 
                   
@@ -80,10 +86,10 @@ if ($user){
     Following
     <span class="badge badge-primary badge-pill"><?= $user->following ?></span>
   </li>
-   <?php  if(isset($_SESSION['account_id'])){ 
-                            if ($_SESSION['account_id']!= $user->id) { 
-
-   if(!$isFollowing){        ?>                     
+   <?php  if (isset($_SESSION['account_id'])) {
+                            if ($_SESSION['account_id']!= $user->id) {
+                                if (!$isFollowing) {
+                                    ?>                     
   <li class="list-group-item d-flex justify-content-between align-items-center">
         <form action='./follow/<?= $user->followable_id?>' method="post">
               <input type="hidden" name="url" value="<?="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"?>">
@@ -91,16 +97,19 @@ if ($user){
    </form>
   </li>
 
-<?php 
-}else {?>
+<?php
+                                } else {
+                                    ?>
   <li class="list-group-item d-flex justify-content-between align-items-center">
-        <form action='./unfollow/<?= $user->followable_id?>' method="post">
+        <form action='./unfollow/<?= $user->followableId?>' method="post">
             <input type="hidden" name="url" value="<?="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"?>">
        <button  type='submit' class="btn btn-primary flex-wrap">Unfollow </button>
    </form>
   </li>
 <?php
-}} }?>
+                                }
+                            }
+                        } ?>
 </ul>
                 </div>
                </div>
@@ -122,7 +131,8 @@ if ($user){
                     <div class="row justify-content-center">
                            <?php
                       
-                            if (isset($_SESSION['account_id']) && $user->id == $_SESSION['account_id']){ ?>
+                            if (isset($_SESSION['account_id']) && $user->id == $_SESSION['account_id']) {
+                                ?>
                                       <div class="upload product col-8 col-sm-5 p-5">
                              
                                     <div class="row justify-content-center">
@@ -139,15 +149,13 @@ if ($user){
                                         </div>
                                                          </div>
 
-                            <?php } 
-
-                            if ($user->id != $_SESSION['account_id'] && !$user->products){
-                                echo '<div class="col-12 mt-5">No uploads</div>';
+                            <?php
                             }
-                            else
-                            {
-                            
-                            foreach ($user->products as $product):
+
+    if ($user->id != $_SESSION['account_id'] && !$user->products) {
+        echo '<div class="col-12 mt-5">No uploads</div>';
+    } else {
+        foreach ($user->products as $product):
  
                                 ?>
                             <div class="product col-8 col-sm-5 mt-3 mt-sm-0 mb-3 flex-row">
@@ -165,20 +173,25 @@ if ($user){
 
                                <!--  <div class="row justify-content-center pb-3">
 
-                                    <?php if($product->product_type =="audio"){ ?>
+                                    <?php if ($product->product_type =="audio") {
+                                    ?>
                                         <button type="button" class="btn btn-primary"> <i class="material-icons">
                                                 play_arrow
                                                 </i> <span>Play</span></button>
-                                    <?php } else {?>
+                                    <?php
+                                } else {
+                                    ?>
 
                                      <button type="button" class="btn btn-primary"> <i class="material-icons">
                                                 view
                                                 </i> <span>View</span></button> 
-                                            <?php } ?>
+                                            <?php
+                                } ?>
                                     </div> -->
                                                      </div>
                                     
-                                                      <?php endforeach; }?>
+                                                      <?php endforeach;
+    } ?>
 
                                             
                                                                                  <div class="col-5"></div>
@@ -189,7 +202,8 @@ if ($user){
                 <div class="col-lg-3 col-10 block pt-4 mt-5 mt-lg-0 mh-50 justify-content-center">
                     <h6>Contact Info</h6>
                     <hr>
-                    <?php if(isset($user->email)){ ?>
+                    <?php if (isset($user->email)) {
+        ?>
                     <div class="row justify-content-center mb-3">
                         <div class="col-2">
                                 <i class="material-icons">
@@ -206,9 +220,11 @@ if ($user){
                             </div>
                     </div>
 
-                    <?php }
+                    <?php
+    }
 
-                     if(isset($user->tel))  { ?>
+    if (isset($user->tel)) {
+        ?>
                     <div class="row justify-content-center mb-3">
                             <div class="col-2">
                                     <i class="material-icons">
@@ -227,9 +243,11 @@ if ($user){
                                 
                         </div>
 
-                        <?php }
+                        <?php
+    }
 
-                         if(isset($user->website)) { ?>
+    if (isset($user->website)) {
+        ?>
                         <div class="row justify-content-center mb-3">
                                 <div class="col-2">
                                         <i class="material-icons">
@@ -245,9 +263,11 @@ if ($user){
                                         </div>
                                     </div>
                             </div>
-                       <?php } 
+                       <?php
+    }
 
-                        if(isset($user->social)) { ?>
+    if (isset($user->social)) {
+        ?>
                             <div class="row justify-content-center mb-3">
                                     <div class="col-2">
                                             <i class="material-icons">
@@ -258,7 +278,7 @@ if ($user){
                                             <div class="row">
                                                    Social Media:
                                                     </div>
-                                           <?php 
+                                           <?php
                                            foreach ($user->social as $link): ?>
                                             <div class="row">
                                             <a href="#"><?= $link ?></a>
@@ -266,12 +286,13 @@ if ($user){
                                             <?php endforeach; ?>
                                         </div>
                                 </div>
-                                <?php } ?>
+                                <?php
+    } ?>
 
             </div>
     </div>
     <?php
-    }else{
+} else {
         echo '<div class="row mt-5 justify-content-center"> <div class="col-12" style="text-align:center;"> User does not exist</div></div>';
     }   ?>
     </div>   
