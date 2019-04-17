@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index </title>
+   
+</head>
+<body>
+    <form action="db/save.php" method="POST">
+        Name : <input type="text" name="name" placeholder="Name">
+        <br>
+        Password : <input type="password" name="pwd" placeholder="Password">
+        <br>
+        <button type="submit" name="submit">Login</button>
+    </form>
+
+
+
+</body>
+</html>
+
+////////////////////////////////////////////////////////
+
+
+<?php
+    include_once 'db/loginsystem.php';
+
+    $name = $_POST['name'];
+    $password= $_POST['pwd'];
+
+    $sql = "insert into users (name,pwd) VALUES('$name','$password' );";
+    mysqli_query($conn,$sql);
+
+    header("Location: ../index.php?login=success");
+
+?>
+
+
+/////////////////////////////////////////////////////////////
+
+<?php
+    $dbServername = "localhost";
+    $dbUsername = "root";
+    $dbPassword = "";
+    $dbName ="loginsystem"; 
+
+$conn = mysqli_connect ($dbServername, $dbUsername, $dbPassword, $dbName);
+?>
+
+
