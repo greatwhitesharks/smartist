@@ -40,7 +40,7 @@ class HashtagController extends Controller{
                         $followableId =Hashtag::getFollowableId($name);
                         $following = Follow::isFollowing($_SESSION[ACCOUNT_IDENTIFIER],
                             $followableId);
-                        $products = Hashtag::getProducts($name);
+                        $products = Product::getProducts($followableId);
                         $followers = Follow::getFollowerCount($followableId);
                     }
                  

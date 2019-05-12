@@ -7,7 +7,6 @@ class Account extends Model
 
     // Identification
     public $id;
-    
     public $hash;
     public $type;
     public $followableId;

@@ -1,12 +1,36 @@
-gi   //     $sql .= str_repeat('name = ? or ', count($tags));
+<?php
+
+class Hashtag{
+
+    public static function all(){
         
-    //     //TODO: use better code for the hack
-    //     $sql .= "false";
-        
-    //     $stmt = $con->prepare($sql);
-    //     $stmt->execute($tags);
-        
-    // }
+    }
+
+    public static function create($name){
+        $con = DB::getConnection();
+        $sql = "INSERT INTO followables (name, type) VALUES(?, 'hashtag')";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([$name]);
+        return $con->lastInsertId();
+    }
+
+    public static function getFollowableId($name){
+        $con = DB::getConnection();
+        $sql = "Select followable_id from followables where name = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([$name]);
+        return $stmt->fetch()['followable_id'];
+    }
+
+
+    public static function exists($name){
+        $con = DB::getConnection();
+        $sql = "Select exists(Select * from followables where type = 'hashtag' and name = ?) as exist";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([$name]);
+        return boolval($stmt->fetch()['exist']);
+
+    }
 
     private static function getNewTags($all, $existing){
          return array_diff($all, $existing);
