@@ -2,17 +2,8 @@
 
 class Hashtag{
 
-    public static function getAll(){
-        $con = DB::getConnection();
-        $sql = "SELECT name FROM followables WHERE type='hashtag'";
-        $stmt = $con->prepare($sql);
-        $stmt->execute();
-        $tags = [];
-
-        while($result = $stmt->fetch()){
-            $tags[] = $result['name'];
-        }
-        return $tags;
+    public static function all(){
+        
     }
 
     public static function create($name){
