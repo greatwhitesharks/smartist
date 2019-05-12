@@ -85,7 +85,8 @@ class App
             require_once $this->getControllerPath(self::defaultController);
             $this->controller = new DefaultController;
         }
-
+       
+            
         call_user_func_array([$this->controller, $this->method], $this->parameters);
     }
 }

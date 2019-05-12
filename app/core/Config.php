@@ -4,8 +4,7 @@
 
 /* Configuration for special urls */
 
-define('PUBLIC_URL', dirname(($_SERVER['PHP_SELF'])));
-
+define('PUBLIC_URL', 'http://localhost/smartist/public');
 
 /* Configuration for database*/
 

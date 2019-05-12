@@ -8,6 +8,12 @@
     <link href="<?=PUBLIC_URL?>/css/styles.css" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?=PUBLIC_URL?>/css/bootstrap.min.css" crossorigin="anonymous"> 
+    <?php 
+$file = VIEW_PATH . explode('/',$view)[0] . '/styles.php';
+if(file_exists($file)){
+   include($file);
+}
+?>
 </head>
   <body>
         <nav class="navbar navbar-expand-lg flex-column flex-lg-row purple">
@@ -36,7 +42,7 @@
                </div>
         
              
-             <?php if (!isset($_SESSION['account_id'])) {
+             <?php if (!isset($_SESSION[ACCOUNT_IDENTIFIER])) {
     ?>
                <ul class="navbar-nav horizontal ml-lg-2 d-flex flex-row justify-content-around mt-4 mt-lg-0">
                  <li class="nav-item  mx-3 mx-sm-4 d-flex ">

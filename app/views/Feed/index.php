@@ -72,7 +72,7 @@ body {
 }
 
 .container-fluid{
-  background-color:#a5a5a5;
+  background-color:#6f5499;
 }
 
 div {
@@ -187,8 +187,8 @@ div {
       <div class="left mb-3 mb-lg-0 mt-3 col-lg-3 col-sm-12">
         <div class="row justify-content-center">
           <div class="col-sm-12">
-            <img class="main-profile-pic" src="<?= $data['profile_pic']?>">
-            <h5><?= $data['display_name']?></h5>
+            <img class="main-profile-pic" src="<?= $data['profilePic']?>">
+            <h5><?= $data['displayName']?></h5>
           </div>
         </div>
         <div class="row  justify-content-center">
@@ -216,8 +216,12 @@ div {
 
       </div>
       <div class="feed mb-3 mb-lg-0 mt-lg-3 col-sm-12 col-lg-5">
-        <h4>Followed Users' Products</h4>
+        <h5>Followed Products</h5>
         <div class="feed-content">
+
+        <ul id="feed-list" style="list-style-type:none;" class="list">
+
+        </ul>
 <?php
 
            // foreach ($products as $product):
@@ -318,25 +322,27 @@ div {
 
    <!--  <script  src="js/main.js"></script> -->
     <script type="text/javascript">
-      // TODO : Improve browser compatibility
+      // // TODO : Improve browser compatibility
       (function(){
 
 
       var xhr = new XMLHttpRequest();
-      var xhr2 = new XMLHttpRequest();
+ 
       var feed = document.getElementsByClassName('feed-content')[0];
 
       xhr.onreadystatechange = ()=>{
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
           let data = JSON.parse(xhr.responseText);
-          var ul = document.createElement('ul');
+          var ul = document.getElementById('feed-list');
+          ul.innerHTML = '';
           for(obj of data){
             var html =  `
-            <h6> Posted by ${obj.account.display_name} </h6>
+            <h6> Posted by ${obj.author} </h6>
             <div class="product col mt-3 mt-sm-0 mb-3 flex-row">
                       
                                 <div class="row justify-content-end">
                                     <div class="col">
+                                    
                                             <img height="200" src="http://localhost/smartist/public/images/product.svg" class="img-fluid" alt="">
                             
                                     </div>
@@ -356,22 +362,12 @@ div {
         }
       };
 
-      xhr2.onreadystatechange = ()=>{
-        if(xhr2.readyState === XMLHttpRequest.DONE && xhr2.status === 200){
-          let d = JSON.parse(xhr2.responseText);
-          var followers = document.getElementById('followers');
-          var following = document.getElementById('followers');
 
-              console.log(d);
-          followers.innerHTML = d.followers || followers.innerHTML;
-           following.innerHTML = d.following || following.innerHTML;
-      }};
 
       function checkForNewPosts(){
       xhr.open('GET', 'http://localhost/smartist/public/feed/feed', true);
       xhr.send();
-       xhr2.open('GET', 'http://localhost/smartist/public/user/follow_stat', true);
-      xhr2.send(); 
+     
       }
 
 
@@ -383,7 +379,3 @@ div {
     </script>
 
 
-
-</body>
-
-</html>

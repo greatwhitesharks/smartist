@@ -7,8 +7,12 @@ class Product
     public $product_title;
     public $product_type;
     public $followable_id;
-    public $account;
-
+    public $description;
+    public $url;
+    public $textContent;
+  
+    public $author;
+    public $status;
     public function __construct($id, $title, $type, $url)
     {
         $this->product_id = $id;
@@ -19,23 +23,20 @@ class Product
     
 
     
-    public function setAccount($account)
-    {
-        $this->account = $account;
-    }
+
     
-    public static function createProduct($followable_id, $product, $tags)
+    public static function createProduct($followable_id, $product, $tags, $description='', $author='')
     {
         
         // Add to product table
         $con = DB::getConnection();
-        $sql = 'INSERT INTO prducts (product_title, product_url,'
-            . 'product_type) values (?,?,?)';
+        $sql = 'INSERT INTO product_info (title, url,'
+            . 'type, author, description) values (?,?,?, ?, ?)';
         
         $stmt = $con->prepare($sql);
         
-        $stmt->execute([$product['title'], $product['url'], $product['type']]);
-        
+        $stmt->execute([$product['title'], $product['url'], $product['type'], $author, $description]);
+       
        $product_id = $con->lastInsertId();
             
         //TODO : Join the code for hash tag and user to use a single insert     
@@ -48,13 +49,12 @@ class Product
         $stmt->execute([$followable_id, $product_id]);
         
      
-        
-        
+
         // For hashtags
         // TODO : improve to use a single insert
-        if(count($tag) > 0) {
-            $fs = new FollowService();
-            $followable_ids = $fs->getHashtagIds($tags);
+        if(count($tags) > 0) {
+          
+            $followable_ids = Hashtag::getIds($tags);
             
             foreach($followable_ids as $id){
                 $sql = 'INSERT INTO product_rels values (?,?)';
@@ -71,9 +71,60 @@ class Product
 
     public static function addProduct($followable_id, $product)
     {
+       
+        
         
     }
+    
+    public static function getProduct($product_id){
+        $con = DB::getConnection();
+        $sql = 'SELECT * from product_info where id = ?';
+        $stmt = $con->prepare($sql);
+        $stmt->execute([$product_id]);
+        $result = $stmt->fetch();
+       
+        $product = null;
+        if($result){
+        $product = new Product(
+            $result['id'], 
+            $result['title'], 
+            $result['type'], 
+            $result['url'],
+            $result['description']
+        );
+        
+        $product->setAuthor($result['author']);
+        $product->setStatus($result['status']);
+        if($product->product_type == 'lyric'){
+            $product->loadContent();
+           
+        }
+        }
+        return $product;
+        
+    }
+    
+    public function setAuthor($author){
+        $this->author = $author;
+    }
+    
+    public function setStatus($status){
+        $this->status = $status;
+    }
+    
+    public function loadContent(){
+        if($this->product_type == 'lyric'){
+            $fileName = $this->product_url;
+            $this->textContent = file_get_contents($fileName);
+        
+        }else{
+        die('Unsupported load content @ Product.php');
+        }
+    
+    }
 
+
+    
     public static function getProducts($followable_id)
     {
         $con = DB::getConnection();
@@ -88,6 +139,10 @@ class Product
         
         while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $product = new Product($result['id'], $result['title'], $result['type'], $result['url']);
+
+            //TODO: Dont use public fields
+            $product->description = $result['description'];
+            $product->author = $result['author'];
             array_push($products, $product);
         }
 

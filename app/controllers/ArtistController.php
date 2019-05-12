@@ -2,17 +2,18 @@
 
 class ArtistController extends Controller
 {
+
     public function index($parameters = '')
     {
         $profile = null;
 
         if ($parameters) {
             $user = $parameters;
-            $accountService = new AccountService();
-            $profile = $accountService->getProfileByName($user);
-        } else {    
+
+            $profile = Account::getProfileByName($user);
+        } else {
             if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
-                $profile = $accountService->getProfileById(
+                $profile = Account::getProfileById(
                     $_SESSION[ACCOUNT_IDENTIFIER]
                 );
             } else {
@@ -21,55 +22,64 @@ class ArtistController extends Controller
             }
         }
 
-        $followService = new FollowService(DB::getConnection());
         $isFollowing = '';
-
-        if ($profile && isset($_SESSION[''])) {
-            $isFollowing = $followService->isFollowing(
+        $products = '';
+        if ($profile && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+            $isFollowing = Follow::isFollowing(
                 $_SESSION[ACCOUNT_IDENTIFIER],
                 $profile->followableId
             );
+
+            $products = Product::getProducts($profile->followableId);
         }
 
+       
 
-
-        self::view('user/index', 'User', 
-            [
-                'profile' =>$profile, 
-                'isFollowing' => $isFollowing
-            ]);
+        self::view('user/index', 'User', compact('profile', 'isFollowing', 'products'));
     }
 
 
     public function upload()
     {
-        
-        $title = (isset($_POST['product_title'])) ? $_POST['product_title'] : '';
+
+        $uploadDir = './uploads/';
+        $title = (isset($_POST['title'])) ? $_POST['title'] : '';
         $hashtags = [];
-        
+        $description = null;
         // TODO : Check if this is redundant
-        if(isset($_POST['hashtags']) && !empty($_POST['hashtags'])){
-            $hashtags = explode(',',$_POST['hashtags']);
+        if (isset($_POST['description'])) {
+            $description =  $_POST['description'];
+            $matches =[];
+            preg_match_all('/#(\w+)/', $description, $matches);
+           $hashtags = array_map('trim', $matches[1]);
         }
-        
-        $as = new AccountService();
-        $followable_id = $as->getFollowableId($_SESSION[ACCOUNT_IDENTIFIER]);
-        
-        
-        if(empty($title)){
+
+        if(count($hashtags)> 5){
+            die('Too many hashtags');
+        }
+        $account = Account::getAccount($_SESSION[ACCOUNT_IDENTIFIER]);
+        $followable_id = $account->followableId;
+
+        if (empty($title)) {
             die('Title shouldn\'t be empty');
         }
-        
+
         //TODO: move the Upload handling code out of here
-        
+
+        $folder = time();
+
+        if (!file_exists($uploadDir . $folder)) {
+            mkdir($uploadDir . $folder, 0777, true);
+        }
+
         // TODO : Needs a better way to prevent collisions
-        $uploadDir = './uploads/' . time() . '/';
-        
+        $uploadDir = $uploadDir . $folder . '/';
+
         $upload = $_FILES['product'];
-        
+
         // Error handling
         // TODO : Need improvement
-        switch($upload['error']){
+        switch ($upload['error']) {
             case UPLOAD_ERR_INI_SIZE:
             case UPLOAD_ERR_FORM_SIZE:
                 die('File too large');
@@ -85,108 +95,76 @@ class ArtistController extends Controller
             default:
                 die('An error occured!');
                 break;
-            
         }
-        
-        
+
+
         // TODO: mp3 mime here, might not work with chrome
         $mimeMap = [
             'txt' => 'text/plain',
             'mp3' => 'audio/mpeg',
-            
+
         ];
-        
+
         // Get the mime type of the uploaded file
-        $fileInfo = new finfo($upload['tmp_name'], FILEINFO_MIME);
-       
+        // $fileInfo = new finfo($upload['tmp_name'], FILEINFO_MIME);
+        $fileInfo = mime_content_type($upload['tmp_name']);
         // Check file size
-        if($upload['size'] > 5000){
+        if ($upload['size'] > 5000) {
             // TODO: Need better handling
             die('File too large');
         }
-        
-        
-        
+
+
+
         // Check if the mime is in the supported list ($mimeMap)
         // and save the respective file extention in $ext
-        if(!($ext = array_search($fileInfo, $mimeMap))){
-            
+        if (!($ext = array_search($fileInfo, $mimeMap))) {
+
             // TODO: Need better handling
             die('Unsupported file type!');
         }
-        
-        
-        
-        
+
+
+
+
         $type = '';
-        
-        switch($ext){
+
+        switch ($ext) {
             case 'mp3':
                 $type = 'audio';
             case 'txt':
-                $type ='lyric';
-                
+                $type = 'lyric';
         }
-        
-        
-        $filePath = $uploadDir . sha1_file($upload['tmp_name']) . '.'. $ext;
-        
+
+
+        $filePath = $uploadDir . sha1_file($upload['tmp_name']) . '.' . $ext;
+
         // Validation done file is ready to be uploaded
-        if(move_uploaded_file($upload['tmp_name'], $filePath)){
-            
-            
+        if (move_uploaded_file($upload['tmp_name'], $filePath)) {
+
+
             //TODO: temporray fix by adding 1 as id. need to us
-           $product = array(
-               'title' => $title,
-               'url' => $filePath,
-               'type' => $type
-           );
-           
-           Product::addProduct($followable_id, $product, $hashtags);
-            
-            
+            $product = array(
+                'title' => $title,
+                'url' => $filePath,
+                'type' => $type
+            );
+
+            Product::createProduct(
+                $followable_id, 
+                $product, 
+                $hashtags, 
+                $description,
+                $account->handle
+            );
+
+
             echo ('File uploaded successfully');
-        }else{
-            
+        } else {
+
             // TODO : Handle this error in a better way
             die('Error occured while uploadng file');
         }
-        
-        
-        
-/*         $target_dir = "./uploads/" ;
-        $target_file = $target_dir . basename($_FILES["fileUpload"]["name"]);
-        $_FILES[]
-
-        if (isset($_POST['title']) && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
-            $title = $_POST['title'];
-            $type = "audio";
-            // TODO: support other file types
-            //TODO: Check file types, santize input etc
-
-            if (file_exists($target_file)) {
-                echo "File already exists.";
-            } elseif ($_FILES["fileUpload"]["size"] > 800000) {
-                echo "File too large.";
-            } else {
-                if (move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
-                    global $connection;
-                    $result = mysqli_query(
-                        $connection,
-                        "Insert into products (product_title, product_url,"
-                         . "product_type, account_id ) values('"
-                         . $title . "','"
-                         . $target_file . "','"
-                         . $type . "','" .
-                          $_SESSION[ACCOUNT_IDENTIFIER] . "')"
-                    ) or die(mysqli_error($connection));
-
-                    header('location: http://localhost/smartist/public/user/');
-                } else {
-                    echo "Error occured while uploading!";
-                }
-            }
-        } */
     }
 
     public function logout()
@@ -197,21 +175,18 @@ class ArtistController extends Controller
 
     public function follow($parameters = [])
     {
-        if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' 
+                && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+
             $followableId = $parameters[0];
 
-            $accountsService = new AccountsService();
-
-
-            $currentAccount = $accountsService->getAccount(
+            $currentAccount = Account::getAccount(
                 $_SESSION[ACCOUNT_IDENTIFIER]
             );
 
-            $followService = new FollowService(DB::getConnection());
-
             if ($followableId != $currentAccount->followableId) {
                 //TODO: Error handling when the followable doesn't exist
-                $followService->followFollowable($currentAccount->id, $followableId);
+                Follow::followFollowable($currentAccount->id, $followableId);
             } else {
                 die('You cannot follow yourself');
             }
@@ -223,18 +198,16 @@ class ArtistController extends Controller
     public function follow_stat($parameters = [])
     {
         if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
-            $accountsService = new AccountsService();
-            $followService = new FollowService(DB::getConnection());
 
-            $currentAccount = $accountsService->getAccount(
+            $currentAccount = Account::getAccount(
                 $_SESSION[ACCOUNT_IDENTIFIER]
             );
 
-            $followers = $followService->getFollowerCount(
+            $followers = Follow::getFollowerCount(
                 $currentAccount->followableId
             );
 
-            $following = $followService->getFollowingCount(
+            $following = Follow::getFollowingCount(
                 $_SESSION[ACCOUNT_IDENTIFIER]
             );
 
@@ -249,17 +222,18 @@ class ArtistController extends Controller
 
     public function unfollow($parameters = [])
     {
-        if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
-            $followableId = $parameters[0];
-            $accountsService = new AccountsService();
-            $followService = new FollowService(DB::getConnection());
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' 
+                && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
 
-            $currentAccount = $accountsService->getAccount(
+            $followableId = $parameters[0];
+
+
+            $currentAccount = Account::getProfileById(
                 $_SESSION[ACCOUNT_IDENTIFIER]
             );
 
             if ($followableId != $currentAccount->followableId) {
-                $followService->unfollowFollowable(
+                Follow::unfollowFollowable(
                     $_SESSION[ACCOUNT_IDENTIFIER],
                     $followableId
                 );
@@ -275,7 +249,8 @@ class ArtistController extends Controller
 
     public function edit()
     {
-        if (isset($_POST['email'])
+        if (
+            isset($_POST['email'])
             && isset($_POST['location'])
             && isset($_POST['website'])
             && isset($_POST['bio'])
@@ -289,13 +264,13 @@ class ArtistController extends Controller
                 'tel' => (int)$_POST['tel']
             );
 
-            $accountsService = new AccountsService();
+            
 
-            $accountsService->updateAccountById(
-                $_SESSION['ACCOUNT_IDENTIFIER'],
+            Account::updateAccountById(
+                $_SESSION[ACCOUNT_IDENTIFIER],
                 $data
             );
-            header('location: http://localhost/smartist/public/user/');
+            header('location: http://localhost/smartist/public/artist/');
         }
     }
 }
