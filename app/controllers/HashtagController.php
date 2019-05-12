@@ -49,7 +49,8 @@ class HashtagController extends Controller{
 
         }
         else{
-        print_r (Hashtag::getAll());
+        $tags = Hashtag::getAll();
+        $this->view('Hashtag/cloud', 'Hashtags', compact('tags'));
         }
     }
 
