@@ -52,7 +52,7 @@ $products = $data['products'];
       <h5 class="card-title"><?= $product->getTitle()?></h5>
       <p class="card-text"><small class="text-muted">by <a href="<?=PUBLIC_URL.'/artist/' . $product->getAuthor() ?>"><?=$product->getAuthor() ?></a></small></p>
       <p class="card-text"><?=Hashtag::parseHashtags($product->getDescription())?></p>
-      <a class="btn btn-primary" href="<?=PUBLIC_URL.'/preview/'. $product->getId()?>">View </a>
+      <a class="btn btn-primary" href="<?=PUBLIC_URL.'/view/'. $product->getId()?>">View </a>
     </div>
   </div>
 

@@ -191,7 +191,7 @@ if ($user) {
                     <img src="http://localhost/smartist/public/images/product.png" class="d-block img-fluid rounded" alt="">
                     <div class="product-details rounded" style="color:white;position:absolute; bottom:0; height:100%; width:100%; background-color:rgba(0,0,0,0.8);">
                       <h6 class="text-center mt-5"><?= $product->getTitle() ?></h6>
-                      <a class="btn btn-success btn-sm text-center" href="<?= PUBLIC_URL . '/preview/' . $product->getId() ?>">
+                      <a class="btn btn-success btn-sm text-center" href="<?= PUBLIC_URL . '/view/' . $product->getId() ?>">
 
                         <span>View</span></a>
                     </div>

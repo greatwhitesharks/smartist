@@ -1,7 +1,7 @@
 <?php
 
 
-class PreviewController extends Controller{
+class ViewController extends Controller{
     const PREVIEW_LENGTH = 200;
 
     
