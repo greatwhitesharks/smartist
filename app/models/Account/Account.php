@@ -138,7 +138,7 @@ class Account extends Model
 
             if ($result) {
 
-                return getAccountFromResult($result);
+                return self::getAccountFromResult($result);
             }
         } catch (PDOException $e) {
             die($e->getMessage());
