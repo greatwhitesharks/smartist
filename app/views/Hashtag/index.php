@@ -47,12 +47,12 @@ $products = $data['products'];
 <div class="col-md-3">
 
 <div class="card">
-    <img src="..." class="card-img-top" alt="...">
+    <img src="<?=PUBLIC_URL?>/images/product.png" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title"><?= $product->product_title?></h5>
-      <p class="card-text"><small class="text-muted">by <a href="<?=PUBLIC_URL.'/artist/' . $product->author ?>"><?=$product->author ?></a></small></p>
-      <p class="card-text"><?=Hashtag::parseHashtags($product->description)?></p>
-      <a class="btn btn-primary" href="<?=PUBLIC_URL.'/preview/'. $product->product_id?>">View </a>
+      <h5 class="card-title"><?= $product->getTitle()?></h5>
+      <p class="card-text"><small class="text-muted">by <a href="<?=PUBLIC_URL.'/artist/' . $product->getAuthor() ?>"><?=$product->getAuthor() ?></a></small></p>
+      <p class="card-text"><?=Hashtag::parseHashtags($product->getDescription())?></p>
+      <a class="btn btn-primary" href="<?=PUBLIC_URL.'/preview/'. $product->getId()?>">View </a>
     </div>
   </div>
 

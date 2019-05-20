@@ -12,19 +12,19 @@ class PreviewController extends Controller{
             $product = Product::getProduct($productId);
             
             if ($product){
-                $data['type'] = $product->product_type;
-                $data['title'] = $product->product_title;
-                $data['url'] = $product->product_url;
-                $data['status'] = $product->status;
-                $data['author'] =$product->author;
-                if($product->status == 'hidden'){
-                    $data['content'] = substr($product->textContent,0, self::PREVIEW_LENGTH);
+                $data['type'] = $product->getType();
+                $data['title'] = $product->getTitle();
+                $data['url'] = $product->getUrl();
+                $data['status'] = $product->getStatus();
+                $data['author'] =$product->getAuthor();
+                if($product->getStatus() != 'public'){
+                    $data['content'] = substr($product->getTextContent(),0, self::PREVIEW_LENGTH);
                 }
                 else{
-                    $data['content'] = $product->textContent;
+                    $data['content'] = $product->getTextContent();
                 }
                 
-                $this->view('Preview/index','Preview of ' .  $product->product_title . ' by '. $product->author,$data);
+                $this->view('Preview/index','Preview of ' .  $product->getTitle() . ' by '. $product->getAuthor(),$data);
                 
             }else{
                 die('Invalid product id');

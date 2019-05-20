@@ -6,26 +6,27 @@ class Account extends Model
 
 
     // Identification
-    public $id;
-    public $hash;
-    public $type;
-    public $followableId;
-    public $handle;
-    public $displayName;
-    public $location;
-    public $bio;
-    public $tel;
-    public $social;
-    public $website;
-    public $photo;
-    public $followers;
-    public $following;
-    public $profileType;
+    private $id;
+    private $hash;
+    private $type;
+    private $followableId;
+    private $rating;
+    private $handle;
+    private $displayName;
+    private $location;
+    private $bio;
+    private $tel;
+    private $social;
+    private $website;
+    private $photo;
+    private $followers;
+    private $following;
+    private $profileType;
 
 
 
     // Security
-    public $email;
+    private $email;
     private $_hash;
 
     public function __construct($accountBuilder)
@@ -39,6 +40,7 @@ class Account extends Model
         $this->displayName = $accountBuilder->displayName;
         $this->location = $accountBuilder->location;
         $this->bio = $accountBuilder->bio;
+        $this->rating = $accountBuilder->rating;
         $this->social = $accountBuilder->social;
         $this->website = $accountBuilder->website;
         $this->profileType = $accountBuilder->profileType;
@@ -48,7 +50,7 @@ class Account extends Model
         $this->followers = $accountBuilder->followers;
     }
 
-   public static function getAccount($id)
+    public static function getAccountSummary($id)
     {
         try {
             $con = DB::getConnection();
@@ -60,7 +62,7 @@ class Account extends Model
             //TODO: use prepared stmts
 
             if ($result) {
-            
+
                 $account = AccountBuilder::account()
                     ->Id($result['id'])
                     ->handle($result['name'])
@@ -77,8 +79,6 @@ class Account extends Model
         }
     }
 
-
-
     /**
      * Returns the followable_id for an account with the given id
      *
@@ -90,7 +90,7 @@ class Account extends Model
      *
      * @return int
      **/
-   public static function getFollowableId($id)
+    public static function getFollowableIdById($id)
     {
         try {
             $con = DB::getConnection();
@@ -104,14 +104,48 @@ class Account extends Model
         }
     }
 
+    public static function  getAccount($key = 'id', $value)
+    {
+        try {
+            $con = DB::getConnection();
+            $sql = "SELECT * FROM account where  $key = '$value'";
+            $statement = $con->prepare($sql);
+            $statement->execute();
+            $result = $statement->fetch();
 
-   public static function updateAccountById($id, $data = [])
+            if ($result) {
+
+                $account = AccountBuilder::account()
+                    ->Id($result['id'])
+                    ->Handle($result['name'])
+                    ->DisplayName($result['display_name'])
+                    ->Type($result['type'])
+                    ->Email($result['email'])
+                    ->Location($result['location'])
+                    ->FollowableId($result['followable_id'])
+                    ->Bio($result['bio'])
+                    ->Social($result['social'])
+                    ->Website($result['website'])
+                    ->Tel($result['tel'])
+                    ->Photo($result['profile_pic'])
+                    ->Rating(Rating::getRating($result['id']))
+                    ->Followers(Follow::getFollowerCount($result['followable_id']))
+                    ->Following(Follow::getFollowingCount($result['id']))
+                    ->build();
+                return $account;
+            }
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public static function updateAccountById($id, $data = [])
     {
         // TODO: use prepared stmts
         if (!empty($data)) {
             $con = DB::getConnection();
             $arr = array();
-            foreach ($data as $key=>$value) {
+            foreach ($data as $key => $value) {
                 array_push($arr, $key . ' = ?');
             }
 
@@ -126,7 +160,7 @@ class Account extends Model
         }
     }
 
-   public static function getProfilePictureById($id)
+    public static function getProfilePictureById($id)
     {
         try {
             $con = DB::getConnection();
@@ -140,72 +174,159 @@ class Account extends Model
         }
     }
 
-   public static function getProfileById($id, $getProducts = false)
+    public static function getProfileById($id)
     {
-        try {
-            $con = DB::getConnection();
-            $sql = ('SELECT * FROM account where id =' . $id);
-            $statement = $con->prepare($sql);
-            $statement->execute();
-            $result = $statement->fetch();
-
-            
-            
-            if ($result) {
-                $account = AccountBuilder::account()
-                    ->Id($result['id'])
-                    ->Handle($result['name'])
-                    ->DisplayName($result['display_name'])
-                    ->Type($result['type'])
-                    ->Email($result['email'])
-                    ->Location($result['location'])
-                    ->FollowableId($result['followable_id'])
-                    ->Bio($result['bio'])
-                    ->Social($result['social'])
-                    ->Website($result['website'])
-                    ->Tel($result['tel'])
-                    ->Photo($result['profile_pic'])
-                    ->Followers(Follow::getFollowerCount($result['followable_id']))
-                    ->Following(Follow::getFollowingCount($result['id']))
-                    ->build();
-                return $account;
-            }
-        } catch (PDOException $e) {
-            die($e->getMessage());
-        }
+        return self::getAccount('id', $id);
     }
 
-   public static function getProfileByName($name, $getProducts = false)
+    public static function getProfileByName($name)
     {
-        try {
-            $con = DB::getConnection();
-            $sql = ('SELECT * FROM account where name =\'' . $name . '\'');
-            $statement = $con->prepare($sql);
-            $statement->execute();
-            $result = $statement->fetch();
-
-            if ($result) {
-                $account = AccountBuilder::account()
-                    ->Id($result['id'])
-                    ->DisplayName($result['display_name'])
-                    ->Handle($result['name'])
-                    ->Type($result['type'])
-                    ->Email($result['email'])
-                    ->Location($result['location'])
-                    ->FollowableId($result['followable_id'])
-                    ->Bio($result['bio'])
-                    ->Social($result['social'])
-                    ->Website($result['website'])
-                    ->Tel($result['tel'])
-                    ->Photo($result['profile_pic'])
-                    ->Followers(Follow::getFollowerCount($result['followable_id']))
-                    ->Following(Follow::getFollowingCount($result['id']))
-                    ->build();
-                return $account;
-            }
-        } catch (PDOException $e) {
-            die($e->getMessage());
-        }
+        return self::getAccount('name',$name);
     }
 
+    public static function getProfileByDisplayName($name)
+    {
+        return self::getAccount('display_name', $name);
+    }
+
+    public static function getProfileByFolowableId($id)
+    {
+        return self::getAccount('followable_id', $id);
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the value of hash
+     */ 
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * Get the value of type
+     */ 
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Get the value of followableId
+     */ 
+    public function getFollowableId()
+    {
+        return $this->followableId;
+    }
+
+    /**
+     * Get the value of rating
+     */ 
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Get the value of handle
+     */ 
+    public function getHandle()
+    {
+        return $this->handle;
+    }
+
+    /**
+     * Get the value of displayName
+     */ 
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+
+    /**
+     * Get the value of location
+     */ 
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Get the value of bio
+     */ 
+    public function getBio()
+    {
+        return $this->bio;
+    }
+
+    /**
+     * Get the value of tel
+     */ 
+    public function getTel()
+    {
+        return $this->tel;
+    }
+
+    /**
+     * Get the value of social
+     */ 
+    public function getSocial()
+    {
+        return $this->social;
+    }
+
+    /**
+     * Get the value of website
+     */ 
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * Get the value of photo
+     */ 
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * Get the value of followers
+     */ 
+    public function getFollowers()
+    {
+        return $this->followers;
+    }
+
+    /**
+     * Get the value of following
+     */ 
+    public function getFollowing()
+    {
+        return $this->following;
+    }
+
+    /**
+     * Get the value of profileType
+     */ 
+    public function getProfileType()
+    {
+        return $this->profileType;
+    }
+
+    /**
+     * Get the value of email
+     */ 
+    public function getEmail()
+    {
+        return $this->email;
+    }
 }

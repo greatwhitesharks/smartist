@@ -27,15 +27,27 @@ class ArtistController extends Controller
         if ($profile && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
             $isFollowing = Follow::isFollowing(
                 $_SESSION[ACCOUNT_IDENTIFIER],
-                $profile->followableId
+                $profile->getFollowableId()
             );
-
-            $products = Product::getProducts($profile->followableId);
+            $setRating = Rating::getSetRating($_SESSION[ACCOUNT_IDENTIFIER], $profile->getId());
+            $setRating = ($setRating) ? $setRating : 0;
+            $followers = Follow::getFollowers($profile->getFollowableId());
+            $followings = Follow::getFollowings($profile->getId());
+            $products = Product::getProducts($profile->getFollowableId());
         }
 
-       
+        self::view('user/index', 'User', compact('profile', 'isFollowing', 'products', 'followers','followings','setRating'));
+    }
 
-        self::view('user/index', 'User', compact('profile', 'isFollowing', 'products'));
+    public function rating($id){
+
+        if(isset($_POST['rating']) && isset($_SESSION[ACCOUNT_IDENTIFIER])){
+            if($_SESSION[ACCOUNT_IDENTIFIER] !== $id){
+                $rating = $_POST['rating'];
+                $rating = ($rating > 5) ? 5 : (($rating < 0 ) ? 0 : $rating);
+                Rating::setRating($_SESSION[ACCOUNT_IDENTIFIER],$id, $rating);
+            }
+        }
     }
 
 
@@ -57,8 +69,8 @@ class ArtistController extends Controller
         if(count($hashtags)> 5){
             die('Too many hashtags');
         }
-        $account = Account::getAccount($_SESSION[ACCOUNT_IDENTIFIER]);
-        $followable_id = $account->followableId;
+        $account = Account::getAccountSummary($_SESSION[ACCOUNT_IDENTIFIER]);
+        $followable_id = $account->getFollowableId();
 
         if (empty($title)) {
             die('Title shouldn\'t be empty');
@@ -155,7 +167,7 @@ class ArtistController extends Controller
                 $product, 
                 $hashtags, 
                 $description,
-                $account->handle
+                $account->getHandle()
             );
 
 
@@ -180,13 +192,13 @@ class ArtistController extends Controller
 
             $followableId = $parameters[0];
 
-            $currentAccount = Account::getAccount(
+            $currentAccount = Account::getAccountSummary(
                 $_SESSION[ACCOUNT_IDENTIFIER]
             );
 
-            if ($followableId != $currentAccount->followableId) {
+            if ($followableId != $currentAccount->getFollowableId()) {
                 //TODO: Error handling when the followable doesn't exist
-                Follow::followFollowable($currentAccount->id, $followableId);
+                Follow::followFollowable($currentAccount->getId(), $followableId);
             } else {
                 die('You cannot follow yourself');
             }
@@ -199,12 +211,12 @@ class ArtistController extends Controller
     {
         if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
 
-            $currentAccount = Account::getAccount(
+            $currentAccount = Account::getAccountSummary(
                 $_SESSION[ACCOUNT_IDENTIFIER]
             );
 
             $followers = Follow::getFollowerCount(
-                $currentAccount->followableId
+                $currentAccount->getFollowableId()
             );
 
             $following = Follow::getFollowingCount(
@@ -232,7 +244,7 @@ class ArtistController extends Controller
                 $_SESSION[ACCOUNT_IDENTIFIER]
             );
 
-            if ($followableId != $currentAccount->followableId) {
+            if ($followableId != $currentAccount->getFollowableId()) {
                 Follow::unfollowFollowable(
                     $_SESSION[ACCOUNT_IDENTIFIER],
                     $followableId

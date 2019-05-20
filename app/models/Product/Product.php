@@ -8,11 +8,11 @@ class Product
     public $product_type;
     public $followable_id;
     public $description;
-    public $url;
-    public $textContent;
+    private $textContent;
   
     public $author;
     public $status;
+
     public function __construct($id, $title, $type, $url)
     {
         $this->product_id = $id;
@@ -20,11 +20,7 @@ class Product
         $this->product_url = $url;
         $this->product_title = $title;
     }
-    
-
-    
-
-    
+      
     public static function createProduct($followable_id, $product, $tags, $description='', $author='')
     {
         
@@ -63,19 +59,8 @@ class Product
             }
         }
             
-        // TODO: Notify followers
-        // TODO: Stop notifiying twice for the same product
-        
     }
-    
-
-    public static function addProduct($followable_id, $product)
-    {
-       
-        
-        
-    }
-    
+  
     public static function getProduct($product_id){
         $con = DB::getConnection();
         $sql = 'SELECT * from product_info where id = ?';
@@ -147,5 +132,77 @@ class Product
         }
 
         return $products;
+    }
+
+    /**
+     * Get the value of product_id
+     */ 
+    public function getId()
+    {
+        return $this->product_id;
+    }
+
+    /**
+     * Get the value of product_url
+     */ 
+    public function getUrl()
+    {
+        return $this->product_url;
+    }
+
+    /**
+     * Get the value of product_title
+     */ 
+    public function getTitle()
+    {
+        return $this->product_title;
+    }
+
+    /**
+     * Get the value of product_type
+     */ 
+    public function getType()
+    {
+        return $this->product_type;
+    }
+
+    /**
+     * Get the value of followable_id
+     */ 
+    public function getFollowableId()
+    {
+        return $this->followable_id;
+    }
+
+    /**
+     * Get the value of description
+     */ 
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Get the value of textContent
+     */ 
+    public function getTextContent()
+    {
+        return $this->textContent;
+    }
+
+    /**
+     * Get the value of author
+     */ 
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Get the value of status
+     */ 
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

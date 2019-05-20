@@ -1,56 +1,68 @@
 <?php $user = $data['profile'];
 $isFollowing = $data['isFollowing'];
 $products = $data['products'];
+
 if ($user) {
   ?>
   <div class="container-fluid user-bg">
 
     <div class="row justify-content-center pt-5" style="color: white;">
-      <div class="col-10 col-sm-2 justify-content-center">
+      <div class="col-12 col-md-3 justify-content-center">
         <div class="row">
           <div class="col">
-            <img src="<?= $user->photo ?>" width="150" class="img-fluid rounded-circle mx-auto d-block" alt=""></div>
+            <img src="<?= $user->getPhoto() ?>" width="150" class="img-fluid rounded-circle mx-auto d-block" alt=""></div>
         </div>
-        <div class='col'>
-          <div class="row ratings justify-content-center my-4" style="text-align:center;color: goldenrod;">
-            <i class="material-icons">
-              star
-            </i><i class="material-icons">
-              star
-            </i><i class="material-icons">
-              star
-            </i><i class="material-icons">
-              star
-            </i><i class="material-icons">
-              star
-            </i>
-
-          </div>
-        </div>
-      </div>
-      <div class="col-3">
         <div class="row">
-          <h3 class="mr-2"><?= $user->displayName ?></h3>
-          <h5 style="line-height:1.7; color:#cecece;">(<?= $user->type ?>)
+
+          <div id="rating-container" class="col ratings justify-content-center my-4" style="text-align:center;color: goldenrod;cursor:pointer;">
+            <?php if (!isset($_SESSION[ACCOUNT_IDENTIFIER]) || $user->getId() == $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
+
+              <?php for ($i = 5; $i >= 1; $i--) : ?>
+                <i class="material-icons" style="color:<?= (($i) <= $user->getRating()) ? 'goldenrod' : 'gray'?>;">star</i>
+              <?php endfor; ?>
+            <?php else : ?>
+              <?php for ($i = 5; $i >= 1; $i--) : ?>
+                <?php $rating = ($data['setRating'] > 0) ? $data['setRating']:$user->getRating();?>
+                <?php $checked = (($i) == round($rating)) ? 'checked' : ''; ?>
+                <input id="radio<?= $i ?>" class="radio-rate" type="radio" name="rate" value="<?= $i ?>" <?= $checked ?>>
+                <label class="lbl-rate material-icons" for="radio<?= $i ?>">
+                  star
+                </label>
+              <?php endfor; ?>
+            <?php endif; ?>
+          </div>
+</div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="row">
+          <div class="col"><h3 class="mr-2"><?= $user->getDisplayName() ?></h3></div>
+          <div class="col"><h5 style="line-height:1.7; color:#cecece;">(<?= $user->getType() ?>)
             <!--     <?php
                       if ($user->isOnline) {
                         ?>
-                            <span class="ml-4 badge badge-success">Online</span>
-                     <?php
-                    } ?> -->
+                                        <span class="ml-4 badge badge-success">Online</span>
+                           <?php
+                          } ?> -->
+                          </div>
         </div>
         <div class="row mb-2">
-          <h5>@<?= $user->handle  ?></h5>
+          <div class="col">
+          <h5>@<?= $user->getHandle()  ?></h5>
         </div>
+                        </div>
         <div class="row">
+          <div class="col">
           <i class="material-icons">
             location_on
           </i>
 
-          <span><?= $user->location ?></span>
+          <span><?= $user->getLocation() ?></span>
         </div>
+                        </div>
         <div class="row my-4 ">
-          <?= $user->bio ?>
+          <div class="col">
+          <?= $user->getBio() ?>
+        </div>
         </div>
       </div>
       <div class="col-12 col-md-5 mb-5 mb-md-0">
@@ -58,7 +70,7 @@ if ($user) {
         <div class="row justify-content-end">
           <div class="col-3">
             <?php if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
-              if ($_SESSION[ACCOUNT_IDENTIFIER] == $user->id) {
+              if ($_SESSION[ACCOUNT_IDENTIFIER] == $user->getId()) {
                 ?>
                 <button type="button" id="editProfile" class="btn btn-light">Edit Profile</button>
 
@@ -78,24 +90,28 @@ if ($user) {
           <div class="col" style="color: black;">
 
             <ul class="list-group list-group-horizontal">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Followers
-                <span class="badge badge-primary badge-pill"><?= $user->followers ?></span>
+              <li class="list-group-item d-flex align-items-center">
+                <a class="btn btn-light btn-block" href="#" onclick="showFollowersModal()">
+                  Followers
+                  <span class="badge badge-primary badge-pill"><?= $user->getFollowers() ?></span>
+                </a>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                Following
-                <span class="badge badge-primary badge-pill"><?= $user->following ?></span>
+                <a class="btn btn-light btn-block" href="#" onclick="showFollowingModal()">
+                  Following
+                  <span class="badge badge-primary badge-pill"><?= $user->getFollowing() ?></span>
+                </a>
               </li>
               <?php if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
-                if ($_SESSION[ACCOUNT_IDENTIFIER] != $user->id) {
+                if ($_SESSION[ACCOUNT_IDENTIFIER] != $user->getId()) {
                   if (!$isFollowing) {
                     ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-        
-                      <form action='<?=PUBLIC_URL?>/artist/follow/<?= $user->followableId?>/' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
-                        <button type='submit' class="btn btn-primary flex-wrap">Follow </button>
+
+                      <form action='<?= PUBLIC_URL ?>/artist/follow/<?= $user->getFollowableId() ?>/' method="post">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
+                        <button type='submit' class="btn btn-primary btn-block btn-sm ">Follow </button>
                       </form>
                     </li>
 
@@ -103,9 +119,9 @@ if ($user) {
                 } else {
                   ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <form action='./unfollow/<?= $user->followableId ?>' method="post">
+                      <form action='./unfollow/<?= $user->getFollowableId() ?>' method="post">
                         <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
-                        <button type='submit' class="btn btn-primary flex-wrap">Unfollow </button>
+                        <button type='submit' class="btn btn-primary btn-block btn-sm">Unfollow </button>
                       </form>
                     </li>
                   <?php
@@ -130,71 +146,73 @@ if ($user) {
         </div>
 
 
-        <div class="row justify-content-center">
-          <?php
 
-          if (isset($_SESSION[ACCOUNT_IDENTIFIER]) && $user->id == $_SESSION[ACCOUNT_IDENTIFIER]) {
-            ?>
-            <div class="upload product col-8 col-sm-5 p-5">
+        <?php
+
+        if (isset($_SESSION[ACCOUNT_IDENTIFIER]) && $user->getId() == $_SESSION[ACCOUNT_IDENTIFIER]) {
+          ?>
+          <div class="row">
+            <div class="upload product col m-3 p-5">
 
               <div class="row justify-content-center">
-                <h6>Upload a sample</h6>
+                <h6>Upload Something</h6>
               </div>
-              <div class="row">
-
-                Lorem ipsum dolor sit amet, consectetur adipisi
-
-
+              <div class="row justify-content-center">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisi
+                </p>
               </div>
-              <div class="row justify-content-center mt-4">
+              <div class="row justify-content-center mt-0">
                 <button type="button" id="uploadButton" class="btn btn-primary"> <span>Upload</span></button>
               </div>
             </div>
 
+          </div>
+
+
+
+        <?php
+      } ?>
+
+        <div class="row justify-content-around">
           <?php
-        }
 
-        if ($user->id != $_SESSION[ACCOUNT_IDENTIFIER] && !$products) {
-          echo '<div class="col-12 mt-5">No uploads</div>';
-        } else {
-          foreach ($products as $product) :
+          if ($user->getId() != $_SESSION[ACCOUNT_IDENTIFIER] && !$products) {
+            echo '<div class="col-12 mt-5">No uploads</div>';
+          } else {
+            foreach ($products as $product) :
 
-            ?>
+              ?>
+
+
               <div class="product col-8 col-sm-5 mt-3 mt-sm-0 mb-3 flex-row">
-                <div class="row justify-content-end">
-                  <div class="col">
-                    <img height="200" src="http://localhost/smartist/public/images/product.svg" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
+                <div class="row">
+                  <div class="product-item col px-0" style="position:relative;">
+                    <img src="http://localhost/smartist/public/images/product.png" class="d-block img-fluid rounded" alt="">
+                    <div class="product-details rounded" style="color:white;position:absolute; bottom:0; height:100%; width:100%; background-color:rgba(0,0,0,0.8);">
+                      <h6 class="text-center mt-5"><?= $product->getTitle() ?></h6>
+                      <a class="btn btn-success btn-sm text-center" href="<?= PUBLIC_URL . '/preview/' . $product->getId() ?>">
+
+                        <span>View</span></a>
+                    </div>
 
                   </div>
 
 
                 </div>
-                <div class="row justify-content-center">
-                  <h6><?= $product->product_title ?></h6>
-                </div>
+                <!-- <div class="row justify-content-center mt-1">
+                  
+                                  </div> -->
 
-                <!--  <div class="row justify-content-center pb-3">
+                <!-- <div class="row justify-content-center pb-0">
 
-                                          <?php if ($product->product_type == "audio") {
-                                            ?>
-                                                <button type="button" class="btn btn-primary"> <i class="material-icons">
-                                                        play_arrow
-                                                        </i> <span>Play</span></button>
-                                          <?php
-                                        } else {
-                                          ?>
-
-                                             <button type="button" class="btn btn-primary"> <i class="material-icons">
-                                                        view
-                                                        </i> <span>View</span></button> 
-                                                  <?php
-                                                } ?>
-                                          </div> -->
+            
+        
+                                                            </div> -->
               </div>
 
             <?php endforeach;
         } ?>
-
 
           <div class="col-5"></div>
         </div>
@@ -204,7 +222,7 @@ if ($user) {
       <div class="col-lg-3 col-10 block pt-4 mt-5 mt-lg-0 mh-50 justify-content-center">
         <h6>Contact Info</h6>
         <hr>
-        <?php if (isset($user->email)) {
+        <?php if (($user->getEmail())) {
           ?>
           <div class="row justify-content-center mb-3">
             <div class="col-2">
@@ -217,7 +235,7 @@ if ($user) {
                 Email:
               </div>
               <div class="row">
-                <a href="mailto:<?= $user->email ?>"><?= $user->email ?></a>
+                <a href="mailto:<?= $user->getEmail() ?>"><?= $user->getEmail() ?></a>
               </div>
             </div>
           </div>
@@ -225,7 +243,7 @@ if ($user) {
         <?php
       }
 
-      if (isset($user->tel)) {
+      if ($user->getTel() !== null) {
         ?>
           <div class="row justify-content-center mb-3">
             <div class="col-2">
@@ -239,7 +257,7 @@ if ($user) {
                 Phone:
               </div>
               <div class="row">
-                <a href="tel:<?= $user->tel ?>"><?= $user->tel ?></a>
+                <a href="tel:<?= $user->getTel() ?>"><?= $user->getTel() ?></a>
               </div>
             </div>
 
@@ -248,7 +266,7 @@ if ($user) {
         <?php
       }
 
-      if (isset($user->website)) {
+      if (($user->getWebsite())) {
         ?>
           <div class="row justify-content-center mb-3">
             <div class="col-2">
@@ -261,14 +279,14 @@ if ($user) {
                 Website:
               </div>
               <div class="row">
-                <a target="blanka" href="<?= $user->website ?>"><?= $user->website ?></a>
+                <a target="blanka" href="<?= $user->getWebsite() ?>"><?= $user->getWebsite() ?></a>
               </div>
             </div>
           </div>
         <?php
       }
 
-      if (isset($user->social)) {
+      if ($user->getSocial()) {
         ?>
           <div class="row justify-content-center mb-3">
             <div class="col-2">
@@ -281,7 +299,7 @@ if ($user) {
                 Social Media:
               </div>
               <?php
-              foreach ($user->social as $link) : ?>
+              foreach ($user->getSocial() as $link) : ?>
                 <div class="row">
                   <a href="#"><?= $link ?></a>
                 </div>
@@ -309,35 +327,35 @@ if ($user) {
         </button>
       </div>
       <div class="modal-body">
-        <form action="<?=PUBLIC_URL?>/artist/edit" method="post">
+        <form action="<?= PUBLIC_URL ?>/artist/edit" method="post">
           <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" value="<?= $user->email ?>" placeholder="name@example.com">
+            <input type="email" class="form-control" id="email" name="email" value="<?= $user->getEmail() ?>" placeholder="name@example.com">
           </div>
 
           <div class="form-group">
             <label for="location">Location</label>
-            <input type="location" class="form-control" id="location" name="location" value="<?= $user->location ?>" placeholder="name@example.com">
+            <input type="location" class="form-control" id="location" name="location" value="<?= $user->getLocation() ?>" placeholder="name@example.com">
           </div>
 
           <div class="form-group">
             <label for="website">Website</label>
-            <input type="website" class="form-control" id="website" name="website" value="<?= $user->website ?>" placeholder="name@example.com">
+            <input type="website" class="form-control" id="website" name="website" value="<?= $user->getWebsite() ?>" placeholder="name@example.com">
           </div>
 
           <div class="form-group">
             <label for="tel">Telephone</label>
-            <input type="tel" class="form-control" id="tel" name="tel" value="<?= $user->tel ?>" placeholder="name@example.com">
+            <input type="tel" class="form-control" id="tel" name="tel" value="<?= $user->getTel() ?>" placeholder="name@example.com">
           </div>
 
           <!--                 <div class="form-group">
     <label for="social">Social Media</label>
-    <input type="social" class="form-control" id="social" name="social" value="<?= $user->social[0] ?>"placeholder="name@example.com">
+    <input type="social" class="form-control" id="social" name="social" value="<?= $user->getSocial()[0] ?>"placeholder="name@example.com">
   </div> -->
 
           <div class="form-group">
             <label for="bio">Bio</label>
-            <textarea class="form-control" id="bio" name="bio" rows="3"><?= $user->bio ?></textarea>
+            <textarea class="form-control" id="bio" name="bio" rows="3"><?= $user->getBio() ?></textarea>
           </div>
 
         </form>
@@ -369,19 +387,19 @@ if ($user) {
           </div>
 
           <div class="form-group">
-    <label for="description">Description</label>
-    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-  </div>
-        <div class="form-group">
-        <label>Upload</label>
-          <div class="custom-file">
-          <label class="custom-file-label" for="customFile">Choose file</label>
-            <input type="file" class="custom-file-input" name="product" id="customFile">
-            
-
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
           </div>
-</div>
-        
+          <div class="form-group">
+            <label>Upload</label>
+            <div class="custom-file">
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              <input type="file" class="custom-file-input" name="product" id="customFile">
+
+
+            </div>
+          </div>
+
         </form>
       </div>
       <div class="modal-footer">
@@ -394,5 +412,40 @@ if ($user) {
 </div>
 
 
+
+
+
+<?php
+
+require_once VIEW_PATH . '/Modals/followingsModal.php';
+require_once VIEW_PATH . '/Modals/followersModal.php';
+
+?>
+
+
+
+
 <script type="text/javascript" src="<?= PUBLIC_URL ?>/js/main.js"></script>
 
+<?php if (isset($_SESSION[ACCOUNT_IDENTIFIER]) &&  $user->getId() != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
+  <script>
+    (function() {
+      var container = document.getElementById('rating-container');
+
+
+      container.addEventListener('click', function(e) {
+        if (e.target.name === 'rate') {
+          var rating = e.target.value;
+          console.log(e.target.value);
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '<?= PUBLIC_URL . '/artist/rating/' . $user->getId() ?>', true);
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.send('rating=' + rating);
+
+
+        }
+      });
+
+    })();
+  </script>
+<?php endif; ?>

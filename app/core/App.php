@@ -84,6 +84,7 @@ class App
         } else {
             require_once $this->getControllerPath(self::defaultController);
             $this->controller = new DefaultController;
+            $this->parameters = $requestData;
         }
        
             

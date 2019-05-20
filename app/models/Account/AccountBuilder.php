@@ -10,6 +10,7 @@ class AccountBuilder
     public $displayName;
     public $location;
     public $bio;
+    public $rating;
     public $tel;
     public $social;
     public $website;
@@ -49,6 +50,12 @@ class AccountBuilder
     public function Type($type)
     {
         $this->type = $type;
+        return $this;
+    }
+
+    public function Rating($rating)
+    {
+        $this->rating = $rating;
         return $this;
     }
 

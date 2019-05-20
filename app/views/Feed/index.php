@@ -26,6 +26,9 @@
   
 }
 
+.modal{
+  background-color:rgba(0,0,0,0.8);
+}
 .logo{
   background-color:white;
   width:36px; height:36px;
@@ -198,12 +201,17 @@ div {
           <div class="col-sm-10 col-lg">
             <ul class="list-group list-group-horizontal justify-content-around flex-sm-row flex-lg-column">
               <li class="list-group-item flex-fill  d-flex justify-content-between align-items-center">
+                <a href="#" class="btn btn-light btn-block" onclick="showFollowersModal()">
                 Followers
-                <span class="badge badge-primary badge-pill" id="followers"><?= $data['followers'] ?></span>
+
+                <span class="badge badge-primary badge-pill" id="followers"><?= $data['followersCount'] ?></span>
+</a>
               </li>
               <li class="list-group-item d-flex flex-fill justify-content-between align-items-center">
+              <a href="#" class="btn btn-light btn-block" onclick="showFollowingModal()">
                 Following
-                <span class="badge badge-primary badge-pill" id="following"><?= $data['following'] ?></span>
+                <span class="badge badge-primary badge-pill" id="following"><?= $data['followingCount'] ?></span>
+                </a>
               </li>
         <!--                  <li class="list-group-item flex-fill d-flex justify-content-between align-items-center">
                 Uploads
@@ -219,9 +227,9 @@ div {
         <h5>Followed Products</h5>
         <div class="feed-content">
 
-        <ul id="feed-list" style="list-style-type:none;" class="list">
-
-        </ul>
+        <div id="feed-list" style="list-style-type:none;" class="list">
+          No products
+        </div>
 <?php
 
            // foreach ($products as $product):
@@ -237,12 +245,12 @@ div {
       
                                 </div>
                                 <div class="row justify-content-center">
-                                    <h6><?= $product->product_title ?></h6>
+                                    <h6><?= $product->getTitle() ?></h6>
                                 </div>
 
                                 <div class="row justify-content-center pb-3">
 
-                                    <?php if ($product->product_type =="audio") {
+                                    <?php if ($product->getType =="audio") {
                                     ?>
                                         <button type="button" class="btn btn-primary"> <i class="material-icons">
                                                 play_arrow
@@ -316,11 +324,21 @@ div {
       </div>
     </div>
 
+
+
+    <?php
+
+require_once VIEW_PATH . '/Modals/followingsModal.php';
+require_once VIEW_PATH . '/Modals/followersModal.php';
+
+?>
+
+
 </body>
   
   
 
-   <!--  <script  src="js/main.js"></script> -->
+    <script  src="js/main.js"></script>
     <script type="text/javascript">
       // // TODO : Improve browser compatibility
       (function(){
@@ -334,16 +352,26 @@ div {
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
           let data = JSON.parse(xhr.responseText);
           var ul = document.getElementById('feed-list');
+          
+          if(data.length > 0){
+
           ul.innerHTML = '';
           for(obj of data){
             var html =  `
-            <h6> Posted by ${obj.author} </h6>
+            <div class="row">
+            <div class="col-1">
+              <img width="40" src="${obj.author.photo}" class="img-responsive">
+            </div>
+            <div class="col">
+            <h6><a href="<?=PUBLIC_URL?>/artist/${obj.author.handle}"> ${obj.author.displayName}</a> </h6>
+            </div>
+            </div>
             <div class="product col mt-3 mt-sm-0 mb-3 flex-row">
                       
-                                <div class="row justify-content-end">
-                                    <div class="col">
+                                <div class="row">
+                                    <div class="col px-0">
                                     
-                                            <img height="200" src="http://localhost/smartist/public/images/product.svg" class="img-fluid" alt="">
+                                            <img height="200" src="http://localhost/smartist/public/images/product.png" class="img-fluid rounded-top" alt="">
                             
                                     </div>
                                 </div>
@@ -352,7 +380,7 @@ div {
                                 </div>
        </div> `;
 
-        var li = document.createElement('li');
+        var li = document.createElement('article');
         li.innerHTML = html;
         ul.appendChild(li);
 
@@ -360,6 +388,7 @@ div {
           feed.innerHTML = '';
           feed.appendChild(ul);
         }
+      }
       };
 
 

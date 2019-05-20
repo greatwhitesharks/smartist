@@ -66,8 +66,11 @@ class Follow
             . ' WHERE followable_id = ?';
             $stmt = $con->prepare($sql);
             $stmt->execute([$followable_id]);
-            $followers = $stmt->fetch(PDO::FETCH_ASSOC);
+            $followers =[];
 
+            while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $followers[] = Account::getProfileById($result['follower_id']);
+            }
             return $followers;
         } catch (Exception $e) {
             //TODO : Error handling
@@ -82,11 +85,23 @@ class Follow
         try {
             $con = DB::getConnection();
             // delete the record
-            $sql = 'SELECT followable_id FROM ' . FOLLOW_TABLE 
-            . ' WHERE follower_id = ?';
+            $sql = 'SELECT fi.* FROM ' . FOLLOW_TABLE 
+            . ' as fr, followables as fi WHERE fr.follower_id = ? AND fr.followable_id = fi.followable_id';
             $stmt = $con->prepare($sql);
             $stmt->execute([$follower_id]);
-            $followings = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $followings = [];
+
+            while ($result = $stmt->fetch()){
+               
+                if($result['type'] == 'hashtag'){
+                    $followings['hashtags'][] = $result['name'];
+                }else{
+                    $followings['artists'][] = Account::getProfileByFolowableId($result[
+                        'followable_id'
+                    ]);
+                }
+            }
 
             return $followings;
         } catch (Exception $e) {
@@ -99,14 +114,15 @@ class Follow
     public static function getFollowingProducts($follower_id)
     {
         try {
-            $followable_id = Account::getFollowableId($follower_id);
+            $account = Account::getAccountSummary($follower_id);
+            $followable_id = $account->getFollowableId();
             $con = DB::getConnection();
             // delete the record
             $sql = 'SELECT distinct pi.* FROM ' . FOLLOW_TABLE 
             . ' f, product_rels pr, product_info pi '
-            .' WHERE f.follower_id = ?'
+            .' WHERE f.follower_id = ? '
             . 'AND pr.followable_id = f.followable_id '
-            .' and pi.id =  pr.product_id' ;
+            .' AND pi.id =  pr.product_id' ;
 
             $stmt = $con->prepare($sql);
             $stmt->execute([$follower_id]);
@@ -114,15 +130,17 @@ class Follow
 
             while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                // $account = Account::getProfileByName();
-                $product = new Product(
+            if($result['author'] !== $account->getHandle()){
+               $product = new Product(
                     $result['id'], 
                     $result['title'], 
                     $result['type'], 
                     $result['url'],
                     $result['description']
                 );
-                $product->setAuthor($result['author']);
+                $product->setAuthor(Account::getProfileByDisplayName($result['author']));
                 array_push($products, $product);
+            }
             }
 
             return $products;
