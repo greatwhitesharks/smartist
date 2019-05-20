@@ -104,6 +104,28 @@ class Account extends Model
         }
     }
 
+    private static function getAccountFromResult($result){
+        
+        $account = AccountBuilder::account()
+        ->Id($result['id'])
+        ->Handle($result['name'])
+        ->DisplayName($result['display_name'])
+        ->Type($result['type'])
+        ->Email($result['email'])
+        ->Location($result['location'])
+        ->FollowableId($result['followable_id'])
+        ->Bio($result['bio'])
+        ->Social($result['social'])
+        ->Website($result['website'])
+        ->Tel($result['tel'])
+        ->Photo($result['profile_pic'])
+        ->Rating(Rating::getRating($result['id']))
+        ->Followers(Follow::getFollowerCount($result['followable_id']))
+        ->Following(Follow::getFollowingCount($result['id']))
+        ->build();
+
+        return $account;
+    }
     public static function  getAccount($key = 'id', $value)
     {
         try {
@@ -115,24 +137,7 @@ class Account extends Model
 
             if ($result) {
 
-                $account = AccountBuilder::account()
-                    ->Id($result['id'])
-                    ->Handle($result['name'])
-                    ->DisplayName($result['display_name'])
-                    ->Type($result['type'])
-                    ->Email($result['email'])
-                    ->Location($result['location'])
-                    ->FollowableId($result['followable_id'])
-                    ->Bio($result['bio'])
-                    ->Social($result['social'])
-                    ->Website($result['website'])
-                    ->Tel($result['tel'])
-                    ->Photo($result['profile_pic'])
-                    ->Rating(Rating::getRating($result['id']))
-                    ->Followers(Follow::getFollowerCount($result['followable_id']))
-                    ->Following(Follow::getFollowingCount($result['id']))
-                    ->build();
-                return $account;
+                return getAccountFromResult($result);
             }
         } catch (PDOException $e) {
             die($e->getMessage());
@@ -192,6 +197,21 @@ class Account extends Model
     public static function getProfileByFolowableId($id)
     {
         return self::getAccount('followable_id', $id);
+    }
+
+    public static function findArtists($key){
+        $key = strtolower($key);
+        $con = DB::getConnection();
+
+        $sql = 'SELECT * FROM account where lower(name) like %?% or lower(display_name) like %?%';
+        $stmt = $con->prepare($sql);
+
+        $stmt->execute([$key, $key]);
+
+        $artists = [];
+        while($result = $stmt->fetch()){
+            array_push($artists, self::getAccountFromResult($result));
+        }
     }
 
     /**

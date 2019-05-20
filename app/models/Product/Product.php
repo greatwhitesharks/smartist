@@ -134,6 +134,29 @@ class Product
         return $products;
     }
 
+    public static function findLyrics($key){
+        $con = DB::getConnection();
+        $key = strtolower($key);
+        $sql = 'SELECT * FROM product_info WHERE lower(title) like %?% or lower or lower(keywords) like %?% or lower(author) like %?% and status =\'public\'';
+
+        $stmt = $con->prepare($sql);
+
+        $stmt->execute([$key, $key,$key]);
+        $lyrics = [];
+        while($result = $stmt->fetch()){
+            $product = new Product(
+                $result['id'],
+                $result['title'],
+                $result['type'],
+                $result['url']
+            );
+            array_push($lyrics, $result);
+        }
+    }
+
+
+    
+   
     /**
      * Get the value of product_id
      */ 
