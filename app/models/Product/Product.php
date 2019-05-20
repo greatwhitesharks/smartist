@@ -137,11 +137,11 @@ class Product
     public static function findLyrics($key){
         $con = DB::getConnection();
         $key = strtolower($key);
-        $sql = 'SELECT * FROM product_info WHERE lower(title) like %?% or lower or lower(keywords) like %?% or lower(author) like %?% and status =\'public\'';
+        $sql = "SELECT * FROM product_info WHERE lower(title) like '%$key%'  or lower(keywords) like '%$key%' or lower(author) like '%$key%' and status ='public' and type='lyrics'";
 
         $stmt = $con->prepare($sql);
 
-        $stmt->execute([$key, $key,$key]);
+        $stmt->execute();
         $lyrics = [];
         while($result = $stmt->fetch()){
             $product = new Product(
@@ -152,6 +152,7 @@ class Product
             );
             array_push($lyrics, $result);
         }
+        return $lyrics;
     }
 
 

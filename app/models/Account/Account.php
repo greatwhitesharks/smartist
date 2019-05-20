@@ -104,25 +104,26 @@ class Account extends Model
         }
     }
 
-    private static function getAccountFromResult($result){
-        
+    private static function getAccountFromResult($result)
+    {
+
         $account = AccountBuilder::account()
-        ->Id($result['id'])
-        ->Handle($result['name'])
-        ->DisplayName($result['display_name'])
-        ->Type($result['type'])
-        ->Email($result['email'])
-        ->Location($result['location'])
-        ->FollowableId($result['followable_id'])
-        ->Bio($result['bio'])
-        ->Social($result['social'])
-        ->Website($result['website'])
-        ->Tel($result['tel'])
-        ->Photo($result['profile_pic'])
-        ->Rating(Rating::getRating($result['id']))
-        ->Followers(Follow::getFollowerCount($result['followable_id']))
-        ->Following(Follow::getFollowingCount($result['id']))
-        ->build();
+            ->Id($result['id'])
+            ->Handle($result['name'])
+            ->DisplayName($result['display_name'])
+            ->Type($result['type'])
+            ->Email($result['email'])
+            ->Location($result['location'])
+            ->FollowableId($result['followable_id'])
+            ->Bio($result['bio'])
+            ->Social($result['social'])
+            ->Website($result['website'])
+            ->Tel($result['tel'])
+            ->Photo($result['profile_pic'])
+            ->Rating(Rating::getRating($result['id']))
+            ->Followers(Follow::getFollowerCount($result['followable_id']))
+            ->Following(Follow::getFollowingCount($result['id']))
+            ->build();
 
         return $account;
     }
@@ -186,7 +187,7 @@ class Account extends Model
 
     public static function getProfileByName($name)
     {
-        return self::getAccount('name',$name);
+        return self::getAccount('name', $name);
     }
 
     public static function getProfileByDisplayName($name)
@@ -199,24 +200,26 @@ class Account extends Model
         return self::getAccount('followable_id', $id);
     }
 
-    public static function findArtists($key){
+    public static function findArtists($key)
+    {
         $key = strtolower($key);
         $con = DB::getConnection();
 
-        $sql = 'SELECT * FROM account where lower(name) like %?% or lower(display_name) like %?%';
+        $sql = "SELECT * FROM account where lower(name) like '%$key%' or lower(display_name) like '%$key%'";
         $stmt = $con->prepare($sql);
 
         $stmt->execute([$key, $key]);
 
         $artists = [];
-        while($result = $stmt->fetch()){
+        while ($result = $stmt->fetch()) {
             array_push($artists, self::getAccountFromResult($result));
         }
+        return $artists;
     }
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -224,7 +227,7 @@ class Account extends Model
 
     /**
      * Get the value of hash
-     */ 
+     */
     public function getHash()
     {
         return $this->hash;
@@ -232,7 +235,7 @@ class Account extends Model
 
     /**
      * Get the value of type
-     */ 
+     */
     public function getType()
     {
         return $this->type;
@@ -240,7 +243,7 @@ class Account extends Model
 
     /**
      * Get the value of followableId
-     */ 
+     */
     public function getFollowableId()
     {
         return $this->followableId;
@@ -248,7 +251,7 @@ class Account extends Model
 
     /**
      * Get the value of rating
-     */ 
+     */
     public function getRating()
     {
         return $this->rating;
@@ -256,7 +259,7 @@ class Account extends Model
 
     /**
      * Get the value of handle
-     */ 
+     */
     public function getHandle()
     {
         return $this->handle;
@@ -264,7 +267,7 @@ class Account extends Model
 
     /**
      * Get the value of displayName
-     */ 
+     */
     public function getDisplayName()
     {
         return $this->displayName;
@@ -272,7 +275,7 @@ class Account extends Model
 
     /**
      * Get the value of location
-     */ 
+     */
     public function getLocation()
     {
         return $this->location;
@@ -280,7 +283,7 @@ class Account extends Model
 
     /**
      * Get the value of bio
-     */ 
+     */
     public function getBio()
     {
         return $this->bio;
@@ -288,7 +291,7 @@ class Account extends Model
 
     /**
      * Get the value of tel
-     */ 
+     */
     public function getTel()
     {
         return $this->tel;
@@ -296,7 +299,7 @@ class Account extends Model
 
     /**
      * Get the value of social
-     */ 
+     */
     public function getSocial()
     {
         return $this->social;
@@ -304,7 +307,7 @@ class Account extends Model
 
     /**
      * Get the value of website
-     */ 
+     */
     public function getWebsite()
     {
         return $this->website;
@@ -312,7 +315,7 @@ class Account extends Model
 
     /**
      * Get the value of photo
-     */ 
+     */
     public function getPhoto()
     {
         return $this->photo;
@@ -320,7 +323,7 @@ class Account extends Model
 
     /**
      * Get the value of followers
-     */ 
+     */
     public function getFollowers()
     {
         return $this->followers;
@@ -328,7 +331,7 @@ class Account extends Model
 
     /**
      * Get the value of following
-     */ 
+     */
     public function getFollowing()
     {
         return $this->following;
@@ -336,7 +339,7 @@ class Account extends Model
 
     /**
      * Get the value of profileType
-     */ 
+     */
     public function getProfileType()
     {
         return $this->profileType;
@@ -344,7 +347,7 @@ class Account extends Model
 
     /**
      * Get the value of email
-     */ 
+     */
     public function getEmail()
     {
         return $this->email;

@@ -24,7 +24,7 @@ class SearchController extends Controller
                 // 1 param: view file eke path eka
                 // 2 param: Page title eka
                 // 3 parameter: Pass karana data 
-                self::view('search/index', 'Search', []);
+                self::view('search/index', 'Search', compact('key'));
             } else {
                 $products['lyrics'] = Product::findLyrics($key);
                 $artists = Account::findArtists($key);
@@ -40,12 +40,12 @@ class SearchController extends Controller
     public function lyrics($key){
         $products['lyrics'] = Product::findLyrics($key);
         $filter = 'lyrics';
-        self::view('search/result','Search Results', compact('artists', 'products','key','filter'));
+        self::view('search/result','Search Results', compact( 'products','key','filter'));
     }
 
     public function artists($key){
-        $products['artists'] = Product::findArtists($key);
+        $artists = Account::findArtists($key);
         $filter = 'artists';
-        self::view('search/result','Search Results', compact('artists', 'products','key','filter'));
+        self::view('search/result','Search Results', compact('artists','key','filter'));
     }
 }
