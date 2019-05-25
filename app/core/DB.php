@@ -24,4 +24,5 @@ class DB
         }
         return self::$con;
     }
+
 }

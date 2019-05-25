@@ -138,7 +138,7 @@ class Follow
                     $result['url'],
                     $result['description']
                 );
-                $product->setAuthor(Account::getProfileByDisplayName($result['author']));
+                $product->setAuthor(Account::getProfileByName($result['author']));
                 array_push($products, $product);
             }
             }

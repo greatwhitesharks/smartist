@@ -11,6 +11,7 @@ class Product
     private $textContent;
   
     public $author;
+    private $owner;
     public $status;
 
     public function __construct($id, $title, $type, $url)
@@ -20,18 +21,34 @@ class Product
         $this->product_url = $url;
         $this->product_title = $title;
     }
-      
+    
+    public static function exists($id){
+        $con = DB::getConnection();
+        $sql = 'SELECT EXISTS(SELECT id from product_info WHERE id = ?) AS exist';
+        $stmt = $con->prepare($sql);
+        $stmt->execute([$id]);
+        return boolval($stmt->fetch()['exist']);
+    }
+
+    public static function removeProduct($id){
+        $con = DB::getConnection();
+        $sql = 'DELETE from product_info where id = ?';
+    }
     public static function createProduct($followable_id, $product, $tags, $description='', $author='')
     {
-        
+        $owner_id = 0;
+        if($author){
+            $owner_id = Account::getProfileByName($author)->getId();
+        }
+     
         // Add to product table
         $con = DB::getConnection();
         $sql = 'INSERT INTO product_info (title, url,'
-            . 'type, author, description) values (?,?,?, ?, ?)';
+            . 'type, author, description, owner_id) values (?,?,?, ?, ?, ?)';
         
         $stmt = $con->prepare($sql);
         
-        $stmt->execute([$product['title'], $product['url'], $product['type'], $author, $description]);
+        $stmt->execute([$product['title'], $product['url'], $product['type'], $author, $description, $owner_id]);
        
        $product_id = $con->lastInsertId();
             
@@ -79,6 +96,7 @@ class Product
         );
         
         $product->setAuthor($result['author']);
+        $product->setOwner($result['owner_id']);
         $product->setStatus($result['status']);
         if($product->product_type == 'lyric'){
             $product->loadContent();
@@ -128,6 +146,7 @@ class Product
             //TODO: Dont use public fields
             $product->description = $result['description'];
             $product->author = $result['author'];
+            $product->setOwner($result['owner_id']);
             array_push($products, $product);
         }
 
@@ -204,5 +223,25 @@ class Product
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Get the value of owner
+     */ 
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set the value of owner
+     *
+     * @return  self
+     */ 
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+
+        return $this;
     }
 }

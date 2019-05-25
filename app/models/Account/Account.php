@@ -184,10 +184,6 @@ class Account extends Model
         return self::getAccount('name',$name);
     }
 
-    public static function getProfileByDisplayName($name)
-    {
-        return self::getAccount('display_name', $name);
-    }
 
     public static function getProfileByFolowableId($id)
     {
