@@ -16,7 +16,9 @@ class ArtistController extends Controller
                 $profile = Account::getProfileById(
                     $_SESSION[ACCOUNT_IDENTIFIER]
                 );
+       
             } else {
+
                 header('location: ' . LOGIN_REDIRECT_URL);
                 exit();
             }
