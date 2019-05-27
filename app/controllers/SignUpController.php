@@ -70,7 +70,7 @@ if (isset($_POST['signup'])){
     //error handling
 
     //checking for username availability
-    $sql = "SELECT * FROM account WHERE username='$username'";
+    $sql = "SELECT * FROM account WHERE name='$username'";
     $result = mysqli_query($connection, $sql);
     $check = mysqli_num_rows($result);
     if ($check > 0){
@@ -98,7 +98,7 @@ if (isset($_POST['signup'])){
             $result = mysqli_query($connection, $sql);
             $followableId = mysqli_insert_id($con);
 
-            $sql = "INSERT INTO account (username, type, name, email, dob, gender, occupation, password_hash, followable_id) VALUES ('$username','$type' ,'$name', '$email', '$dob', '$gender', '$occupation', '$hashedpassword', '$followableId');";
+            $sql = "INSERT INTO account (name, type, display_name, email, dob, gender, occupation, password_hash, followable_id) VALUES ('$username','$type' ,'$name', '$email', '$dob', '$gender', '$occupation', '$hashedpassword', '$followableId');";
             $result = mysqli_query($connection, $sql);
             $accountId = mysqli_insert_id($con);
             $_SESSION[ACCOUNT_IDENTIFIER] = $accountId;

@@ -13,7 +13,4 @@ public function index(){
 }
 
 
-public function test(){
-    echo password_hash('1234',PASSWORD_DEFAULT );
-}
 }

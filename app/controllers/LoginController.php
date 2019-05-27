@@ -19,7 +19,7 @@ if (isset($_POST['signup'])){
     
     if (isset($_POST['login'])){
         $connection = DBMySqli::getConnection();
-        $user = mysqli_real_escape_string($connection, $_POST['username_email']);
+        $user = mysqli_real_escape_string($connection, $_POST['name_email']);
         $password = mysqli_real_escape_string($connection, $_POST['password']);
         if (empty($user) || empty($password)){
             header('Location:' . PUBLIC_URL ."/login/?fields=empty");
@@ -29,7 +29,7 @@ if (isset($_POST['signup'])){
         
         if (strpos($user, '@') === false){
             echo 'you entered username';
-            $sql= "SELECT * FROM account WHERE username='$user'";
+            $sql= "SELECT * FROM account WHERE name='$user'";
         }else{
             echo 'you entered email';
             $sql = "SELECT
