@@ -15,7 +15,12 @@ var x = new XMLHttpRequest();
    x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
    x.setRequestHeader("Content-Type", "application/json");
    x.send(JSON.stringify(inf));
-   alert('Message was succesfully deleted'); 
+   x.onreadystatechange = function(){
+    if (xhttp.readyState == XMLHttpRequest.DONE && xhttp.status == 200){
+        alert('Message was succesfully deleted');
+   }
+    };
+       
         }
    
     }

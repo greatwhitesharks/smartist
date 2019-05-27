@@ -27,7 +27,7 @@ function dropDown(n){
         formdet.id.value='';
     formdet.message.value='';
     formdet.subject.value='';
-        alert("Message sent.");
+        
             
     });
     

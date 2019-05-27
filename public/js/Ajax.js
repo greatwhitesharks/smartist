@@ -1,5 +1,4 @@
 var ids = Array();
-var n=0;
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function(){
  if (xhttp.readyState == XMLHttpRequest.DONE && xhttp.status == 200){
@@ -9,8 +8,7 @@ xhttp.onreadystatechange = function(){
         // TODO : Improve Browser compattibility 
         if (!ids.includes(obj.id)){
             ids.push(obj.id)
-            n++;
-        ul.innerHTML+= `<li  class="list-group-item d-flex   click " onclick="right(${n})"><a class=" profile-pic " href="#" ></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${obj.senderId}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${obj.sub}</li><li class="hide list-group-item  ${n}">${obj.msg}</li><br>`;
+        ul.innerHTML= `<ul class="icon${obj.id}" ><li  class="list-group-item d-flex   click " ><a class=" profile-pic " href="#" ></a>&nbsp;&nbsp;&nbsp;${obj.senderId}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash-o"onclick="deleteMessage(${obj.id})" style="font-size:24px"></i></li><li onclick="dropDown(${obj.id})" class="list-group-item d-flex   click ">${obj.sub}</li></li><li class="hide list-group-item ${obj.id}">${obj.msg}</li><br></ul>`+ ul.innerHTML;
     }
 }
  }
