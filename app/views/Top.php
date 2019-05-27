@@ -83,9 +83,13 @@ if(file_exists($file)){
                  </li>
 
                    <li class="nav-item  mx-3  mx-sm-4 mx-lg-1">
-                   <a class="nav-link" href="./logout"><i class="material-icons">
+                     <a class="nav-link">
+                     <form action="<?= PUBLIC_URL?>/logout" method='POST'>
+                   <button class="" style="background-color:transparent; border:none;color:#bea9df;cursor:pointer;" class="nav-link" href="./logout"><i class="material-icons">
            exit_to_app
-           </i></a>
+           </i>
+          </button>
+</form></a>
                  </li>
                </ul>
 
