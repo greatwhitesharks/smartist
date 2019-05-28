@@ -12,50 +12,54 @@ public function index(){
 
 public function do(){
 
+    if(isset($_SESSION[ACCOUNT_IDENTIFIER])){
+        header('Location:' . PUBLIC_URL. '/artist');
+    }
+
 if (isset($_POST['signup'])){
     header('Location: ' . PUBLIC_URL .'/signup');
     exit();
 }else{
     
     if (isset($_POST['login'])){
-        $connection = DBMySqli::getConnection();
-        $user = mysqli_real_escape_string($connection, $_POST['name_email']);
-        $password = mysqli_real_escape_string($connection, $_POST['password']);
+
+        $user = $_POST['username_email'];
+        $password =  $_POST['password'];
+
         if (empty($user) || empty($password)){
             header('Location:' . PUBLIC_URL ."/login/?fields=empty");
+            
             exit();
 
         }
         
+        $account = null;
         if (strpos($user, '@') === false){
-            echo 'you entered username';
-            $sql= "SELECT * FROM account WHERE name='$user'";
+            $account = Account::getProfileByName($user);
         }else{
-            echo 'you entered email';
-            $sql = "SELECT
-             .
-             * FROM account WHERE email='$user'";
+            $account = Account::getProfileByEmail($user);
         }
-        $result = mysqli_query($connection, $sql);
-        $check = mysqli_num_rows($result);
-        if ($check < 1) {
+
+        if (!$account) {
+            // Account doesnt exist
             header('Location:' . PUBLIC_URL ."/login/?login=error");
             exit();
         } else{
-            if ($row = mysqli_fetch_assoc($result)){
-                $password_check = password_verify($password, $row['password_hash']);
+         
+                $password_check = password_verify($password,$account->getHash());
                 if ($password_check == false){
+                    // Invalid password
                     header("Location: ". PUBLIC_URL. "/LogIn/?login=error");
                     exit();
                 }elseif ($password_check == true){
-                    $_SESSION[ACCOUNT_IDENTIFIER] = $row['id'];
-                    header('Location:' . PUBLIC_URL ."/feed");
-                    echo '<br>login success!<br><strong>Your details</strong><br>Name:'.$row['name'].'<br>Email:'.$row['email'];
+                    $_SESSION[ACCOUNT_IDENTIFIER] = $account->getId();
+                    header('Location:' . PUBLIC_URL ."/artist");
+                    //echo '<br>login success!<br><strong>Your details</strong><br>Name:'.$row['name'].'<br>Email:'.$row['email'];
                 }
 
             }
         } 
-    }
+    
     else{
         echo 'click the login button!';
     }
