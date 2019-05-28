@@ -17,6 +17,11 @@ public function do(){
 
     
 if (isset($_POST['signup'])){
+
+    
+
+
+
     $type = $_POST['type'];
         $name = $_POST['name'];
         $email = $_POST['email'];
@@ -66,22 +71,33 @@ if (isset($_POST['signup'])){
 
 
     //error handling
-    $error = [];
+    $signUpURL = PUBLIC_URL . '/signup/';
+
+    if($type == 'group'){
+        $signUpURL .= 'group/';
+    }
+    $errorString = '';
     //checking for username availability
     if(!Account::checkAvailability('name', $username)){
-        array_push($error, 'Username not available');
+       $errorString .= 'username=error';
     }
 
     //checking for email availability
     if(!Account::checkAvailability('email', $email)){
-        array_push($error, 'Email not available');
+        if(!$errorString !== ''){
+           $errorString .= '&';
+        }
+        $errorString .= 'email=error';
     }
 
     if($password !== $reenter_password){
-        array_push($error, 'Two passwords are different');
+        if($errorString !== ''){
+            $errorString .= '&';
+         }
+         $errorString .= 'password=error';
     }
     $type = ($type === 'individual') ? 'solo' : 'group'; 
-    if(!$error){
+    if(!$errorString){
     $account = AccountBuilder::account()
         ->Handle($username)
         ->DisplayName($name)
@@ -99,7 +115,7 @@ if (isset($_POST['signup'])){
 }
 else{
     //display error messages
-    header("Location: " . PUBLIC_URL . "/signup/");
+    header("Location: " . $signUpURL .'?'. $errorString);
 
 }
     
