@@ -2,7 +2,7 @@
 
 require_once "../app/models/message/saveMessage.php";
 require_once "../app/models/message/readMessage.php";
-
+require_once "../app/models/message/deleteMessage.php";
 class InboxController extends Controller{
  
   function index($parameters =''){
@@ -16,15 +16,16 @@ class InboxController extends Controller{
   }
 
   function sendMessage(){
-
-    $id = $_POST['id'];
-    $subject=$_POST['subject'];
-    $message =$_POST['message'];
+$load=file_get_contents('php://input');
+$object=json_decode($load,true);
+var_dump($object);
+    $id = filter_var($object['Id'],FILTER_SANITIZE_STRING);
+    $subject=filter_var($object['Subject'],FILTER_SANITIZE_STRING);
+    $message =filter_var($object['Message'],FILTER_SANITIZE_STRING);
     $senderId=$_SESSION['account_id'];
 if ( $id !='' && $message!=''&& $subject!='')
     new saveMessage($id, $subject,$message,$senderId);
      
-    header('Location:http://localhost/smartist/public/Inbox');
   
   }
   function run(){
@@ -34,5 +35,10 @@ if ( $id !='' && $message!=''&& $subject!='')
      header('Cache-Control:no-cache');
      echo $jout;
   }
- 
+ function delete(){
+  $x=file_get_contents('php://input');
+  $obj=json_decode($x,true);
+  var_dump($obj);
+   deleteMessage($obj["idDel"]);
+ }
 } 

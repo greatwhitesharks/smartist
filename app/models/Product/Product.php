@@ -153,6 +153,30 @@ class Product implements JsonSerializable
         return $products;
     }
 
+    public static function findLyrics($key){
+        $con = DB::getConnection();
+        $key = strtolower($key);
+        $sql = "SELECT * FROM product_info WHERE lower(title) like '%$key%'  or lower(keywords) like '%$key%' or lower(author) like '%$key%' and status ='public' and type='lyrics'";
+
+        $stmt = $con->prepare($sql);
+
+        $stmt->execute();
+        $lyrics = [];
+        while($result = $stmt->fetch()){
+            $product = new Product(
+                $result['id'],
+                $result['title'],
+                $result['type'],
+                $result['url']
+            );
+            array_push($lyrics, $result);
+        }
+        return $lyrics;
+    }
+
+
+    
+   
     /**
      * Get the value of product_id
      */ 
