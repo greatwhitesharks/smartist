@@ -1,2 +1,6 @@
 /vendor
 /public/uploads/
+.idea/Smartist.iml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml

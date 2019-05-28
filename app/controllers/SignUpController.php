@@ -18,24 +18,27 @@ public function do(){
     
 if (isset($_POST['signup'])){
 
-   $connection = DBMySqli::getConnection();
-    if($type = isset($_POST['type'])){
-        $name = mysqli_real_escape_string($connection, $_POST['name']);
-        $email = mysqli_real_escape_string($connection, $_POST['email']);
-        $username = mysqli_real_escape_string($connection, $_POST['username']);
+    
+
+
+
+    $type = $_POST['type'];
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $username = $_POST['username'];
        
-        $password = mysqli_real_escape_string($connection, $_POST['password']);
-        $reenter_password = mysqli_real_escape_string($connection, $_POST['reenter_password']);
+        $password = $_POST['password'];
+        $reenter_password = $_POST['reenter_password'];
    
         $occupation_input = $_POST['occupation'];
         // escaping array contents
         for($i = 0; $i < count($occupation_input); $i++){
-            $occupation_input[$i] = mysqli_real_escape_string($connection, $occupation_input[$i]);
+            $occupation_input[$i] = $occupation_input[$i];
         }
 
         
     if (array_search('other',$occupation_input)){
-        $occupation = mysqli_real_escape_string($connection, $_POST['other_occu']);
+        $occupation = $_POST['other_occu'];
         array_pop($occupation_input);
         $occupation_input = array_merge($occupation_input, [$occupation]);
     }
@@ -45,13 +48,13 @@ if (isset($_POST['signup'])){
         $dob = '';
 
         if($_POST['type'] == 'individual'){
-            $gender = mysqli_real_escape_string($connection, $_POST['gender']);
-            $dob = mysqli_real_escape_string($connection, $_POST['dob']);
+            $gender = $_POST['gender'];
+            $dob = $_POST['dob'];
 
         }
 
 
-    }
+    
     
     
     // $occupation_input = mysqli_real_escape_string($connection, $occupation_input)
@@ -68,49 +71,57 @@ if (isset($_POST['signup'])){
 
 
     //error handling
+    $signUpURL = PUBLIC_URL . '/signup/';
 
+    if($type == 'group'){
+        $signUpURL .= 'group/';
+    }
+    $errorString = '';
     //checking for username availability
-    $sql = "SELECT * FROM account WHERE name='$username'";
-    $result = mysqli_query($connection, $sql);
-    $check = mysqli_num_rows($result);
-    if ($check > 0){
-        echo 'username taken';
-        //header("Location: ../SignUp.html?signup=username_taken");
-        //exit();
+    if(!Account::checkAvailability('name', $username)){
+       $errorString .= 'username=error';
     }
-    else{
-        //hashing the password
-        echo 'username available<br>';
-        $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
-        //check if password=reentry
-        if (password_verify($reenter_password, $hashedpassword)!=1){
-            echo 'pw error';
-            //header("Location: ../SignUp.html?password_mismatch");
-            //exit();
-        }
-        else{
-            //insert user into database
-            echo 'pw okay<br>';
-            $type = ($type === 'individual') ? 'solo' : 'group'; 
 
-            // Make an entry for the account in the followable table
-            $sql = "INSERT INTO followables (type) values('account');";
-            $result = mysqli_query($connection, $sql);
-            $followableId = mysqli_insert_id($con);
-
-            $sql = "INSERT INTO account (name, type, display_name, email, dob, gender, occupation, password_hash, followable_id) VALUES ('$username','$type' ,'$name', '$email', '$dob', '$gender', '$occupation', '$hashedpassword', '$followableId');";
-            $result = mysqli_query($connection, $sql);
-            $accountId = mysqli_insert_id($con);
-            $_SESSION[ACCOUNT_IDENTIFIER] = $accountId;
-            header("Location: " . PUBLIC_URL . "/artist/");
-            //exit();
+    //checking for email availability
+    if(!Account::checkAvailability('email', $email)){
+        if(!$errorString !== ''){
+           $errorString .= '&';
         }
+        $errorString .= 'email=error';
     }
+
+    if($password !== $reenter_password){
+        if($errorString !== ''){
+            $errorString .= '&';
+         }
+         $errorString .= 'password=error';
+    }
+    $type = ($type === 'individual') ? 'solo' : 'group'; 
+    if(!$errorString){
+    $account = AccountBuilder::account()
+        ->Handle($username)
+        ->DisplayName($name)
+        ->Hash(password_hash($password,PASSWORD_DEFAULT))
+        ->Email($email)
+        ->Type($type)
+        ->ProfileType($occupation)
+        ->Gender($gender)
+        ->DateOfBirth($dob)
+        ->build();
+   
+    Account::create($account);
+    header("Location: " . PUBLIC_URL . "/artist/");
+
 }
 else{
-    echo 'ded';
-    //header("Location: ../SignUp.html");
-    //exit();
+    //display error messages
+    header("Location: " . $signUpURL .'?'. $errorString);
+
+}
+    
+}
+else{
+    header("Location: " . PUBLIC_URL . "/signup/");
 }
 }
 
