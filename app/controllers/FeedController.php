@@ -7,7 +7,7 @@ class FeedController extends Controller
         if(isset($_SESSION[ACCOUNT_IDENTIFIER])){
         $account = Account::getProfileById($_SESSION[ACCOUNT_IDENTIFIER]);
         
-        $followers = Follow::getFollowers($account->followableId);
+        $followers = Follow::getFollowers($account->getFollowableId());
         $followings = Follow::getFollowings($_SESSION[ACCOUNT_IDENTIFIER]);
         $followersCount = Follow::getFollowerCount($_SESSION[ACCOUNT_IDENTIFIER]);
         $followingCount = Follow::getFollowingCount($_SESSION[ACCOUNT_IDENTIFIER]);
@@ -17,7 +17,7 @@ class FeedController extends Controller
             'followersCount' => $followersCount,
             'followingCount' => $followingCount,
             'displayName' => $account->getDisplayName(),
-            'bio' => Hashtag::parseHashtags($account->geBio()),
+            'bio' => Hashtag::parseHashtags($account->getBio()),
             'profilePic' => $account->getPhoto()
          );
 

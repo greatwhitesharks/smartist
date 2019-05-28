@@ -61,7 +61,7 @@ if ($user) {
                         </div>
         <div class="row my-4 ">
           <div class="col">
-          <?= $user->getBio() ?>
+          <?= Hashtag::parseHashtags($user->getBio())?>
         </div>
         </div>
       </div>

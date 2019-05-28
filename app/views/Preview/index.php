@@ -9,7 +9,7 @@
 				<h6><?= $data['author'] ?></h6>
 
 				<?php if($data['type'] == 'lyric'){ ?>
-				<div class="preview col" <?= ($data['status'] !== 'hidden') ? 'style="overflow:auto	";' : ""   ?>>
+				<div class="preview col" style="<?= ($data['status'] !== 'hidden') ? 'overflow:auto;' : 'height:400px;'   ?>">
 
 					<p><?= $data['content'] ?></p>
 					<?php if($data['status'] == 'hidden') {?>

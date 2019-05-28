@@ -1,18 +1,18 @@
 <?php
 
-class Product
+class Product implements JsonSerializable
 {
-    public $product_id;
-    public $product_url;
-    public $product_title;
-    public $product_type;
-    public $followable_id;
-    public $description;
+   private $product_id;
+   private $product_url;
+   private $product_title;
+   private $product_type;
+   private $followable_id;
+   private $description;
     private $textContent;
   
-    public $author;
+   public $author;
     private $owner;
-    public $status;
+   private $status;
 
     public function __construct($id, $title, $type, $url)
     {
@@ -244,4 +244,11 @@ class Product
 
         return $this;
     }
+
+    public function jsonSerialize()
+    {
+        $data = get_object_vars($this);
+        return $data;
+    }
+
 }

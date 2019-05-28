@@ -12,7 +12,7 @@ body{
   position:relative;
   margin-top:10px;
   background-color:White;
-  height: 600px;
+  height: auto;
   box-shadow: #969696 1px 1px 10px 1px;
   border: #f1f1f1 1px solid;
   padding: 20px;
@@ -34,11 +34,14 @@ background: rgb(255,255,255);
 background: linear-gradient(0deg, rgba(255,255,255,1) 40%, rgba(255,255,255,0) 100%);
   z-index:1000;
 }
+.hidden{
+  height:400px;
+}
 .notice{
   position:absolute;
   background-color:white;
   height:150px;
-  top:25%;
+  bottom:15%;
 width:100%;
 left:0;
   z-index:2000;

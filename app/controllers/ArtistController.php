@@ -34,6 +34,7 @@ class ArtistController extends Controller
             $followers = Follow::getFollowers($profile->getFollowableId());
             $followings = Follow::getFollowings($profile->getId());
             $products = Product::getProducts($profile->getFollowableId());
+            
         }
 
         self::view('user/index', 'User', compact('profile', 'isFollowing', 'products', 'followers','followings','setRating'));

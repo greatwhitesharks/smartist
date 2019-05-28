@@ -1,13 +1,12 @@
 <?php
 
 
-class Account extends Model
+class Account extends Model  implements JsonSerializable
 {
 
 
     // Identification
     private $id;
-    private $hash;
     private $type;
     private $followableId;
     private $rating;
@@ -27,7 +26,8 @@ class Account extends Model
 
     // Security
     private $email;
-    private $_hash;
+    private $hash;
+
 
     public function __construct($accountBuilder)
     {
@@ -324,5 +324,11 @@ class Account extends Model
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function jsonSerialize()
+    {
+        $data = get_object_vars($this);
+        return $data;
     }
 }

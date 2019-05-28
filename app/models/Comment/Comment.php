@@ -168,4 +168,10 @@ class Comment{
 
         return $this;
     }
+
+    public function jsonSerialize()
+    {
+        $data = get_object_vars($this);
+        return $data;
+    }
 }

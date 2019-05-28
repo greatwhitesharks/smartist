@@ -1,6 +1,6 @@
 <?php
 
-class Notification{
+class Notification  implements JsonSerializable{
 
     private $message;
     private $sentDate;
@@ -106,5 +106,11 @@ class Notification{
     public function getSentBy()
     {
         return $this->sentBy;
+    }
+
+    public function jsonSerialize()
+    {
+        $data = get_object_vars($this);
+        return $data;
     }
 }

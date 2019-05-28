@@ -12,7 +12,7 @@
         <div class="card p-2">
         <div class="row">
   <div class="col">
-  <h5>Artists</h5>
+  <h6>Artists</h6>
   <hr>
 </div>
 </div>
@@ -38,7 +38,7 @@
         <div class="card p-2 mt-4">
           <div class="row">
   <div class="col">
-  <h5>Hashtags</h5>
+  <h6>Hashtags</h6>
   <hr>
 </div>
 </div>

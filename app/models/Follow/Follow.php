@@ -115,9 +115,8 @@ class Follow
     {
         try {
             $account = Account::getAccountSummary($follower_id);
-            $followable_id = $account->getFollowableId();
             $con = DB::getConnection();
-            // delete the record
+   
             $sql = 'SELECT distinct pi.* FROM ' . FOLLOW_TABLE 
             . ' f, product_rels pr, product_info pi '
             .' WHERE f.follower_id = ? '
@@ -138,7 +137,9 @@ class Follow
                     $result['url'],
                     $result['description']
                 );
-                $product->setAuthor(Account::getProfileByName($result['author']));
+                $author = Account::getProfileByName($result['author']);
+                if($author)
+                $product->setAuthor($author);
                 array_push($products, $product);
             }
             }

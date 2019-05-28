@@ -245,25 +245,25 @@ div {
       
                                 </div>
                                 <div class="row justify-content-center">
-                                    <h6><?= $product->getTitle() ?></h6>
+                                    <h6><?php //echo $product->getTitle() ?></h6>
                                 </div>
 
                                 <div class="row justify-content-center pb-3">
 
-                                    <?php if ($product->getType =="audio") {
+                                    <?php //if ($product->getType() =="audio") {
                                     ?>
                                         <button type="button" class="btn btn-primary"> <i class="material-icons">
                                                 play_arrow
                                                 </i> <span>Play</span></button>
                                     <?php
-                                } else {
+                               // } else {
                                     ?>
 
                                      <button type="button" class="btn btn-primary"> <i class="material-icons">
                                                 view
                                                 </i> <span>View</span></button> 
                                             <?php
-                                } ?>
+                               // } ?>
                                     </div>
                                                      </div> -->
                                     
