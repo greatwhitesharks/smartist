@@ -19,6 +19,9 @@ class AccountBuilder
     public $following;
     public $profileType;
 
+    public $gender;
+    public $dateOfBirth;
+
     private function __construct()
     {
     }
@@ -128,6 +131,18 @@ class AccountBuilder
     public function Handle($handle)
     {
         $this->handle = $handle;
+        return $this;
+    }
+
+    public function DateOfBirth($dateOfBirth)
+    {
+        $this->dateOfBirth = $dateOfBirth;
+        return $this;
+    }
+
+    public function Gender($gender)
+    {
+        $this->gender = $gender;
         return $this;
     }
 

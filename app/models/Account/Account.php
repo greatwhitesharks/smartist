@@ -21,6 +21,8 @@ class Account extends Model  implements JsonSerializable
     private $followers;
     private $following;
     private $profileType;
+    private $gender;
+    private $dateOfBirth;
 
 
 
@@ -34,7 +36,7 @@ class Account extends Model  implements JsonSerializable
         $this->id = $accountBuilder->id;
         $this->type = $accountBuilder->type;
         $this->email = $accountBuilder->email;
-        $this->_hash = $accountBuilder->hash;
+        $this->hash = $accountBuilder->hash;
         $this->followableId = $accountBuilder->followableId;
         $this->handle = $accountBuilder->handle;
         $this->displayName = $accountBuilder->displayName;
@@ -48,6 +50,8 @@ class Account extends Model  implements JsonSerializable
         $this->photo = $accountBuilder->photo;
         $this->following = $accountBuilder->following;
         $this->followers = $accountBuilder->followers;
+        $this->gender = $accountBuilder->gender;
+        $this->dateOfBirth = $accountBuilder->dateOfBirth;
     }
 
     public static function getAccountSummary($id)
@@ -65,7 +69,7 @@ class Account extends Model  implements JsonSerializable
 
                 $account = AccountBuilder::account()
                     ->Id($result['id'])
-                    ->handle($result['name'])
+                    ->Handle($result['name'])
                     ->DisplayName($result['display_name'])
                     ->Type($result['type'])
                     ->Email($result['email'])
@@ -120,6 +124,7 @@ class Account extends Model  implements JsonSerializable
             ->Website($result['website'])
             ->Tel($result['tel'])
             ->Photo($result['profile_pic'])
+            ->ProfileType($result['profile_type'])
             ->Rating(Rating::getRating($result['id']))
             ->Followers(Follow::getFollowerCount($result['followable_id']))
             ->Following(Follow::getFollowingCount($result['id']))
@@ -190,10 +195,27 @@ class Account extends Model  implements JsonSerializable
         return self::getAccount('name', $name);
     }
 
+    public static function getProfileByEmail($email)
+    {
+        return self::getAccount('email', $email);
+    }
 
     public static function getProfileByFolowableId($id)
     {
         return self::getAccount('followable_id', $id);
+    }
+
+    public static function checkAvailability($key,$value){
+        try {
+            $con = DB::getConnection();
+            $sql = "SELECT 1 from account where  $key = '$value'";
+            $statement = $con->prepare($sql);
+            $statement->execute();
+            $result = $statement->fetch();
+            return !boolval($result);
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
     }
 
     public static function findArtists($key)
@@ -211,6 +233,36 @@ class Account extends Model  implements JsonSerializable
             array_push($artists, self::getAccountFromResult($result));
         }
         return $artists;
+    }
+
+    public static function create($account){
+        try {
+     
+            $con = DB::getConnection();
+            $sql = "INSERT INTO followables (type) values('account')";
+            $statement = $con->prepare($sql);
+            $statement->execute();
+            $followableId = $con->lastInsertId();
+
+
+            $sql = "INSERT INTO account (name, type, display_name, email, dob, gender, profile_type, password_hash, followable_id) VALUES (?, ? , ?, ?, ?, ?, ?, ?, ?)";
+            $statement = $con->prepare($sql);
+            $statement->execute([
+                $account->getHandle(),
+                $account->getType(),
+                $account->getDisplayName(),
+                $account->getEmail(),
+                $account->getDateOfBirth(),
+                $account->getGender(),
+                $account->getProfileType(),
+                $account->getHash(),
+                $followableId
+            ]);  
+            
+        } catch (PDOException $e) {
+    
+            die($e->getMessage());
+        }
     }
 
     /**
@@ -353,5 +405,23 @@ class Account extends Model  implements JsonSerializable
     {
         $data = get_object_vars($this);
         return $data;
+
+    }
+    
+        /**
+     * Get the value of gender
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+
+            /**
+     * Get the value of DateOfBirth
+     */
+    public function getDateOfBirth()
+    {
+        return $this->dateOfBirth;
     }
 }
