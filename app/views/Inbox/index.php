@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="../public/css/body.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <?php
-if (isset($_SESSION['account_id'])){
+if (isset($_SESSION[ACCOUNT_IDENTIFIER])){
 
  ?>
 
