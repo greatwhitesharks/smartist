@@ -12,6 +12,28 @@ class Permission{
         $this->product = $product;
     }
 
+    public static function hasPermssion($id, $product){
+        try {
+            $con = DB::getConnection();
+
+            $sql = 'Select * from view_permissions (viewerId, productId)' 
+            .' values(?,?)';
+            $stmt = $con->prepare($sql);
+            $stmt->execute([$id,$product]);
+           
+
+            while($result= $stmt->fetch()){
+                if((new DateTime($result['expireDate'])) > (new Date())){
+                    return true;
+                }
+           
+            }
+            return false;
+        } catch (Exception $e) {
+            //TODO : Error handling
+        }
+    }
+
     public static function grantPermission($to, $productId, $duration){
         try {
             $con = DB::getConnection();

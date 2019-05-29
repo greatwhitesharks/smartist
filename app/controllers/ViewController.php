@@ -22,7 +22,7 @@ class ViewController extends Controller
                 $data['author'] = $product->getAuthor();
                 $data['owner'] = $product->getOwner();
                 $data['comments'] = Comment::getCommentByProductId($product->getId());
-                $data['already'] = Permission::alradyRequested($_SESSION[ACCOUNT_IDENTIFIER], $data['id']);
+                //$data['already'] = Permission::alradyRequested($_SESSION[ACCOUNT_IDENTIFIER], $data['id']);
                 if ($product->getStatus() != 'public') {
                     $data['content'] = substr($product->getTextContent(), 0, self::PREVIEW_LENGTH);
                 } else {
@@ -36,7 +36,7 @@ class ViewController extends Controller
                         $product->getId(),
                         'product'
                     );
-                    if($_SESSION[ACCOUNT_IDENTIFIER] == $product->getOwner()){
+                    if($_SESSION[ACCOUNT_IDENTIFIER] == $product->getOwner() ||Permission::hasPermssion($_SESSION[ACCOUNT_IDENTIFIER], $product->getId()) ){
                         $data['status'] = 'public';
                         $data['content'] = $product->getTextContent();
                     

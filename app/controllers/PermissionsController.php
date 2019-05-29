@@ -10,12 +10,19 @@ public function index($param=''){
     public function grant(Type $var = null)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-           if(isset($_POST['user']) && isset($_POST['user'])){
+           if(isset($_POST['user']) && isset($_POST['product'])){
+            $product = Product::getProduct($_POST['product']);
+            $user = Account::getProfileByd($_POST['user']);
 
+            if($user && $product){
+                if($product->getOwner() === $_SESSION[ACCOUNT_IDENTIFIER]){
+                    Permission::grantPermission($user->getId(), $product->getId(),1);
+                }
+            }
            }
-           else{
+         
                die('Invalid parameters');
-           }
+           
            
         }
     }
