@@ -1,6 +1,6 @@
 
 <div class="row mt-5">
-<form class="form-inline" action="<?= PUBLIC_URL ?>/search" method="POST">
+<form class="form-inline" action="<?= PUBLIC_URL ?>/search/" method="POST">
 <!-- <div class="form-group ">
     <h3>Search   :<input type="text" class="form-control" placeholder="Name" name="key" value="">
     <button type="submit" name="submit"><img src="/images/search.png" class="img-responsive" width =50px height="50px"></button> </h3> 

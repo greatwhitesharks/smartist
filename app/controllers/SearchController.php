@@ -9,7 +9,7 @@ class SearchController extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($_POST['key'] === '') {
                 // Search field empty error
-                
+                header("Location: http://localhost/smartist/public/search/");                
             } else {
                 $_key = $_POST['key'];
                 header("Location: http://localhost/smartist/public/search/$_key");
