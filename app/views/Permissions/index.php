@@ -7,31 +7,34 @@
       <h6><strong>Grant View Permission</strong></h6>
 </div>
 <div class="card-body">
-    <form class="form-inline">
+    <form class="form-inline" action="<?= PUBLIC_URL?>/grant" method="post">
   <label class="sr-only" for="inlineFormInputName2">Name</label>
   <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Recipient Username</label>
-  <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
+  <input required type="text" name="user" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
 
   <label class="sr-only" for="inlineFormInputGroupUsername2">Recipient</label>
   <div class="input-group mb-2 mr-sm-2">
   <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Product</label>
-  <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+  <select required name="product" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
     <option selected>Choose...</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
   </select>
+
+
   </div>
 
 
   <button type="submit" class="btn btn-primary mb-2 btn-extend">Grant</button>
 </form>
+<h6>The permissions will automatically expire after an hour</h6>
 </div>
     </div>
     </div>
 </div>
 
-<div class="row justify-content-center mt-3">
+<!-- <div class="row justify-content-center mt-3">
     <div class="col-8 justify-content-center">
     <div class="card">
       <div class="card-header">
@@ -47,21 +50,21 @@
     <tbody>
       
     <?php 
-    if($data['permissions']):
-    foreach($data['permissions'] as $permussion):?>
+    // if($data['permissions']):
+    // foreach($data['permissions'] as $permussion):?>
       <tr>
-        <td><?=$permussion->getRecipient()?></td>
-        <td><?=$permussion->getProduct()->getTitle()?></td>
-        <td><button onclick="revoke(<?=$permussion->getId()?>)">Revoke</button></td>
+        <td><?php //echo $permussion->getRecipient();?></td>
+        <td><?php // echo$permussion->getProduct()->getTitle();?></td>
+        <td><button onclick="revoke(<?php //echo $permussion->getId();?>)">Revoke</button></td>
       <tr>
-    <?php endforeach;
-    endif;?> 
+    <?php// endforeach;
+    //endif;?> 
 
     </tbody>
 
 </table>
 </div>
-    </div>
+    </div> -->
     </div>
 </div>
 

@@ -28,6 +28,7 @@ class ViewController extends Controller
                 } else {
                     $data['content'] = $product->getTextContent();
                 }
+                
                 $data['comments'] =[1];
                 if (isset($_SESSION[ACCOUNT_IDENTIFIER])){
                     $data['rating'] = Rating::getSetRating(
@@ -35,6 +36,11 @@ class ViewController extends Controller
                         $product->getId(),
                         'product'
                     );
+                    if($_SESSION[ACCOUNT_IDENTIFIER] == $product->getOwner()){
+                        $data['status'] = 'public';
+                        $data['content'] = $product->getTextContent();
+                    
+                    }
                 }else{
                     $data['rating'] = Rating::getRating($data['id'],'product');
                 }

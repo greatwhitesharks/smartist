@@ -33,7 +33,7 @@ if(file_exists($file)){
                      <a class="nav-link" href="<?= PUBLIC_URL?>/search" >Search</a>
                    </li>
                    <li class="nav-item">
-                     <a class="nav-link" href="<?= PUBLIC_URL?>/contact" >Contact</a>
+                     <a class="nav-link" href="<?= PUBLIC_URL?>/about" >About</a>
                    </li>
               
                  </ul>
@@ -72,11 +72,11 @@ if(file_exists($file)){
            message
            </i></a>
                  </li>
-                 <li class="nav-item  mx-3 mx-sm-4 mx-lg-1">
+                 <!-- <li class="nav-item  mx-3 mx-sm-4 mx-lg-1">
                    <a class="nav-link" href="<?= PUBLIC_URL?>/notifcations" ><i class="material-icons">
            public
            </i></a>
-                 </li>
+                 </li> -->
                  <!-- <li class="nav-item mx-3 mx-sm-4 mx-lg-1">
                    <a class="nav-link" href="#"><i class="material-icons">
            settings

@@ -16,6 +16,8 @@ abstract class Controller
         }
     }
 
+   
+
     protected function view($view, $title ='Smartist', $data = [])
     {
         require_once VIEW_PATH . 'Top.php';

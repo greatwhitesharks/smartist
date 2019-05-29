@@ -10,7 +10,7 @@
 				
 		<h4><?= $data['title']?></h4>
 				<h6>by</h6>
-				<h6><?= $data['author'] ?></h6>
+				<h6><a href="<?= PUBLIC_URL. '/artist/' .$data['author'] ?>"><?=$data['author']?></a></h6>
 				
 				<div id="rating-container" class="col ratings justify-content-center my-1" style="text-align:center;color: goldenrod;cursor:pointer;">
             <?php if (!isset($_SESSION[ACCOUNT_IDENTIFIER]) || $data['owner'] == $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
@@ -34,28 +34,17 @@
 				<div class="preview col" style="<?= ($data['status'] !== 'hidden') ? 'overflow:auto;' : 'height:400px;'   ?>">
 
 					<p><?= $data['content'] ?></p>
-					<?php if($data['status'] == 'hidden') {?>
+					<?php if($data['status'] == 'hidden' && $_SESSION[ACCOUNT_IDENTIFIER] !== $data['owner']) {?>
 					<div class="cover"></div>
 
 						
 					<div class="notice">
-					<?php if(isset($_SESSION[ACCOUNT_IDENTIFIER])):?>
+				
 				
 						<p class="h6">The author has hidden the full content. This is
-							only a preview.</p>
+							only a preview. Send a message to the user to if you want to view it.</p>
 						
 						
-
-							<?php if ($_SESSION[ACCOUNT_IDENTIFIER] !== $data['owner'] && !$data['already']) :?>
-						<button onclick="notify();" class="btn btn-success">Request Permission</button>
-						<?php elseif ($data['already']):?>
-						<p class="h6">View permission has been requested from author</p>
-					<?php endif;?>
-					<?php else :?>
-					<p class="h6">The author has hidden the full content. This is
-							only a preview.</p>
-						
-					<?php endif;?>
 					</div>
 					<?php } ?>
 				</div>

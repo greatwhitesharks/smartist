@@ -2,7 +2,7 @@
 
 class PermissionsController extends Controller{
 
-public function index(){
+public function index($param=''){
     $permissions = Permission::getGiven($_SESSION[ACCOUNT_IDENTIFIER]);
 
     self::view('Permissions/index','Permissions',[compact('permissions')]);
@@ -10,7 +10,12 @@ public function index(){
     public function grant(Type $var = null)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-           $obj = self::getRequestObj();
+           if(isset($_POST['user']) && isset($_POST['user'])){
+
+           }
+           else{
+               die('Invalid parameters');
+           }
            
         }
     }
