@@ -293,7 +293,12 @@ body {
     transform: translateY(-700px) rotate(600deg);
   }
 }
-
+.result{
+  position:relative;
+  top: 300px;
+  padding: 10px 10px 10px 10px;
+  left:-1300px;
+}
 
 
 
