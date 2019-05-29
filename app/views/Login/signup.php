@@ -1,13 +1,12 @@
-
 <div class= style="background-color: #6f5499">
 <header>
 	<nav>
 		<div class="main-wrapper">
 			<div class="container-fluid" align="center">
-				<h1 style="font-family: Calibri; font-size: 60px; color: #561d7c"> Welcome to Smartist</h1>
-				<h2 style="font-family: Calibri; font-size: 30px; color: #561d7c"> <i> Join today to enhance your music career!<br></i></h2>
+				<h1> Welcome to Smartist!</h1>
+				<h2> Join today to enhance your music career!<br></h2>
 				<ul class="nav nav-tabs nav-justified">
-					<li class="nav-item active"><a href="#" style="color:#561d7c"><i class="fa fa-user"></i>Individual</a></li>
+					<li class="nav-item active"><a href="#"><i class="fa fa-user"></i>Individual</a></li>
 					<li class="nav-item"><a href="<?= PUBLIC_URL ?>/signup/group"><i class="fa fa-users"></i>Group</a></li>
 				</ul>
 			</div>
@@ -16,7 +15,7 @@
 </header>
 
 
-	<div class="container-fluid" align="center">
+	<div class="main-agileinfo" align="center">
 	<div align="left"> <br> 
 		<form class="form-horizontal" action="<?= PUBLIC_URL . '/signup/do'?>" method="POST">
 			<input type="hidden" name="type" value="individual">
@@ -32,12 +31,26 @@
 					<input type="email" class="form-control" placeholder="Enter email" name="email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="The email you entered is invalid.">
 				</div>
 			</div>
+			<div class="errormsg">
+                <?php
+                    if(isset($_GET['email'])){
+                        echo 'email unavailable.';
+                    }
+                ?>
+            </div>
 			<div class="form-group">
 				<label class="control-label col-sm-offset-2 col-sm-2" for="username">Username:</label>
 				<div class="col-sm-5">
 					<input type="text" class="form-control" placeholder="Enter username" name="username" required="required" pattern="[a-z0-9]{3,}">
 				</div>
 			</div>
+			<div class="errormsg">
+                <?php
+                    if(isset($_GET['username'])){
+                        echo 'Username unavailable.';
+                    }
+                ?>
+            </div>
 			<div class="form-group">
 				<label class="control-label col-sm-offset-2 col-sm-2" for="password">Password:</label>
 				<div class="col-sm-5">
@@ -50,6 +63,13 @@
 					<input type="password" class="form-control" placeholder="Re-enter password" name="reenter_password" required="required">
 				</div>
 			</div>
+			<div class="errormsg">
+                <?php
+                    if(isset($_GET['password'])){
+                        echo 'Password mismatch';
+                    }
+                ?>
+            </div>
 			<div class="form-group">
 				<label class="control-label col-sm-offset-2 col-sm-2" for="dob">Date of Birth:</label>
 				<div class="col-sm-5">
@@ -72,10 +92,22 @@
 			</div><br>
 			<div class="form-group">
 				<div class="col-sm-offset-6 col-sm-3">
-					<button type="submit" class="btn btn-default" name="signup" style="font-family: Calibri;"><strong>Sign Up!</strong></button>
+					<button type="submit" class="btn btn-default" name="signup" style="font-family: Calibri;"> Sign Up</button>
 				</div>
 			</div>
 		</form>
+		<ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
 	</div>
 </div>
 
