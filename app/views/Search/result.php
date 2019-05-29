@@ -1,5 +1,7 @@
 
 <div class="container-fluid">
+    <div class="row">
+        <div class="col">
 <?php
 
 
@@ -23,8 +25,10 @@ require 'searchNav.php';
 
 
 
-if (count($artists) ==0 && count ($lyrics)== 0){?>
-    <p>Not results found </p>
+if (count($artists) ==0 && count ($lyrics )== 0){?>
+    <div id="noContent">
+        <p><strong>No results found !!!</strong> </p>
+    </div>
 <?php
 }
 
@@ -42,5 +46,5 @@ if (count($lyrics) !=0){
 
 ?>
 </div>
-
+</div></div>
 </div>

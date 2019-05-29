@@ -1,4 +1,5 @@
-<nav class="navbar navbar-inverse">
+
+<nav class="navbar" style="margin-top:60px" id="srchNav">
         <div>
             <ul class="nav navbar-nav">
                 <li class="<?= ($filter!='artists' && $filter !='lyrics') ? active : '' ?>"><a href="<?= PUBLIC_URL ."/search/$key"?>">ALL</a></li>
