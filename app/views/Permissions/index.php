@@ -15,12 +15,7 @@
   <label class="sr-only" for="inlineFormInputGroupUsername2">Recipient</label>
   <div class="input-group mb-2 mr-sm-2">
   <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Product</label>
-  <select required name="product" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
+  <input  type="text" required name="product" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
 
 
   </div>

@@ -10,7 +10,7 @@ abstract class Controller
     public function index($param =''){
         if($param === ''){
             $feed = new FeedController();
-            $feed->index();
+            $feed->index('');
         }else{
             die('Unsupported Request');
         }

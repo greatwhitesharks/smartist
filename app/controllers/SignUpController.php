@@ -6,7 +6,7 @@ require_once '../app/core/DBMySqli.php';
 class SignUpController extends Controller{
 
 
-public function index(){
+public function index($param = ''){
 	self::view('Login/signup');
 }
 

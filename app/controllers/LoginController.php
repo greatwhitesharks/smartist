@@ -4,7 +4,7 @@
 class LoginController extends Controller{
 
 
-public function index(){
+public function index($param=''){
 	self::view('Login/index');
 }
 
