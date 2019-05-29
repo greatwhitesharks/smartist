@@ -1,6 +1,16 @@
 <?php
 
 class Permission{
+    private $recipientId;
+    private $id;
+    private $product;
+
+    public function __construct($id, $recipientId, $product)
+    {
+        $this->id = $id;
+        $this->recipientId = $recipientId;
+        $this->product = $product;
+    }
 
     public static function grantPermission($to, $productId, $duration){
         try {
@@ -11,6 +21,19 @@ class Permission{
             .' values(?,?,?)';
             $stmt = $con->prepare($sql);
             $stmt->execute([$to, $productId, $date]);
+           
+        } catch (Exception $e) {
+            //TODO : Error handling
+        }
+    }
+
+    public static function alradyRequested($id, $productId){
+        try {
+            $con = DB::getConnection();
+            $sql = 'Select * from notifications where sent_by = ? AND type =\'permission\' AND rel_id = ?';
+            $stmt = $con->prepare($sql);
+            $stmt->execute([$id, $productId]);
+            return boolval($stmt->fetch());
            
         } catch (Exception $e) {
             //TODO : Error handling
@@ -29,5 +52,53 @@ class Permission{
         } catch (Exception $e) {
             //TODO : Error handling
         }
+    }
+
+
+    public static function getGiven($id){
+        try {
+            $con = DB::getConnection();
+            // delete the record
+            $sql = 'Select vp.* from view_permissions vp, product_info pi, account a' 
+            .' WHERE a.id = ? and pi.owner_id = a.id and vp.productId = pi.id';
+            $stmt = $con->prepare($sql);
+            $stmt->execute([$id]);
+            $permissions = [];
+            while($result = $stmt->fetch()){
+                $permissions[] =  new Permission(
+                    $result['id'],
+                    $result['recipientId'],
+                    Product::getProduct($result['productId'])
+                );
+            }
+
+            return $permissions;
+           
+        } catch (Exception $e) {
+            //TODO : Error handling
+        }    }
+
+    /**
+     * Get the value of product
+     */ 
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the value of recipientId
+     */ 
+    public function getRecipientId()
+    {
+        return $this->recipientId;
     }
 }

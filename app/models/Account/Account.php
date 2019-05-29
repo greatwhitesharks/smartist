@@ -258,7 +258,8 @@ class Account extends Model  implements JsonSerializable
                 $account->getHash(),
                 $followableId
             ]);  
-            
+
+            return $con->lastInsertId();
         } catch (PDOException $e) {
     
             die($e->getMessage());
@@ -407,7 +408,7 @@ class Account extends Model  implements JsonSerializable
         return $data;
 
     }
-    
+
         /**
      * Get the value of gender
      */

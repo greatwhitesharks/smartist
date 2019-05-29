@@ -26,6 +26,10 @@ class ArtistController extends Controller
 
         $isFollowing = '';
         $products = '';
+        $setRating='';
+        $followings ='';
+        $followers= '';
+        $products ='';
         if ($profile && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
             $isFollowing = Follow::isFollowing(
                 $_SESSION[ACCOUNT_IDENTIFIER],
@@ -38,7 +42,7 @@ class ArtistController extends Controller
             $products = Product::getProducts($profile->getFollowableId());
             
         }
-
+      
         self::view('user/index', 'User', compact('profile', 'isFollowing', 'products', 'followers','followings','setRating'));
     }
 
@@ -56,130 +60,20 @@ class ArtistController extends Controller
 
     public function upload()
     {
+        
 
-        $uploadDir = './uploads/';
-        $title = (isset($_POST['title'])) ? $_POST['title'] : '';
-        $hashtags = [];
-        $description = null;
-        // TODO : Check if this is redundant
-        if (isset($_POST['description'])) {
-            $description =  $_POST['description'];
-            $matches =[];
-            preg_match_all('/#(\w+)/', $description, $matches);
-           $hashtags = array_map('trim', $matches[1]);
+        if(isset($_POST['product_type'])){
+            $uploadStrategy = null;
+
+            if($_POST['product_type'] == 'lyric'){
+                $uploadStrategy = new LyricUploadStrategy();
+            }elseif($_POST['product_type'] == 'audio'){
+                $uploadStrategy = new AudioUploadStrategy();
+            }
+            $uploadStrategy->upload();
         }
-
-        if(count($hashtags)> 5){
-            die('Too many hashtags');
-        }
-        $account = Account::getAccountSummary($_SESSION[ACCOUNT_IDENTIFIER]);
-        $followable_id = $account->getFollowableId();
-
-        if (empty($title)) {
-            die('Title shouldn\'t be empty');
-        }
-
-        //TODO: move the Upload handling code out of here
-
-        $folder = time();
-
-        if (!file_exists($uploadDir . $folder)) {
-            mkdir($uploadDir . $folder, 0777, true);
-        }
-
-        // TODO : Needs a better way to prevent collisions
-        $uploadDir = $uploadDir . $folder . '/';
-
-        $upload = $_FILES['product'];
-
-        // Error handling
-        // TODO : Need improvement
-        switch ($upload['error']) {
-            case UPLOAD_ERR_INI_SIZE:
-            case UPLOAD_ERR_FORM_SIZE:
-                die('File too large');
-                break;
-            case UPLOAD_ERR_PARTIAL:
-                die('File was not completely uploaded');
-                break;
-            case UPLOAD_ERR_NO_FILE:
-                die('No file was uploaded!');
-                break;
-            case UPLOAD_ERR_OK:
-                break;
-            default:
-                die('An error occured!');
-                break;
-        }
-
-
-        // TODO: mp3 mime here, might not work with chrome
-        $mimeMap = [
-            'txt' => 'text/plain',
-            'mp3' => 'audio/mpeg',
-
-        ];
-
-        // Get the mime type of the uploaded file
-        // $fileInfo = new finfo($upload['tmp_name'], FILEINFO_MIME);
-        $fileInfo = mime_content_type($upload['tmp_name']);
-        // Check file size
-        if ($upload['size'] > 5000) {
-            // TODO: Need better handling
-            die('File too large');
-        }
-
-
-
-        // Check if the mime is in the supported list ($mimeMap)
-        // and save the respective file extention in $ext
-        if (!($ext = array_search($fileInfo, $mimeMap))) {
-
-            // TODO: Need better handling
-            die('Unsupported file type!');
-        }
-
-
-
-
-        $type = '';
-
-        switch ($ext) {
-            case 'mp3':
-                $type = 'audio';
-            case 'txt':
-                $type = 'lyric';
-        }
-
-
-        $filePath = $uploadDir . sha1_file($upload['tmp_name']) . '.' . $ext;
-
-        // Validation done file is ready to be uploaded
-        if (move_uploaded_file($upload['tmp_name'], $filePath)) {
-
-
-            //TODO: temporray fix by adding 1 as id. need to us
-            $product = array(
-                'title' => $title,
-                'url' => $filePath,
-                'type' => $type
-            );
-
-            Product::createProduct(
-                $followable_id, 
-                $product, 
-                $hashtags, 
-                $description,
-                $account->getHandle()
-            );
-
-
-            echo ('File uploaded successfully');
-        } else {
-
-            // TODO : Handle this error in a better way
-            die('Error occured while uploadng file');
-        }
+       
+     
     }
 
     public function logout()
@@ -258,7 +152,8 @@ class ArtistController extends Controller
         } else {
             echo 'Not logged in';
         }
-        header('Location: ' . $_POST['url']);
+        //ie($_POST['url']);
+        header('Location: ' . trim($_POST['url']));
     }
 
 
@@ -288,4 +183,180 @@ class ArtistController extends Controller
             header('location: http://localhost/smartist/public/artist/');
         }
     }
+
+
+  
+}
+
+abstract class UploadStrategy{
+
+        protected $upload;
+        protected $title;
+        protected $type;
+        protected $description;
+        protected $account;
+        protected $product;
+        protected $filePath;
+        protected $hashtags;
+        protected $followable_id;
+        public function __construct()
+        {   
+            $uploadDir = './uploads/';
+          
+            $this->title = (isset($_POST['title'])) ? $_POST['title'] : '';
+            $this->hashtags = [];
+            $this->description = null;
+            // TODO : Check if this is redundant
+            if (isset($_POST['description'])) {
+                $this->description =  $_POST['description'];
+                $matches =[];
+                preg_match_all('/#(\w+)/', $this->description, $matches);
+               $this->hashtags = array_map('trim', $matches[1]);
+            }
+    
+            if(count($this->hashtags)> 5){
+                die('Too many hashtags');
+            }
+            $this->account = Account::getAccountSummary($_SESSION[ACCOUNT_IDENTIFIER]);
+            $this->followable_id = $this->account->getFollowableId();
+    
+            if (empty($this->title)) {
+                die('Title shouldn\'t be empty');
+            }
+    
+            //TODO: move the Upload handling code out of here
+    
+            $folder = time();
+    
+            if (!file_exists($uploadDir . $folder)) {
+                mkdir($uploadDir . $folder, 0777, true);
+            }
+    
+            // TODO : Needs a better way to prevent collisions
+            $uploadDir = $uploadDir . $folder . '/';
+    
+            $this->upload = $_FILES['product'];
+    
+            // Error handling
+            // TODO : Need improvement
+            switch ($this->upload['error']) {
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    die('File too large');
+                    break;
+                case UPLOAD_ERR_PARTIAL:
+                    die('File was not completely uploaded');
+                    break;
+                case UPLOAD_ERR_NO_FILE:
+                    die('No file was uploaded!');
+                    break;
+                case UPLOAD_ERR_OK:
+                    break;
+                default:
+                    die('An error occured!');
+                    break;
+            }
+    
+    
+            // TODO: mp3 mime here, might not work with chrome
+            $mimeMap = [
+                'txt' => 'text/plain',
+                'mp3' => 'audio/mpeg',
+    
+            ];
+    
+            // Get the mime type of the uploaded file
+            // $fileInfo = new finfo($upload['tmp_name'], FILEINFO_MIME);
+            $fileInfo = mime_content_type($this->upload['tmp_name']);
+            // Check file size
+            if ($this->upload['size'] > 5000) {
+                // TODO: Need better handling
+                die('File too large');
+            }
+    
+    
+    
+            // Check if the mime is in the supported list ($mimeMap)
+            // and save the respective file extention in $ext
+            if (!($ext = array_search($fileInfo, $mimeMap))) {
+    
+                // TODO: Need better handling
+                die('Unsupported file type!');
+            }
+    
+    
+    
+    
+            $this->type = '';
+    
+            switch ($ext) {
+                case 'mp3':
+                $this->type = 'audio';
+                case 'txt':
+                $this->type = 'lyric';
+            }
+    
+    
+            $this->filePath = $uploadDir . sha1_file($this->upload['tmp_name']) . '.' . $ext;
+    
+            // Validation done file is ready to be uploaded
+            if (!move_uploaded_file($this->upload['tmp_name'], $this->filePath)) {
+
+    
+                // TODO : Handle this error in a better way
+                die('Error occured while uploadng file');
+            }
+        }
+        public function upload(){
+           
+        }
+}
+
+class AudioUploadStrategy extends UploadStrategy{
+    public function upload(){
+        // $this->type ='audio';
+       //TODO: temporray fix by adding 1 as id. need to us
+       $this->product = array(
+        'title' => $this->title,
+        'url' => $this->filePath,
+        'type' => $this->type
+    );
+
+    Product::createProduct(
+        $this->followable_id, 
+        $this->product, 
+        $this->hashtags, 
+        '',
+        $this->description,
+        $this->account->getHandle()
+    );
+
+    header('Location: ' . PUBLIC_URL.'/artist/');
+    }
+}
+
+class LyricUploadStrategy extends UploadStrategy{
+    public function upload(){
+        // $this->type ='lyric';
+        //TODO: temporray fix by adding 1 as id. need to us
+        $this->product = array(
+         'title' => $this->title,
+         'url' => $this->filePath,
+         'type' => $this->type
+     );
+
+     $visibility = $_POST['visibility'];
+ 
+     Product::createProduct(
+         $this->followable_id, 
+         $this->product, 
+         $this->hashtags, 
+         file_get_contents($this->filePath),
+         $this->description,
+         $this->account->getHandle(),
+         $visibility
+     );
+ 
+     header('Location: ' . PUBLIC_URL.'/artist/');
+     }
 }

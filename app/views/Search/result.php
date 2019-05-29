@@ -7,7 +7,7 @@ $artists = (array_key_exists('artists', $data)) ? $data ['artists'] : [];
 $lyrics = [];
 
 if(array_key_exists('products', $data)){
-    if(array_key_exists('lyrics', $data)){
+    if(array_key_exists('lyrics', $data['products'])){
         $lyrics = $data ['products']['lyrics'];
     }
 }
@@ -23,7 +23,7 @@ require 'searchNav.php';
 
 
 
-if (count($artists) ==0 && count ($lyrics )== 0){?>
+if (count($artists) ==0 && count ($lyrics)== 0){?>
     <p>Not results found </p>
 <?php
 }
@@ -35,8 +35,8 @@ if (count($artists) !=0){
 }
 
 if (count($lyrics) !=0){
-    foreach ($lyrics->getTitle() as $name) {
-        echo $name;
+    foreach ($lyrics as $lyric) {
+        echo '<a href="' . PUBLIC_URL . '/view/' . $lyric->getId() .'">' .  $lyric->getTitle() . '</a><br>';
     }
 }
 

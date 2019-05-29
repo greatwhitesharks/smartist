@@ -27,17 +27,15 @@ if(file_exists($file)){
                <div class="collapse navbar-collapse" id="hiddenNav" >
                  <ul class="navbar-nav " >
                    <li class="nav-item active">
-                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                     <a class="nav-link" href="<?= PUBLIC_URL?>/feed" >Home <span class="sr-only">(current)</span></a>
                    </li>
                    <li class="nav-item">
-                     <a class="nav-link" href="#">Search</a>
+                     <a class="nav-link" href="<?= PUBLIC_URL?>/search" >Search</a>
                    </li>
                    <li class="nav-item">
-                     <a class="nav-link" href="#">Contact</a>
+                     <a class="nav-link" href="<?= PUBLIC_URL?>/contact" >Contact</a>
                    </li>
-                   <li class="nav-item">
-                     <a class="nav-link" href="#">About</a>
-                   </li>
+              
                  </ul>
                </div>
         
@@ -46,41 +44,44 @@ if(file_exists($file)){
     ?>
                <ul class="navbar-nav horizontal ml-lg-2 d-flex flex-row justify-content-around mt-4 mt-lg-0">
                  <li class="nav-item  mx-3 mx-sm-4 d-flex ">
-                <button type="button" class="btn btn-light">Login</button>   
+                <a href="<?= PUBLIC_URL?>/login" style="color:black" class="btn btn-light">Login</a>   
                 </li>
                 <li class="nav-item  mx-3 mx-sm-4 d-flex">
-                                <button type="button" class="btn btn-light">Register</button>    
+                                <a href="<?= PUBLIC_URL?>/signup" style="color:black"  class="btn btn-light">Sign Up</a>    
                                 </li>
                </ul>
                <?php
 } else {
         ?>
-                 <a class="nav-link profile-pic ml-md-auto d-none d-lg-flex" href="#">
-             
+                 <a class="nav-link  ml-md-auto d-none d-lg-flex" href="<?= PUBLIC_URL?>/artist">
+                    <img class="img-fluid rounded-circle profile-pic" src="<?=
+                    PUBLIC_URL . '/' .Account::getProfilePictureById($_SESSION[ACCOUNT_IDENTIFIER])
+                    
+                    ?>"/>
               
                      
                       </a>
                <ul class="navbar-nav horizontal ml-lg-2 d-flex flex-row justify-content-around mt-4 mt-lg-0">
                  <li class="nav-item  mx-3 mx-sm-4 d-flex d-lg-none">
-                   <a class="nav-link" href="#"><i class="material-icons">
+                   <a class="nav-link" href="<?= PUBLIC_URL?>/artist" ><i class="material-icons">
            account_circle
            </i></a>
                  </li>
                               <li class="nav-item   mx-3 mx-sm-4 mx-lg-1">
-                   <a class="nav-link" href="#"><i class="material-icons">
+                   <a class="nav-link" href="<?= PUBLIC_URL?>/inbox" ><i class="material-icons">
            message
            </i></a>
                  </li>
                  <li class="nav-item  mx-3 mx-sm-4 mx-lg-1">
-                   <a class="nav-link" href="#"><i class="material-icons">
+                   <a class="nav-link" href="<?= PUBLIC_URL?>/notifcations" ><i class="material-icons">
            public
            </i></a>
                  </li>
-                 <li class="nav-item mx-3 mx-sm-4 mx-lg-1">
+                 <!-- <li class="nav-item mx-3 mx-sm-4 mx-lg-1">
                    <a class="nav-link" href="#"><i class="material-icons">
            settings
            </i></a>
-                 </li>
+                 </li> -->
 
                    <li class="nav-item  mx-3  mx-sm-4 mx-lg-1">
                      <a class="nav-link">

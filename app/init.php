@@ -21,6 +21,14 @@ spl_autoload_register(
 
         if (file_exists($filePath)) {
             include $filePath;
+        }elseif($filePath = preg_replace(
+            '/^([A-Z][a-z]+){0,1}$/',
+            '../app/models/$0/$0.php',
+            $name
+        )
+){
+                
+    include $filePath;
         } else {
             die("Included class, {$name} doesn't exist");
         }

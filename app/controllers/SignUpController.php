@@ -31,6 +31,7 @@ if (isset($_POST['signup'])){
         $reenter_password = $_POST['reenter_password'];
    
         $occupation_input = $_POST['occupation'];
+    
         // escaping array contents
         for($i = 0; $i < count($occupation_input); $i++){
             $occupation_input[$i] = $occupation_input[$i];
@@ -44,12 +45,12 @@ if (isset($_POST['signup'])){
     }
         // joining the array with ,
         $occupation = implode(',', $occupation_input);
-        $gender = '';
-        $dob = '';
+        $gender = null;
+        $dob = null;
 
         if($_POST['type'] == 'individual'){
             $gender = $_POST['gender'];
-            $dob = $_POST['dob'];
+            $dob = (new DateTime($_POST['dob']))->format('Y-m-d');
 
         }
 
@@ -108,8 +109,9 @@ if (isset($_POST['signup'])){
         ->Gender($gender)
         ->DateOfBirth($dob)
         ->build();
-   
-    Account::create($account);
+        
+    $id = Account::create($account);
+    $_SESSION[ACCOUNT_IDENTIFIER] = $id;
     header("Location: " . PUBLIC_URL . "/artist/");
 
 }

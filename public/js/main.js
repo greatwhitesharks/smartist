@@ -15,6 +15,9 @@ let editProfileButton = document.querySelector("#editProfile");
 let editProfileModal = document.querySelector("#editProfileModal");
 let uploadModal = document.querySelector("#uploadModal");
 let uploadButton = document.querySelector("#uploadButton");
+
+let uploadModal2 = document.querySelector("#uploadModal2");
+let uploadButton2 = document.querySelector("#uploadButton2");
 let followerModal = document.querySelector('#followerModal');
 let followingModal = document.querySelector('#followingModal');
 
@@ -32,27 +35,54 @@ uploadButton.addEventListener("click", function(){
 });
 }
 
+if(uploadButton2){
+	uploadButton2.addEventListener("click", function(){
+		uploadModal2.classList.add("show");
+		uploadModal2.style.display = 'block';
+	});
+	}
 
+function submitUploadForm(){
+	document.querySelector("#uploadModal form").submit();
+
+}
 
 function closeEditProfileModal(){
 		editProfileModal.classList.remove("show");
 	editProfileModal.style.display = 'none';
 }
 
+function closeUploadModal(){
+	uploadModal.classList.remove("show");
+uploadModal.style.display = 'none';
+}
+
+
+function submitUploadForm2(){
+	document.querySelector("#uploadModal2 form").submit();
+
+}
+
+function closeEditProfileModal2(){
+		editProfileModal.classList.remove("show");
+	editProfileModal.style.display = 'none';
+}
+
+function closeUploadModal2(){
+	uploadModal.classList.remove("show");
+uploadModal.style.display = 'none';
+}
+
+
+
 function submitEditProfileForm(){
 	document.querySelector("#editProfileModal form").submit();
 
 }
 
-function closeUploadModal(){
-		uploadModal.classList.remove("show");
-	uploadModal.style.display = 'none';
-}
 
-function submitUploadForm(){
-	document.querySelector("#uploadModal form").submit();
 
-}
+
 
 function showFollowersModal(){
 followerModal.classList.add("show");

@@ -1,0 +1,29 @@
+
+.lbl-rate{
+  position: relative;
+  z-index: 999;
+	color:gray;
+	cursor:pointer;
+}
+
+input.radio-rate{
+ position: absolute;
+ z-index:-500;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+#rating-container{
+display:flex;
+position: relative;
+flex-direction:row-reverse;
+justify-content: center;
+margin:0 auto;
+min-width:120px;
+}
+
+input.radio-rate:checked ~ .lbl-rate, .lbl-rate:hover, .lbl-rate:hover ~.lbl-rate{
+	color:goldenrod;    
+}

@@ -1,0 +1,1 @@
+<link rel="stylesheet" href="<?= PUBLIC_URL?>/css/ratings.css">

@@ -33,7 +33,7 @@ class Notification  implements JsonSerializable{
 
     public static function getUnread($accountId){
         $con = DB::getConnection();
-        $sql = 'SELECT FROM notifications WHERE recipient_id = ? AND read_status = \'unread\'';
+        $sql = 'SELECT * FROM notifications WHERE recipient_id = ? AND read_status = \'unread\' ORDER BY sent_date DESC';
         $stmt = $con->prepare($sql);
         $stmt->execute([$accountId]);
         
@@ -47,6 +47,8 @@ class Notification  implements JsonSerializable{
                 $result['sent_date']
             );
         }
+
+        return $notifcations;
 
     }
 

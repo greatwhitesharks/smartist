@@ -52,11 +52,13 @@ if ($user) {
                         </div>
         <div class="row">
           <div class="col">
+         <?php   if(($user->getLocation())): ?>
           <i class="material-icons">
             location_on
           </i>
 
           <span><?= $user->getLocation() ?></span>
+                        <?php endif;?>
         </div>
                         </div>
         <div class="row my-4 ">
@@ -110,7 +112,7 @@ if ($user) {
 
 
                       <form action='<?= PUBLIC_URL ?>/artist/follow/<?= $user->getFollowableId() ?>/' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
                         <button type='submit' class="btn btn-primary btn-block btn-sm ">Follow </button>
                       </form>
                     </li>
@@ -120,7 +122,7 @@ if ($user) {
                   ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <form action='./unfollow/<?= $user->getFollowableId() ?>' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
                         <button type='submit' class="btn btn-primary btn-block btn-sm">Unfollow </button>
                       </form>
                     </li>
@@ -177,7 +179,7 @@ if ($user) {
         <div class="row justify-content-around">
           <?php
 
-          if ($user->getId() != $_SESSION[ACCOUNT_IDENTIFIER] && !$products) {
+          if ( !$products) {
             echo '<div class="col-12 mt-5">No uploads</div>';
           } else {
             foreach ($products as $product) :
@@ -328,24 +330,20 @@ if ($user) {
       </div>
       <div class="modal-body">
         <form action="<?= PUBLIC_URL ?>/artist/edit" method="post">
-          <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" value="<?= $user->getEmail() ?>" placeholder="name@example.com">
-          </div>
 
           <div class="form-group">
             <label for="location">Location</label>
-            <input type="location" class="form-control" id="location" name="location" value="<?= $user->getLocation() ?>" placeholder="name@example.com">
+            <input type="location" class="form-control" id="location" name="location" value="<?= $user->getLocation() ?>" placeholder="Sri Lanka">
           </div>
 
           <div class="form-group">
             <label for="website">Website</label>
-            <input type="website" class="form-control" id="website" name="website" value="<?= $user->getWebsite() ?>" placeholder="name@example.com">
+            <input type="website" class="form-control" id="website" name="website" value="<?= $user->getWebsite() ?>" placeholder="www.example.com">
           </div>
 
           <div class="form-group">
             <label for="tel">Telephone</label>
-            <input type="tel" class="form-control" id="tel" name="tel" value="<?= $user->getTel() ?>" placeholder="name@example.com">
+            <input type="tel" class="form-control" id="tel" name="tel" value="<?= $user->getTel() ?>" placeholder="07XXXXXXXX">
           </div>
 
           <!--                 <div class="form-group">
@@ -379,8 +377,8 @@ if ($user) {
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" enctype="multipart/form-data" action="./upload/">
-
+        <form method="post" enctype="multipart/form-data" action="<?=PUBLIC_URL?>/artist/upload/">
+        <input type="hidden" name="product_type" value="audio">
           <div class="form-group">
             <label for="exampleFormControlInput1">Title</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" name="title" placeholder="Product Name">
@@ -395,7 +393,6 @@ if ($user) {
             <div class="custom-file">
               <label class="custom-file-label" for="customFile">Choose file</label>
               <input type="file" class="custom-file-input" name="product" id="customFile">
-
 
             </div>
           </div>
@@ -415,6 +412,54 @@ if ($user) {
 
 
 
+<div class="modal fade" id="uploadModal2" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload</h5>
+        <button type="button" onclick="closeUploadModal2();" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" enctype="multipart/form-data" action="<?=PUBLIC_URL?>/artist/upload/">
+          <input type="hidden" name="product_type" value="lyric">
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Title</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="title" placeholder="Product Name">
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Upload</label>
+            <div class="custom-file">
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              <input type="file" class="custom-file-input" name="product" id="customFile">
+
+            </div>
+            <div class="form-group">
+            <label>Visibility</label>
+            <div class="custom-file">
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              <input type="file" class="custom-file-input" name="product" id="customFile">
+
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeUploadModal2();" data-dismiss="modal">Close</button>
+
+        <button type="button" onclick="submitUploadForm();" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <?php
 
 require_once VIEW_PATH . '/Modals/followingsModal.php';
@@ -428,24 +473,26 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
 <script type="text/javascript" src="<?= PUBLIC_URL ?>/js/main.js"></script>
 
 <?php if (isset($_SESSION[ACCOUNT_IDENTIFIER]) &&  $user->getId() != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
-  <script>
-    (function() {
-      var container = document.getElementById('rating-container');
+
+<script type="text/javascript">
+
+(function() {
+    var container = document.getElementById('rating-container');
 
 
-      container.addEventListener('click', function(e) {
-        if (e.target.name === 'rate') {
-          var rating = e.target.value;
-          console.log(e.target.value);
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', '<?= PUBLIC_URL . '/artist/rating/' . $user->getId() ?>', true);
-          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-          xhr.send('rating=' + rating);
+    container.addEventListener('click', function(e) {
+      if (e.target.name === 'rate') {
+        var rating = e.target.value;
+        console.log(e.target.value);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= PUBLIC_URL . 'artist/rating/' . $user->getId() ?>', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('rating=' + rating);
 
 
-        }
-      });
+      }
+    });
 
-    })();
-  </script>
+  })();
+</script>
 <?php endif; ?>

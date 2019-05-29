@@ -14,6 +14,8 @@ class Product implements JsonSerializable
     private $owner;
    private $status;
 
+   private $rating;
+
     public function __construct($id, $title, $type, $url)
     {
         $this->product_id = $id;
@@ -34,7 +36,7 @@ class Product implements JsonSerializable
         $con = DB::getConnection();
         $sql = 'DELETE from product_info where id = ?';
     }
-    public static function createProduct($followable_id, $product, $tags, $description='', $author='')
+    public static function createProduct($followable_id, $product, $tags, $keywords ='', $description='', $author='', $visibility='public')
     {
         $owner_id = 0;
         if($author){
@@ -44,11 +46,11 @@ class Product implements JsonSerializable
         // Add to product table
         $con = DB::getConnection();
         $sql = 'INSERT INTO product_info (title, url,'
-            . 'type, author, description, owner_id) values (?,?,?, ?, ?, ?)';
+            . 'type, author, description, keywords, owner_id, status) values (?,?, ?, ?, ?, ?, ?, ?)';
         
         $stmt = $con->prepare($sql);
         
-        $stmt->execute([$product['title'], $product['url'], $product['type'], $author, $description, $owner_id]);
+        $stmt->execute([$product['title'], $product['url'], $product['type'], $author, $description, $keywords, $owner_id, $visibility]);
        
        $product_id = $con->lastInsertId();
             
@@ -155,11 +157,9 @@ class Product implements JsonSerializable
 
     public static function findLyrics($key){
         $con = DB::getConnection();
-        $key = strtolower($key);
-        $sql = "SELECT * FROM product_info WHERE lower(title) like '%$key%'  or lower(keywords) like '%$key%' or lower(author) like '%$key%' and status ='public' and type='lyrics'";
-
+        $key = strtolower(urldecode($key));
+        $sql = "SELECT * FROM product_info WHERE MATCH (title,keywords,description,author) AGAINST ('$key' IN NATURAL LANGUAGE MODE)";
         $stmt = $con->prepare($sql);
-
         $stmt->execute();
         $lyrics = [];
         while($result = $stmt->fetch()){
@@ -169,9 +169,10 @@ class Product implements JsonSerializable
                 $result['type'],
                 $result['url']
             );
-            array_push($lyrics, $result);
+            array_push($lyrics, $product);
         }
         return $lyrics;
+        
     }
 
 
@@ -275,4 +276,24 @@ class Product implements JsonSerializable
         return $data;
     }
 
+
+   /**
+    * Get the value of rating
+    */ 
+   public function getRating()
+   {
+      return $this->rating;
+   }
+
+   /**
+    * Set the value of rating
+    *
+    * @return  self
+    */ 
+   public function setRating($rating)
+   {
+      $this->rating = $rating;
+
+      return $this;
+   }
 }

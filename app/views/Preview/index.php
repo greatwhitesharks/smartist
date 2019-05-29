@@ -1,4 +1,8 @@
+<?php
 
+// $comments = $data['comments'];
+
+?>
 <link rel="stylesheet" href="<?= PUBLIC_URL ?>/css/preview.css">
 	<div class="container-fluid">
 		<div class="row justify-content-center">
@@ -7,6 +11,24 @@
 		<h4><?= $data['title']?></h4>
 				<h6>by</h6>
 				<h6><?= $data['author'] ?></h6>
+				
+				<div id="rating-container" class="col ratings justify-content-center my-1" style="text-align:center;color: goldenrod;cursor:pointer;">
+            <?php if (!isset($_SESSION[ACCOUNT_IDENTIFIER]) || $data['owner'] == $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
+
+              <?php for ($i = 5; $i >= 1; $i--) : ?>
+                <i class="material-icons" style="color:<?= (($i) <= $data['rating']) ? 'goldenrod' : 'gray'?>;">star</i>
+              <?php endfor; ?>
+            <?php else : ?>
+              <?php for ($i = 5; $i >= 1; $i--) : ?>
+                <?php $rating = $data['rating'];?>
+                <?php $checked = (($i) == round($rating)) ? 'checked' : ''; ?>
+                <input id="radio<?= $i ?>" class="radio-rate" type="radio" name="rate" value="<?= $i ?>" <?= $checked ?>>
+                <label class="lbl-rate material-icons" for="radio<?= $i ?>">
+                  star
+                </label>
+              <?php endfor; ?>
+            <?php endif; ?>
+          </div>
 
 				<?php if($data['type'] == 'lyric'){ ?>
 				<div class="preview col" style="<?= ($data['status'] !== 'hidden') ? 'overflow:auto;' : 'height:400px;'   ?>">
@@ -17,10 +39,23 @@
 
 						
 					<div class="notice">
-						
+					<?php if(isset($_SESSION[ACCOUNT_IDENTIFIER])):?>
+				
 						<p class="h6">The author has hidden the full content. This is
 							only a preview.</p>
-						<button onclick="alert('TODO: This should send a message to owner');" class="btn btn-success">Request Permission</button>
+						
+						
+
+							<?php if ($_SESSION[ACCOUNT_IDENTIFIER] !== $data['owner'] && !$data['already']) :?>
+						<button onclick="notify();" class="btn btn-success">Request Permission</button>
+						<?php elseif ($data['already']):?>
+						<p class="h6">View permission has been requested from author</p>
+					<?php endif;?>
+					<?php else :?>
+					<p class="h6">The author has hidden the full content. This is
+							only a preview.</p>
+						
+					<?php endif;?>
 					</div>
 					<?php } ?>
 				</div>
@@ -42,9 +77,12 @@
 
 
 		</div>
-	
+
+		
+			
+<!-- 	
 	<div class="row justify-content-center pt-5">
-	<div class="col-6 col-lg-4 text-center">
+	<div id="comments" class="col-6 col-lg-4 text-center">
 		<div class="row">
 			<div class="col">
 				<h4>Comments</h4>
@@ -63,7 +101,8 @@
 				</form>
 			</div>
 		</div>
-		
+
+		<?php// foreach($comments as $comment) :?>
 <div class="row flex-column text-left">
 			<div class="row">
 			<div class="col-1">
@@ -82,19 +121,23 @@
 </div>
 <div class="form-row align-items-right">
 <div class="col-auto">
-<a href="#">Edit</a>
+<a name="edit-link" onclick="editComment" data-id="" href="#">Edit</a>
 </div>
 
 <div class="col-auto">
-<a href="#">Delete</a>
+<a  name="delete-link" onclick="deleteComment" data-id="" href="#">Delete</a>
 
 </div>
 
 </div>
 
 </div>
+			<?php// endforeach;?>
+
 	</div>	
-	</div>
+	</div> -->
+
+	
 
 	</div>
 </div>
@@ -112,5 +155,44 @@
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
 
+		<?php if (isset($_SESSION[ACCOUNT_IDENTIFIER]) &&  $data['owner'] != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
+
+<script type="text/javascript" >
+function notify(){
+		var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= PUBLIC_URL . '/notification/send' ?>', true);
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				var notification = {
+					from: <?= $_SESSION[ACCOUNT_IDENTIFIER]?>,
+					to : <?= $data['owner']?>,
+					type: 'permission',
+					data: {'id': <?= $data['id']?>}
+				};
+        xhr.send(JSON.stringify(notification));
+
+	}
+
+// (function() {
+	
+
+//     var container = document.getElementById('rating-container');
 
 
+//     container.addEventListener('click', function(e) {
+//       if (e.target.name === 'rate') {
+//         var rating = e.target.value;
+//         console.log(e.target.value);
+//         var xhr = new XMLHttpRequest();
+//         xhr.open('POST', '<?= PUBLIC_URL . '/view/rating/' . $data['id'] ?>', true);
+//         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//         xhr.send('rating=' + rating);
+
+
+//       }
+//     });
+
+// 	})();
+	
+
+</script>
+<?php endif; ?>
