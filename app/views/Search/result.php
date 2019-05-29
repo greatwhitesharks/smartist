@@ -33,14 +33,18 @@ if (count($artists) ==0 && count ($lyrics )== 0){?>
 }
 
 if (count($artists) !=0){
-    foreach ($artists as $ar) {
-        echo $ar->getDisplayName();
+    foreach ($artists as $ar) {?>
+        <div class="result">
+       <?php echo $ar->getDisplayName();?>
+        </div><?php
     }
 }
 
 if (count($lyrics) !=0){
-    foreach ($lyrics as $lyric) {
-        echo '<a href="' . PUBLIC_URL . '/view/' . $lyric->getId() .'">' .  $lyric->getTitle() . '</a><br>';
+    foreach ($lyrics as $lyric) {?>
+        <div class="result">
+        <?php echo '<a href="' . PUBLIC_URL . '/view/' . $lyric->getId() .'">' .  $lyric->getTitle() . '</a><br>';?>
+        </div><?php
     }
 }
 
