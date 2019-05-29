@@ -36,13 +36,14 @@ class Permission{
 
     public static function grantPermission($to, $productId, $duration){
         try {
+            date_default_timezone_get('Asia/Colombo');
             $con = DB::getConnection();
             $date = new DateTime();
             $date->modify('+ ' . $duration . 'hours');
             $sql = 'Insert into view_permissions (viewerId, productId, expireDate)' 
             .' values(?,?,?)';
             $stmt = $con->prepare($sql);
-            $stmt->execute([$to, $productId, $date]);
+            $stmt->execute([$to, $productId, $date->format('Y-m-d H:i')]);
            
         } catch (Exception $e) {
             //TODO : Error handling

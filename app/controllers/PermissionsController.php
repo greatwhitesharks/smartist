@@ -12,13 +12,20 @@ public function index($param=''){
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
            if(isset($_POST['user']) && isset($_POST['product'])){
             $product = Product::getProduct($_POST['product']);
-            $user = Account::getProfileByd($_POST['user']);
-
+            $user = Account::getProfileByName($_POST['user']);
+            // echo 1;
             if($user && $product){
-                if($product->getOwner() === $_SESSION[ACCOUNT_IDENTIFIER]){
+                // echo 2;
+                if($product->getOwner() == $_SESSION[ACCOUNT_IDENTIFIER]){
+                    // echo 3;
                     Permission::grantPermission($user->getId(), $product->getId(),1);
+                    header('Location:'. PUBLIC_URL .'/permissions');
+                }
+                else{
+                    die('You do not own this product');
                 }
             }
+
            }
          
                die('Invalid parameters');

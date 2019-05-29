@@ -11,6 +11,7 @@ class DB
             $options = [];
             self::$con = new PDO($dsn, DB_USER, DB_PASS, $options);
             self::$con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            self::$con->exec('SET time_zone = \'+05:30\'');
         } catch (PDOException $e) {
             echo 'Error';
         }

@@ -7,7 +7,7 @@
       <h6><strong>Grant View Permission</strong></h6>
 </div>
 <div class="card-body">
-    <form class="form-inline" action="<?= PUBLIC_URL?>/grant" method="post">
+    <form class="form-inline" action="<?= PUBLIC_URL?>/permissions/grant" method="post">
   <label class="sr-only" for="inlineFormInputName2">Name</label>
   <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Recipient Username</label>
   <input required type="text" name="user" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
