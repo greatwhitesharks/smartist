@@ -73,10 +73,10 @@
             </div>
             <div class="form-group">
 				<label class="control-label col-sm-offset-2 col-sm-2">We are:</label>
-				<div class="checkbox col-sm-offset-5"> <label><input type="checkbox" name="occupation" value="singer">Singers</label></div>
-				<div class="checkbox col-sm-offset-5"><label><input type="checkbox" name="occupation" value="lyricist">Lyricists</label></div>
-				<div class="checkbox col-sm-offset-5"><label><input type="checkbox" name="occupation" value="music_producer">Music Producers</label></div>
-				<div class="checkbox col-sm-offset-5"><label><input type="checkbox" name="occupation" value="other">Other <input type="text" placeholder="  Please specify  "></label></div>
+				<div class="checkbox col-sm-offset-5"> <label><input type="checkbox" name="occupation[]" value="singer">Singers</label></div>
+				<div class="checkbox col-sm-offset-5"><label><input type="checkbox" name="occupation[]" value="lyricist">Lyricists</label></div>
+				<div class="checkbox col-sm-offset-5"><label><input type="checkbox" name="occupation[]" value="music_producer">Music Producers</label></div>
+				<div class="checkbox col-sm-offset-5"><label><input type="checkbox" name="occupation[]" value="other">Other <input name="other_ocu" type="text" placeholder="  Please specify  "></label></div>
 			</div><br>
 			<div class="form-group">
 				<div class="col-sm-offset-6 col-sm-3">
