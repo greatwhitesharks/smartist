@@ -201,14 +201,14 @@ div {
           <div class="col-sm-10 col-lg">
             <ul class="list-group list-group-horizontal justify-content-around flex-sm-row flex-lg-column">
               <li class="list-group-item flex-fill  d-flex justify-content-between align-items-center">
-                <a href="#" class="btn btn-light btn-block" onclick="showFollowersModal()">
+                <a href="#" class="btn btn-light btn-block" data-toggle="modal" data-target="#followerModal">
                 Followers
 
                 <span class="badge badge-primary badge-pill" id="followers"><?= $data['followersCount'] ?></span>
 </a>
               </li>
               <li class="list-group-item d-flex flex-fill justify-content-between align-items-center">
-              <a href="#" class="btn btn-light btn-block" onclick="showFollowingModal()">
+              <a href="#" class="btn btn-light btn-block" data-toggle="modal" data-target="#followingModal">
                 Following
                 <span class="badge badge-primary badge-pill" id="following"><?= $data['followingCount'] ?></span>
                 </a>

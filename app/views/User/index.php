@@ -115,7 +115,7 @@ if ($user) {
 
 
                       <form action='<?= PUBLIC_URL ?>/artist/follow/<?= $user->getFollowableId() ?>/' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
                         <button type='submit' class="btn btn-primary btn-block btn-sm ">Follow </button>
                       </form>
                     </li>
@@ -125,7 +125,7 @@ if ($user) {
                   ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <form action='./unfollow/<?= $user->getFollowableId() ?>' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
                         <button type='submit' class="btn btn-primary btn-block btn-sm">Unfollow </button>
                       </form>
                     </li>

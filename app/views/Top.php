@@ -55,8 +55,7 @@ if(file_exists($file)){
 } else {
         ?>
                  <a class="nav-link  ml-md-auto d-none d-lg-flex" href="<?= PUBLIC_URL?>/artist">
-                    <img class="img-fluid rounded-circle profile-pic" src="<?=
-                    PUBLIC_URL . '/' .Account::getProfilePictureById($_SESSION[ACCOUNT_IDENTIFIER])
+                    <img class="img-fluid rounded-circle profile-pic" src="<?=Account::getProfilePictureById($_SESSION[ACCOUNT_IDENTIFIER])
                     
                     ?>"/>
               
