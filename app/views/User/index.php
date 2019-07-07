@@ -15,14 +15,14 @@ if ($user) {
         <div class="row">
 
           <div id="rating-container" class="col ratings justify-content-center my-4" style="text-align:center;color: goldenrod;cursor:pointer;">
-            <?php if (!Account::isLoggedIn() || Account::isCurrentUser($user->getId())): ?>
+            <?php if (!Account::isLoggedIn() || Account::isCurrentUser($user->getId())) : ?>
 
               <?php for ($i = 5; $i >= 1; $i--) : ?>
-                <i class="material-icons" style="color:<?= (($i) <= $user->getRating()) ? 'goldenrod' : 'gray'?>;">star</i>
+                <i class="material-icons" style="color:<?= (($i) <= $user->getRating()) ? 'goldenrod' : 'gray' ?>;">star</i>
               <?php endfor; ?>
             <?php else : ?>
               <?php for ($i = 5; $i >= 1; $i--) : ?>
-                <?php $rating = ($data['setRating'] > 0) ? $data['setRating']:$user->getRating();?>
+                <?php $rating = ($data['setRating'] > 0) ? $data['setRating'] : $user->getRating(); ?>
                 <?php $checked = (($i) == round($rating)) ? 'checked' : ''; ?>
                 <input id="radio<?= $i ?>" class="radio-rate" type="radio" name="rate" value="<?= $i ?>" <?= $checked ?>>
                 <label class="lbl-rate material-icons" for="radio<?= $i ?>">
@@ -31,40 +31,43 @@ if ($user) {
               <?php endfor; ?>
             <?php endif; ?>
           </div>
-</div>
+        </div>
       </div>
       <div class="col-12 col-md-3">
         <div class="row">
-          <div class="col"><h3 class="mr-2"><?= $user->getDisplayName() ?></h3></div>
-          <div class="col"><h5 style="line-height:1.7; color:#cecece;">(<?= $user->getType() ?>)
-            <!--     <?php
-                      if ($user->isOnline) {
-                        ?>
-                                        <span class="ml-4 badge badge-success">Online</span>
-                           <?php
-                          } ?> -->
-                          </div>
+          <div class="col">
+            <h3 class="mr-2"><?= $user->getDisplayName() ?></h3>
+          </div>
+          <div class="col">
+            <h5 style="line-height:1.7; color:#cecece;">(<?= $user->getType() ?>)
+              <!--     <?php
+                        //if ($user->isOnline) {
+                          ?>
+                                            <span class="ml-4 badge badge-success">Online</span>
+                             <?php
+                          //  } ?> -->
+          </div>
         </div>
         <div class="row mb-2">
           <div class="col">
-          <h5>@<?= $user->getHandle()  ?></h5>
+            <h5>@<?= $user->getHandle()  ?></h5>
+          </div>
         </div>
-                        </div>
         <div class="row">
           <div class="col">
-         <?php   if(($user->getLocation())): ?>
-          <i class="material-icons">
-            location_on
-          </i>
+            <?php if (($user->getLocation())) : ?>
+              <i class="material-icons">
+                location_on
+              </i>
 
-          <span><?= $user->getLocation() ?></span>
-                        <?php endif;?>
+              <span><?= $user->getLocation() ?></span>
+            <?php endif; ?>
+          </div>
         </div>
-                        </div>
         <div class="row my-4 ">
           <div class="col">
-          <?= Hashtag::parseHashtags($user->getBio())?>
-        </div>
+            <?= Hashtag::parseHashtags($user->getBio()) ?>
+          </div>
         </div>
       </div>
       <div class="col-12 col-md-5 mb-5 mb-md-0">
@@ -93,13 +96,13 @@ if ($user) {
 
             <ul class="list-group list-group-horizontal">
               <li class="list-group-item d-flex align-items-center">
-                <a class="btn btn-light btn-block" href="#" onclick="showFollowersModal()">
+                <a class="btn btn-light btn-block" href="#" data-toggle="modal" data-target="#followerModal">
                   Followers
                   <span class="badge badge-primary badge-pill"><?= $user->getFollowers() ?></span>
                 </a>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="btn btn-light btn-block" href="#" onclick="showFollowingModal()">
+                <a class="btn btn-light btn-block" href="#" data-toggle="modal" data-target="#followingModal">
                   Following
                   <span class="badge badge-primary badge-pill"><?= $user->getFollowing() ?></span>
                 </a>
@@ -112,7 +115,7 @@ if ($user) {
 
 
                       <form action='<?= PUBLIC_URL ?>/artist/follow/<?= $user->getFollowableId() ?>/' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
                         <button type='submit' class="btn btn-primary btn-block btn-sm ">Follow </button>
                       </form>
                     </li>
@@ -122,7 +125,7 @@ if ($user) {
                   ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <form action='./unfollow/<?= $user->getFollowableId() ?>' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
                         <button type='submit' class="btn btn-primary btn-block btn-sm">Unfollow </button>
                       </form>
                     </li>
@@ -179,7 +182,7 @@ if ($user) {
         <div class="row justify-content-around">
           <?php
 
-          if ( !$products) {
+          if (!$products) {
             echo '<div class="col-12 mt-5">No uploads</div>';
           } else {
             foreach ($products as $product) :
@@ -204,13 +207,13 @@ if ($user) {
                 </div>
                 <!-- <div class="row justify-content-center mt-1">
                   
-                                  </div> -->
+                                        </div> -->
 
                 <!-- <div class="row justify-content-center pb-0">
 
             
         
-                                                            </div> -->
+                                                                  </div> -->
               </div>
 
             <?php endforeach;
@@ -319,6 +322,16 @@ if ($user) {
 }   ?>
 </div>
 
+
+
+
+<?php
+
+require_once VIEW_PATH . '/Modals/followingsModal.php';
+require_once VIEW_PATH . '/Modals/followersModal.php';
+
+?>
+
 <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -377,8 +390,8 @@ if ($user) {
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" enctype="multipart/form-data" action="<?=PUBLIC_URL?>/artist/upload/">
-        <input type="hidden" name="product_type" value="audio">
+        <form method="post" enctype="multipart/form-data" action="<?= PUBLIC_URL ?>/artist/upload/">
+          <input type="hidden" name="product_type" value="audio">
           <div class="form-group">
             <label for="exampleFormControlInput1">Title</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" name="title" placeholder="Product Name">
@@ -422,7 +435,7 @@ if ($user) {
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" enctype="multipart/form-data" action="<?=PUBLIC_URL?>/artist/upload/">
+        <form method="post" enctype="multipart/form-data" action="<?= PUBLIC_URL ?>/artist/upload/">
           <input type="hidden" name="product_type" value="lyric">
           <div class="form-group">
             <label for="exampleFormControlInput1">Title</label>
@@ -440,14 +453,15 @@ if ($user) {
               <input type="file" class="custom-file-input" name="product" id="customFile">
 
             </div>
-            <div class="form-group">
-            <label>Visibility</label>
-            <div class="custom-file">
-              <label class="custom-file-label" for="customFile">Choose file</label>
-              <input type="file" class="custom-file-input" name="product" id="customFile">
-
-            </div>
           </div>
+            <div class="form-group">
+              <label>Visibility</label>
+              <div class="custom-file">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+                <input type="file" class="custom-file-input" name="product" id="customFile">
+
+              </div>
+            </div>
 
         </form>
       </div>
@@ -460,13 +474,6 @@ if ($user) {
   </div>
 </div>
 
-<?php
-
-require_once VIEW_PATH . '/Modals/followingsModal.php';
-require_once VIEW_PATH . '/Modals/followersModal.php';
-
-?>
-
 
 
 
@@ -474,25 +481,24 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
 
 <?php if (Account::isLoggedIn() &&  $user->getId() != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
 
-<script type="text/javascript">
-
-(function() {
-    var container = document.getElementById('rating-container');
-
-
-    container.addEventListener('click', function(e) {
-      if (e.target.name === 'rate') {
-        var rating = e.target.value;
-        console.log(e.target.value);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '<?= PUBLIC_URL . 'artist/rating/' . $user->getId() ?>', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.send('rating=' + rating);
+  <script type="text/javascript">
+    (function() {
+      var container = document.getElementById('rating-container');
 
 
-      }
-    });
+      container.addEventListener('click', function(e) {
+        if (e.target.name === 'rate') {
+          var rating = e.target.value;
+          console.log(e.target.value);
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '<?= PUBLIC_URL . 'artist/rating/' . $user->getId() ?>', true);
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.send('rating=' + rating);
 
-  })();
-</script>
+
+        }
+      });
+
+    })();
+  </script>
 <?php endif; ?>

@@ -5,9 +5,10 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="<?=PUBLIC_URL?>/css/styles.css" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?=PUBLIC_URL?>/css/bootstrap.min.css" crossorigin="anonymous"> 
+    <link href="<?=PUBLIC_URL?>/css/styles.css" rel="stylesheet">
+    
     <?php 
 $file = VIEW_PATH . explode('/',$view)[0] . '/styles.php';
 if(file_exists($file)){
