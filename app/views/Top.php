@@ -40,7 +40,7 @@ if(file_exists($file)){
                </div>
         
              
-             <?php if (!isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+             <?php if (!Account::isLoggedIn()) {
     ?>
                <ul class="navbar-nav horizontal ml-lg-2 d-flex flex-row justify-content-around mt-4 mt-lg-0">
                  <li class="nav-item  mx-3 mx-sm-4 d-flex ">

@@ -13,7 +13,7 @@
 				<h6><a href="<?= PUBLIC_URL. '/artist/' .$data['author'] ?>"><?=$data['author']?></a></h6>
 				
 				<div id="rating-container" class="col ratings justify-content-center my-1" style="text-align:center;color: goldenrod;cursor:pointer;">
-            <?php if (!isset($_SESSION[ACCOUNT_IDENTIFIER]) || $data['owner'] == $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
+            <?php if (!Account::isLoggedIn() || $data['owner'] == $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
 
               <?php for ($i = 5; $i >= 1; $i--) : ?>
                 <i class="material-icons" style="color:<?= (($i) <= $data['rating']) ? 'goldenrod' : 'gray'?>;">star</i>
@@ -144,7 +144,7 @@
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
 
-		<?php if (isset($_SESSION[ACCOUNT_IDENTIFIER]) &&  $data['owner'] != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
+		<?php if (Account::isLoggedIn() &&  $data['owner'] != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
 
 <script type="text/javascript" >
 function notify(){

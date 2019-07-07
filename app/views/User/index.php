@@ -15,7 +15,7 @@ if ($user) {
         <div class="row">
 
           <div id="rating-container" class="col ratings justify-content-center my-4" style="text-align:center;color: goldenrod;cursor:pointer;">
-            <?php if (!isset($_SESSION[ACCOUNT_IDENTIFIER]) || $user->getId() == $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
+            <?php if (!Account::isLoggedIn() || $user->getId() == $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
 
               <?php for ($i = 5; $i >= 1; $i--) : ?>
                 <i class="material-icons" style="color:<?= (($i) <= $user->getRating()) ? 'goldenrod' : 'gray'?>;">star</i>
@@ -71,7 +71,7 @@ if ($user) {
 
         <div class="row justify-content-end">
           <div class="col-3">
-            <?php if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+            <?php if (Account::isLoggedIn()) {
               if ($_SESSION[ACCOUNT_IDENTIFIER] == $user->getId()) {
                 ?>
                 <button type="button" id="editProfile" class="btn btn-light">Edit Profile</button>
@@ -104,7 +104,7 @@ if ($user) {
                   <span class="badge badge-primary badge-pill"><?= $user->getFollowing() ?></span>
                 </a>
               </li>
-              <?php if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+              <?php if (Account::isLoggedIn()) {
                 if ($_SESSION[ACCOUNT_IDENTIFIER] != $user->getId()) {
                   if (!$isFollowing) {
                     ?>
@@ -151,7 +151,7 @@ if ($user) {
 
         <?php
 
-        if (isset($_SESSION[ACCOUNT_IDENTIFIER]) && $user->getId() == $_SESSION[ACCOUNT_IDENTIFIER]) {
+        if (Account::isLoggedIn() && $user->getId() == $_SESSION[ACCOUNT_IDENTIFIER]) {
           ?>
           <div class="row">
             <div class="upload product col m-3 p-5">
@@ -472,7 +472,7 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
 
 <script type="text/javascript" src="<?= PUBLIC_URL ?>/js/main.js"></script>
 
-<?php if (isset($_SESSION[ACCOUNT_IDENTIFIER]) &&  $user->getId() != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
+<?php if (Account::isLoggedIn() &&  $user->getId() != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
 
 <script type="text/javascript">
 
