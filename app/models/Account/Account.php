@@ -120,6 +120,7 @@ class Account extends Model  implements JsonSerializable
             ->Location($result['location'])
             ->FollowableId($result['followable_id'])
             ->Bio($result['bio'])
+            ->Hash($result['password_hash'])
             ->Social($result['social'])
             ->Website($result['website'])
             ->Tel($result['tel'])
@@ -235,6 +236,9 @@ class Account extends Model  implements JsonSerializable
         return $artists;
     }
 
+    public static function isLoggedIn(){
+        return isset($_SESSION[ACCOUNT_IDENTIFIER]);
+    }
     public static function create($account){
         try {
      
