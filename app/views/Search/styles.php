@@ -297,7 +297,7 @@ body {
   position:relative;
   top: 300px;
   padding: 10px 10px 10px 10px;
-  left:-1300px;
+  left:-1000px;
 }
 
 

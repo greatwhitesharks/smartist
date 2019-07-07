@@ -9,7 +9,7 @@ function  readMessage($rec_id){
    foreach($rows as $row){
             $arr =array();
             $arr['id'] = $row["id"];
-            $arr['senderId'] =  $row["senderId"];
+            $arr['senderId'] =  Account::getProfileById($row["senderId"])->getHandle();
             $arr['sub'] = $row["subject"];
             $arr['msg'] = $row["message"];
               array_push($output, $arr);
