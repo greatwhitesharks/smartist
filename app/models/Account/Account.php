@@ -239,6 +239,17 @@ class Account extends Model  implements JsonSerializable
     public static function isLoggedIn(){
         return isset($_SESSION[ACCOUNT_IDENTIFIER]);
     }
+
+    public static function isCurrentUser($id, $byId = true){
+        if($byId){
+            return $_SESSION[ACCOUNT_IDENTIFIER] === $id;
+        }
+        else{
+            $currentAccount = Account::getProfileById($_SESSION[ACCOUNT_IDENTIFIER]);
+            $handle = strtolower($currentAccount->getHandle());
+            return  $handle === strtolower($id);
+        }
+    }
     public static function create($account){
         try {
      
