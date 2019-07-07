@@ -12,7 +12,7 @@ class ArtistController extends Controller
 
             $profile = Account::getProfileByName($user);
         } else {
-            if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+            if (Account::isLoggedIn()) {
                 $profile = Account::getProfileById(
                     $_SESSION[ACCOUNT_IDENTIFIER]
                 );
@@ -30,7 +30,7 @@ class ArtistController extends Controller
         $followings ='';
         $followers= '';
         $products ='';
-        if ($profile && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+        if ($profile && Account::isLoggedIn()) {
             $isFollowing = Follow::isFollowing(
                 $_SESSION[ACCOUNT_IDENTIFIER],
                 $profile->getFollowableId()
@@ -48,7 +48,7 @@ class ArtistController extends Controller
 
     public function rating($id){
 
-        if(isset($_POST['rating']) && isset($_SESSION[ACCOUNT_IDENTIFIER])){
+        if(isset($_POST['rating']) && Account::isLoggedIn()){
             if($_SESSION[ACCOUNT_IDENTIFIER] !== $id){
                 $rating = $_POST['rating'];
                 $rating = ($rating > 5) ? 5 : (($rating < 0 ) ? 0 : $rating);
@@ -85,7 +85,7 @@ class ArtistController extends Controller
     public function follow($parameters = [])
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' 
-                && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+                && Account::isLoggedIn()) {
 
             $followableId = $parameters[0];
 
@@ -106,7 +106,7 @@ class ArtistController extends Controller
 
     public function follow_stat($parameters = [])
     {
-        if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+        if (Account::isLoggedIn()) {
 
             $currentAccount = Account::getAccountSummary(
                 $_SESSION[ACCOUNT_IDENTIFIER]
@@ -132,7 +132,7 @@ class ArtistController extends Controller
     public function unfollow($parameters = [])
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' 
-                && isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+                && Account::isLoggedIn()) {
 
             $followableId = $parameters[0];
 

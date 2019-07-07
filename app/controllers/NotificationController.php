@@ -7,7 +7,7 @@ class NotificationController extends Controller{
     public function index(){
         // Show notification page
 
-        if(!isset($_SESSION[ACCOUNT_IDENTIFIER])){
+        if(!Account::isLoggedIn()){
             header('Location:' . LOGIN_REDIRECT_URL);
         }
         $notification = Notification::getUnread($_SESSION[ACCOUNT_IDENTIFIER]);

@@ -6,7 +6,7 @@ require_once "../app/models/message/deleteMessage.php";
 class InboxController extends Controller{
  
   function index($parameters =''){
-    if (isset($_SESSION[ACCOUNT_IDENTIFIER])){
+    if (Account::isLoggedIn()){
     $senderId=$_SESSION[ACCOUNT_IDENTIFIER];
     self::view('/Inbox/index', 'Inbox' ,$senderId);
     }

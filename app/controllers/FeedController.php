@@ -4,7 +4,7 @@ class FeedController extends Controller
     public function index($parameters =[])
     {
         
-        if(isset($_SESSION[ACCOUNT_IDENTIFIER])){
+        if(Account::isLoggedIn()){
         $account = Account::getProfileById($_SESSION[ACCOUNT_IDENTIFIER]);
         
         $followers = Follow::getFollowers($account->getFollowableId());
@@ -29,7 +29,7 @@ class FeedController extends Controller
 
     public function feed($parameters = [])
     {
-        if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+        if (Account::isLoggedIn()) {
           
             $products = Follow::getFollowingProducts($_SESSION[ACCOUNT_IDENTIFIER]);
             echo json_encode($products);

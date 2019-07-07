@@ -12,7 +12,7 @@ public function index($param=''){
 
 public function do(){
 
-    if(isset($_SESSION[ACCOUNT_IDENTIFIER])){
+    if(Account::isLoggedIn()){
         header('Location:' . PUBLIC_URL. '/artist');
     }
 
@@ -47,11 +47,11 @@ if (isset($_POST['signup'])){
         } else{
          
                 $password_check = password_verify($password,$account->getHash());
-                if ($password_check == false){
+                if (!$password_check){
                     // Invalid password
                     header("Location: ". PUBLIC_URL. "/LogIn/?login=error");
                     exit();
-                }elseif ($password_check == true){
+                }else{
                     $_SESSION[ACCOUNT_IDENTIFIER] = $account->getId();
                     header('Location:' . PUBLIC_URL ."/artist");
                     //echo '<br>login success!<br><strong>Your details</strong><br>Name:'.$row['name'].'<br>Email:'.$row['email'];

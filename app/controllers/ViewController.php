@@ -30,7 +30,7 @@ class ViewController extends Controller
                 }
                 
                 $data['comments'] =[1];
-                if (isset($_SESSION[ACCOUNT_IDENTIFIER])){
+                if (Account::isLoggedIn()){
                     $data['rating'] = Rating::getSetRating(
                         $_SESSION[ACCOUNT_IDENTIFIER],
                         $product->getId(),
@@ -54,7 +54,7 @@ class ViewController extends Controller
 
     function ask($id)
     {
-        if (isset($_SESSION[ACCOUNT_IDENTIFIER])) {
+        if (Account::isLoggedIn()) {
             $product = Product::getProduct($id);
             $askingUser = Account::getProfileById($_SESSION[ACCOUNT_IDENTIFIER]);
 
@@ -69,7 +69,7 @@ class ViewController extends Controller
     }
 
     public function rating($id){
-        if(isset($_POST['rating']) && isset($_SESSION[ACCOUNT_IDENTIFIER])){
+        if(isset($_POST['rating']) && Account::isLoggedIn()){
             if($_SESSION[ACCOUNT_IDENTIFIER] !== Product::getProduct($id)->getOwner()){
                 $rating = $_POST['rating'];
                 $rating = ($rating > 5) ? 5 : (($rating < 0 ) ? 0 : $rating);
