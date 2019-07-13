@@ -77,7 +77,7 @@ if ($user) {
             <?php if (Account::isLoggedIn()) {
               if ($_SESSION[ACCOUNT_IDENTIFIER] == $user->getId()) {
                 ?>
-                <button type="button" id="editProfile" class="btn btn-light">Edit Profile</button>
+                <button type="button" id="editProfile" class="btn btn-light"  data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
 
               <?php
             } else {
@@ -168,7 +168,7 @@ if ($user) {
                 </p>
               </div>
               <div class="row justify-content-center mt-0">
-                <button type="button" id="uploadButton" class="btn btn-primary"> <span>Upload</span></button>
+                <button type="button" id="uploadButton" class="btn btn-primary"  data-toggle="modal" data-target="#uploadModal"> <span>Upload</span></button>
               </div>
             </div>
 
@@ -337,7 +337,7 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">Edit Profile</h5>
-        <button type="button" onclick="closeEditProfileModal();" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -372,7 +372,7 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeEditProfileModal();" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" onclick="submitEditProfileForm();" class="btn btn-primary">Save changes</button>
       </div>
     </div>
