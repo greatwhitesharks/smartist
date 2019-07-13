@@ -57,7 +57,7 @@ class Follow
         //return true/false depending on succes
     }
 
-    public static function getFollowers($followable_id)
+    public static function getFollowers($followable_id,$start = 0, $range = 5)
     {
         try {
             $con = DB::getConnection();
@@ -80,13 +80,13 @@ class Follow
     }
     
     
-    public static function getFollowings($follower_id)
+    public static function getFollowings($follower_id, $start = 0, $range = 5)
     {
         try {
             $con = DB::getConnection();
             // delete the record
             $sql = 'SELECT fi.* FROM ' . FOLLOW_TABLE 
-            . ' as fr, followables as fi WHERE fr.follower_id = ? AND fr.followable_id = fi.followable_id';
+            . " as fr, followables as fi WHERE fr.follower_id = ? AND fr.followable_id = fi.followable_id limit $start, $range";
             $stmt = $con->prepare($sql);
             $stmt->execute([$follower_id]);
 
@@ -111,7 +111,7 @@ class Follow
         //return true/false depending on succes
     }
 
-    public static function getFollowingProducts($follower_id)
+    public static function getFollowingProducts($follower_id,$start=0, $offset = 10)
     {
         try {
             $account = Account::getAccountSummary($follower_id);
@@ -121,7 +121,8 @@ class Follow
             . ' f, product_rels pr, product_info pi '
             .' WHERE f.follower_id = ? '
             . 'AND pr.followable_id = f.followable_id '
-            .' AND pi.id =  pr.product_id' ;
+            .' AND pi.id =  pr.product_id ' 
+            . "limit $start, $offset";
 
             $stmt = $con->prepare($sql);
             $stmt->execute([$follower_id]);
