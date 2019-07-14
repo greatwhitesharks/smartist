@@ -1,21 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>About Us</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<div class="container-fluid">
-<div class="row">
-<svg  id="smartist"width="482.40004882812497px" height="124.3800048828125px" xmlns="http://www.w3.org/2000/svg" viewBox="8.799975585937517 12.80999755859375 482.40004882812497 124.3800048828125" style="background: rgba(0, 0, 0, 0);" preserveAspectRatio="xMidYMid"><defs><linearGradient id="editing-sticker-gradient" x1="0.5" y1="0.2" x2="0.5" y2="0.8"><stop offset="0" stop-color="#fd9"></stop><stop offset="1" stop-color="#9df"></stop></linearGradient><filter id="editing-sticker" x="-100%" y="-100%" width="300%" height="300%"><feMorphology operator="erode" radius="1" in="SourceAlpha" result="alpha-erode"></feMorphology><feConvolveMatrix order="3,3" divisor="1" kernelMatrix="0 1 0 1 1 1 0 1 0" in="alpha-erode" result="alpha-round"></feConvolveMatrix><feMorphology operator="dilate" radius="3.5" in="alpha-round" result="dilate-shadow"></feMorphology><feGaussianBlur in="dilate-shadow" stdDeviation="1.5" result="shadow"></feGaussianBlur><feFlood flood-color="#fff" result="flood-sticker"></feFlood><feComposite operator="in" in="flood-sticker" in2="alpha-round" result="comp-sticker"></feComposite><feMorphology operator="dilate" radius="3" in="comp-sticker" result="morph-sticker"></feMorphology><feConvolveMatrix order="3,3" divisor="1" kernelMatrix="0 1 0 1 1 1 0 1 0" in="morph-sticker" result="sticker"></feConvolveMatrix><feMerge><feMergeNode in="shadow"></feMergeNode><feMergeNode in="sticker"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g filter="url(#editing-sticker)"><g transform="translate(78.37437915802002, 98.03000068664551)"><path d="M33.91-19.19L12.16-19.19L12.16-19.19Q10.84-19.19 9.67-19.70L9.67-19.70L9.67-19.70Q8.50-20.22 7.63-21.08L7.63-21.08L7.63-21.08Q6.75-21.94 6.25-23.11L6.25-23.11L6.25-23.11Q5.75-24.28 5.75-25.59L5.75-25.59L5.75-38.41L5.75-38.41Q5.75-39.72 6.25-40.89L6.25-40.89L6.25-40.89Q6.75-42.06 7.63-42.92L7.63-42.92L7.63-42.92Q8.50-43.78 9.67-44.30L9.67-44.30L9.67-44.30Q10.84-44.81 12.16-44.81L12.16-44.81L33.91-44.81L33.91-44.81Q35.22-44.81 36.39-44.30L36.39-44.30L36.39-44.30Q37.56-43.78 38.44-42.92L38.44-42.92L38.44-42.92Q39.31-42.06 39.81-40.89L39.81-40.89L39.81-40.89Q40.31-39.72 40.31-38.41L40.31-38.41L40.31-32.63L33.91-32.63L33.91-38.41L12.16-38.41L12.16-25.59L33.91-25.59L33.91-25.59Q35.22-25.59 36.39-25.09L36.39-25.09L36.39-25.09Q37.56-24.59 38.44-23.72L38.44-23.72L38.44-23.72Q39.31-22.84 39.81-21.67L39.81-21.67L39.81-21.67Q40.31-20.50 40.31-19.19L40.31-19.19L40.31-6.41L40.31-6.41Q40.31-5.09 39.81-3.92L39.81-3.92L39.81-3.92Q39.31-2.75 38.44-1.88L38.44-1.88L38.44-1.88Q37.56-1 36.39-0.50L36.39-0.50L36.39-0.50Q35.22 0 33.91 0L33.91 0L11.53 0L11.53 0Q10.22 0 9.05-0.50L9.05-0.50L9.05-0.50Q7.88-1 7-1.88L7-1.88L7-1.88Q6.13-2.75 5.63-3.92L5.63-3.92L5.63-3.92Q5.13-5.09 5.13-6.41L5.13-6.41L5.13-12.16L11.53-12.16L11.53-6.41L33.91-6.41L33.91-19.19ZM76.88 0L74.97 0L58.25-32.84L58.25 0L51.84 0L51.84-44.81L58.84-44.81L75.91-11.06L93-44.81L99.97-44.81L99.97 0L93.59 0L93.59-32.84L76.88 0ZM124.94-44.81L131.34-44.81L148.63 0L142.22 0L138.25-10.31L118.03-10.31L114.06 0L107.66 0L124.94-44.81ZM128.16-36.47L120.47-16.72L135.78-16.72L128.16-36.47ZM191.72-33.91L191.72-28.81L191.72-28.81Q191.72-19.44 183.72-18.13L183.72-18.13L192.16 0L185.06 0L176.75-17.91L162.72-17.91L162.72 0L156.31 0L156.31-44.81L180.84-44.81L180.84-44.81Q191.72-44.81 191.72-33.91L191.72-33.91ZM162.72-38.41L162.72-24.31L180.50-24.31L180.50-24.31Q183.06-24.31 184.19-25.44L184.19-25.44L184.19-25.44Q185.31-26.56 185.31-29.13L185.31-29.13L185.31-33.59L185.31-33.59Q185.31-36.16 184.19-37.28L184.19-37.28L184.19-37.28Q183.06-38.41 180.50-38.41L180.50-38.41L162.72-38.41ZM198.56-38.41L198.56-44.81L234.41-44.81L234.41-38.41L219.69-38.41L219.69 0L213.28 0L213.28-38.41L198.56-38.41ZM242.09-44.81L248.50-44.81L248.50 0L242.09 0L242.09-44.81ZM288.16-19.19L266.41-19.19L266.41-19.19Q265.09-19.19 263.92-19.70L263.92-19.70L263.92-19.70Q262.75-20.22 261.88-21.08L261.88-21.08L261.88-21.08Q261-21.94 260.50-23.11L260.50-23.11L260.50-23.11Q260-24.28 260-25.59L260-25.59L260-38.41L260-38.41Q260-39.72 260.50-40.89L260.50-40.89L260.50-40.89Q261-42.06 261.88-42.92L261.88-42.92L261.88-42.92Q262.75-43.78 263.92-44.30L263.92-44.30L263.92-44.30Q265.09-44.81 266.41-44.81L266.41-44.81L288.16-44.81L288.16-44.81Q289.47-44.81 290.64-44.30L290.64-44.30L290.64-44.30Q291.81-43.78 292.69-42.92L292.69-42.92L292.69-42.92Q293.56-42.06 294.06-40.89L294.06-40.89L294.06-40.89Q294.56-39.72 294.56-38.41L294.56-38.41L294.56-32.63L288.16-32.63L288.16-38.41L266.41-38.41L266.41-25.59L288.16-25.59L288.16-25.59Q289.47-25.59 290.64-25.09L290.64-25.09L290.64-25.09Q291.81-24.59 292.69-23.72L292.69-23.72L292.69-23.72Q293.56-22.84 294.06-21.67L294.06-21.67L294.06-21.67Q294.56-20.50 294.56-19.19L294.56-19.19L294.56-6.41L294.56-6.41Q294.56-5.09 294.06-3.92L294.06-3.92L294.06-3.92Q293.56-2.75 292.69-1.88L292.69-1.88L292.69-1.88Q291.81-1 290.64-0.50L290.64-0.50L290.64-0.50Q289.47 0 288.16 0L288.16 0L265.78 0L265.78 0Q264.47 0 263.30-0.50L263.30-0.50L263.30-0.50Q262.13-1 261.25-1.88L261.25-1.88L261.25-1.88Q260.38-2.75 259.88-3.92L259.88-3.92L259.88-3.92Q259.38-5.09 259.38-6.41L259.38-6.41L259.38-12.16L265.78-12.16L265.78-6.41L288.16-6.41L288.16-19.19ZM302.25-38.41L302.25-44.81L338.09-44.81L338.09-38.41L323.38-38.41L323.38 0L316.97 0L316.97-38.41L302.25-38.41Z" fill="url(#editing-sticker-gradient)" stroke="#000" stroke-width="2.5"></path></g></g><style>text {
-  font-size: 64px;
-  font-family: Arial Black;
-  dominant-baseline: central;
-  text-anchor: middle;
-}
-#smartist{
-margin: 0 auto; 
-margin-top:200px
-}
-</style></svg>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:200,300,400,700,900"> 
+    <link rel="stylesheet" href="fonts/icomoon/style.css2">
+
+    <link rel="stylesheet" href="css2/bootstrap.min.css2">
+    <link rel="stylesheet" href="css2/magnific-popup.css2">
+    <link rel="stylesheet" href="css2/jquery-ui.css2">
+    <link rel="stylesheet" href="css2/owl.carousel.min.css2">
+    <link rel="stylesheet" href="css2/owl.theme.default.min.css2">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css2">
 
 
-</div>
-</div>
-<link rel="stylesheet" href="../public/css/body.css">
-</body>
+    <link rel="stylesheet" href="css2/aos.css2">
+
+    <style>
+
+      /* Base */
+body {
+  line-height: 1.7;
+  color: #4d4d4d;
+  font-weight: 200;
+  font-size: 1.1rem; }
+
+::-moz-selection {
+  background: #000;
+  color: #fff; }
+
+::selection {
+  background: #000;
+  color: rgb(245, 185, 247); }
+
+a {
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease; }
+  a:hover {
+    text-decoration: none; }
+
+.text-black {
+  color: #000 !important; }
+
+.bg-black {
+  background: #000 !important; }
+
+.site-wrap:before {
+  -webkit-transition: .3s all ease-in-out;
+  -o-transition: .3s all ease-in-out;
+  transition: .3s all ease-in-out;
+  background: rgba(0, 0, 0, 0.6);
+  content: "";
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden; }
+
+.offcanvas-menu .site-wrap {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  overflow: hidden; }
+  .offcanvas-menu .site-wrap:before {
+    opacity: 1;
+    visibility: visible; }
+
+.btn {
+  text-transform: uppercase;
+  position: relative;
+  -webkit-transition: 0.2s all ease-in-out !important;
+  -o-transition: 0.2s all ease-in-out !important;
+  transition: 0.2s all ease-in-out !important;
+  top: 0;
+  letter-spacing: .05em; }
+  .btn:hover, .btn:active, .btn:focus {
+    outline: none;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important; }
+  .btn.btn-secondary {
+    background-color: #e6e7e9;
+    border-color: #e6e7e9;
+    color: #000; }
+  .btn.btn-sm {
+    font-size: 0.9rem; }
+  .btn.btn-primary {
+    font-weight: 300;
+    letter-spacing: .2em; }
+  .btn:hover {
+    -webkit-box-shadow: 0 5px 20px -7px rgba(0, 0, 0, 0.9) !important;
+    box-shadow: 0 5px 20px -7px rgba(0, 0, 0, 0.9) !important;
+    top: -2px; }
+
+.bg-black {
+  background: #000; }
+
+.form-control {
+  height: 43px; }
+  .form-control:active, .form-control:focus {
+    border-color: #f23a2e; }
+  .form-control:hover, .form-control:active, .form-control:focus {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important; }
+
+.site-section {
+  padding: 5em 0; }
+  @media (min-width: 768px) {
+    .site-section {
+      padding: 5em 0; } }
+  .site-section.site-section-sm {
+    padding: 4em 0; }
+
+.site-section-heading {
+  font-size: 30px;
+  color: #25262a;
+  position: relative; }
+  .site-section-heading:before {
+    content: "";
+    left: 0%;
+    top: 0;
+    position: absolute;
+    width: 40px;
+    height: 2px;
+    background: #f23a2e; }
+  .site-section-heading.text-center:before {
+    content: "";
+    left: 50%;
+    top: 0;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    position: absolute;
+    width: 40px;
+    height: 2px;
+    background: #f23a2e; }
+
+.border-top {
+  border-top: 1px solid #edf0f5 !important; }
+
+.site-footer {
+  padding: 4em 0;
+  background: #333333; }
+  .site-footer p {
+    color: #737373; }
+  .site-footer h2, .site-footer h3, .site-footer h4, .site-footer h5 {
+    color: #fff; }
+  .site-footer a {
+    color: #999999; }
+    .site-footer a:hover {
+      color: white; }
+  .site-footer ul li {
+    margin-bottom: 10px; }
+  .site-footer .footer-heading {
+    font-size: 20px;
+    color: #fff; }
+
+.bg-text-line {
+  display: inline;
+  background: #000;
+  -webkit-box-shadow: 20px 0 0 #000, -20px 0 0 #000;
+  box-shadow: 20px 0 0 #000, -20px 0 0 #000; }
+
+.text-white-opacity-05 {
+  color: rgba(255, 255, 255, 0.5); }
+
+.text-black-opacity-05 {
+  color: rgba(0, 0, 0, 0.5); }
+
+
+/* Blocks */
+.site-blocks-cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-position: center center; }
+  .site-blocks-cover.overlay {
+    position: relative; }
+    .site-blocks-cover.overlay:before {
+      position: absolute;
+      content: "";
+      left: 0;
+      bottom: 0;
+      right: 0;
+      top: 0;
+      background: rgba(0, 0, 0, 0.4); }
+  .site-blocks-cover .player {
+    position: absolute;
+    bottom: -250px;
+    width: 100%; }
+  .site-blocks-cover, .site-blocks-cover .row {
+    min-height: 600px;
+    height: calc(100vh); }
+  .site-blocks-cover.inner-page-cover, .site-blocks-cover.inner-page-cover .row {
+    min-height: 600px;
+    height: calc(30vh); }
+  .site-blocks-cover h2, .site-blocks-cover h3, .site-blocks-cover h4, .site-blocks-cover h5 {
+    color: #fff; }
+  .site-blocks-cover h1 {
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.5; }
+    @media (min-width: 768px) {
+      .site-blocks-cover h1 {
+        font-size: 50px; } }
+  .site-blocks-cover p {
+    color: #fff;
+    font-size: 1.2rem;
+    line-height: 1.5; }
+  .site-blocks-cover .intro-text {
+    font-size: 16px;
+    line-height: 1.5; }
+
+.bg-light {
+  background: rgb(236, 156, 252); }
+
+.team-member {
+  position: relative;
+  float: left;
+  width: 100%;
+  overflow: hidden; }
+  .team-member img {
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); }
+  .team-member:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(242, 58, 46, 0.8);
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease; }
+  .team-member .text {
+    top: 50%;
+    text-align: center;
+    position: absolute;
+    padding: 20px;
+    -webkit-transform: translateY(-30%);
+    -ms-transform: translateY(-30%);
+    transform: translateY(-30%);
+    -webkit-transition: .5s all ease;
+    -o-transition: .5s all ease;
+    transition: .5s all ease;
+    opacity: 0;
+    visibility: hidden;
+    color: rgb(231, 131, 231); }
+  .team-member:hover:before, .team-member:focus:before, .team-member:active:before {
+    opacity: 1;
+    visibility: visible; }
+  .team-member:hover img, .team-member:focus img, .team-member:active img {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1); }
+  .team-member:hover .text, .team-member:focus .text, .team-member:active .text {
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-transition-delay: .2s;
+    -o-transition-delay: .2s;
+    transition-delay: .2s;
+    opacity: 1;
+    visibility: visible;
+    z-index: 4; }
+</style>
+  </head>
+  <body>
+  
+
+    <div class="site-blocks-cover overlay inner-page-cover" style="background-image: url(images/hero_bg_2.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+      <div class="container">
+        <div class="row align-items-center justify-content-center text-center">
+          <div class="col-md-7" data-aos="fade-up" data-aos-delay="400">
+            <h2 class="text-white font-weight-light mb-2 display-4">About us</h2>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row" data-aos="fade-up">
+          <div class="col-md-6">
+            <p class="lead"><b>Every great creation was once just a dream. We at Smartist, believe that you deserve to pursue your dreams beyond physical boundaries. We present to you Smartist, the place where all your musical dreams come true.</b></p>
+          </div>
+          <div class="col-md-6">
+            <p>Smartist is an online platform for artists around the world to work in collaboration. A musical masterpiece often needs collaboration of different artists; be it singers, lyricists, music producers or anything else. With Smartist, the world's most talented musicians are just one click away from you. Form your dream team and create your dream product - the sky is the limit!
+            </p>
+            </div>
+          <div class="col-md-12">
+            <img src="images/hero_bg_1.jpg" alt="Image" class="img-fluid mb-5">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="site-section bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4 mb-5 text-black">Developers</h2>
+          </div>
+          <div class="col-md-10 col-lg-5 text-center mb-5" data-aos="fade-up">
+            <img src="images/person_1.gif" alt="Image" class="img-fluid w-50 rounded-circle mb-3">
+            <h2 class="text-black font-weight-light mb-4">Thamindu Rothmand</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur ab quas facilis obcaecati non ea, est odit repellat distinctio incidunt, quia aliquam eveniet quod deleniti impedit sapiente atque tenetur porro?</p>
+            <p>
+              <a href="#" class="pl-0 pr-3"><span class="icon-twitter"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+            </p>
+          </div>
+          <div class="col-md-10 col-lg-5 text-center mb-5" data-aos="fade-up">
+            <img src="images/person_2.jpg" alt="Image" class="img-fluid w-50 rounded-circle mb-3">
+            <h2 class="text-black font-weight-light mb-4">Yasiru Janith</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur ab quas facilis obcaecati non ea, est odit repellat distinctio incidunt, quia aliquam eveniet quod deleniti impedit sapiente atque tenetur porro?</p>
+            <p>
+              <a href="#" class="pl-0 pr-3"><span class="icon-twitter"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+            </p>
+          </div>
+          <div class="col-md-6 col-lg-5 text-center mb-5" data-aos="fade-up">
+            <img src="images/person_3.png" alt="Image" class="img-fluid w-50 rounded-circle mb-3">
+            <h2 class="text-black font-weight-light mb-4">Gihan Ravindu</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur ab quas facilis obcaecati non ea, est odit repellat distinctio incidunt, quia aliquam eveniet quod deleniti impedit sapiente atque tenetur porro?</p>
+            <p>
+              <a href="#" class="pl-0 pr-3"><span class="icon-twitter"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+            </p>
+          </div>
+          <div class="col-md-6 col-lg-5 text-center mb-5" data-aos="fade-up">
+            <img src="images/person_4.jpg" alt="Image" class="img-fluid w-50 rounded-circle mb-3">
+            <h2 class="text-black font-weight-light mb-4">Vihanga Dewmini</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur ab quas facilis obcaecati non ea, est odit repellat distinctio incidunt, quia aliquam eveniet quod deleniti impedit sapiente atque tenetur porro?</p>
+            <p>
+              <a href="#" class="pl-0 pr-3"><span class="icon-twitter"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <script src="js2/jquery-3.3.1.min.js"></script>
+  <script src="js2/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js2/jquery-ui.js"></script>
+  <script src="js2/popper.min.js"></script>
+  <script src="js2/bootstrap.min.js"></script>
+  <script src="js2/owl.carousel.min.js"></script>
+  <script src="js2/jquery.stellar.min.js"></script>
+  <script src="js2/jquery.countdown.min.js"></script>
+  <script src="js2/jquery.magnific-popup.min.js"></script>
+  <script src="js2/aos.js"></script>
+
+  <script src="js2/mediaelement-and-player.min.js"></script>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+                var mediaElements = document.querySelectorAll('video, audio'), total = mediaElements.length;
+
+                for (var i = 0; i < total; i++) {
+                    new MediaElementPlayer(mediaElements[i], {
+                        pluginPath: 'https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/',
+                        shimScriptAccess: 'always',
+                        success: function () {
+                            var target = document.body.querySelectorAll('.player'), targetTotal = target.length;
+                            for (var j = 0; j < targetTotal; j++) {
+                                target[j].style.visibility = 'visible';
+                            }
+                  }
+                });
+                }
+            });
+    </script>
+
+
+  <script src="js2/main.js"></script>
+    
+  </body>
 </html>
