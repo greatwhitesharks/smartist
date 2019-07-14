@@ -21,18 +21,23 @@ class FeedController extends Controller
             'profilePic' => $account->getPhoto()
          );
 
-        $this->view('/feed/index', 'Feed', $data);
+        $this->view('feed/index', 'Feed', $data);
     }else{
-        echo 'Login!';
+        header('Location: '. PUBLIC_URL . '/login');
     }
     }
 
-    public function feed($parameters = [])
-    {
+    public function feed($start =0, $offset =10)
+    {   
         if (Account::isLoggedIn()) {
-          
-            $products = Follow::getFollowingProducts($_SESSION[ACCOUNT_IDENTIFIER]);
-            echo json_encode($products);
+
+            $products = Follow::getFollowingProducts($_SESSION[ACCOUNT_IDENTIFIER],$start, $offset);
+            if($products){
+                echo json_encode($products);
+            }else{
+                echo json_encode(null);
+            }
+            
         }
     }
 }

@@ -338,9 +338,11 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
   
   
 
-    <script  src="js/main.js"></script>
     <script type="text/javascript">
+
+
       // // TODO : Improve browser compatibility
+      var lastPostId = 0;
       (function(){
 
 
@@ -351,12 +353,19 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
       xhr.onreadystatechange = ()=>{
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
           let data = JSON.parse(xhr.responseText);
+          
           var ul = document.getElementById('feed-list');
           
           if(data.length > 0){
-
-          ul.innerHTML = '';
-          for(obj of data){
+          if (!lastPostId)
+            ul.innerHTML="";
+          for(var i = 0; i < data.length; i++){
+            var obj = data[i];
+            lastPostId++;
+            obj.author = obj.author || new Object();
+            obj.author.handle = obj.author.handle || 'default';
+            obj.author.displayName = obj.author.displayName || 'default';
+            obj.author.photo = obj.author.photo || 'default';
             var html =  `
             <div class="row">
             <div class="col-1">
@@ -366,6 +375,8 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
             <h6><a href="<?=PUBLIC_URL?>/artist/${obj.author.handle}"> ${obj.author.displayName}</a> </h6>
             </div>
             </div>
+            <a href="<?=PUBLIC_URL?>/view/${obj.product_id}">
+       
             <div class="product col mt-3 mt-sm-0 mb-3 flex-row">
                       
                                 <div class="row">
@@ -378,31 +389,30 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
                                 <div class="row justify-content-center">
                                     <h6>${obj.product_title}</h6>
                                 </div>
-       </div> `;
+       </div></a>` ;
 
         var li = document.createElement('article');
         li.innerHTML = html;
         ul.appendChild(li);
 
           }
-          feed.innerHTML = '';
-          feed.appendChild(ul);
+       
+          //feed.appendChild(ul);
         }
       }
       };
 
 
 
-      function checkForNewPosts(){
-      xhr.open('GET', 'http://localhost/smartist/public/feed/feed', true);
-      xhr.send();
-     
+     window.getNextPosts= function (){
+        xhr.open('GET', 'http://localhost/smartist/public/feed/feed/'+ lastPostId +'/3', true);
+        xhr.send();
       }
 
 
-      checkForNewPosts();
+      window.getNextPosts();
 
-      setInterval(checkForNewPosts, 1000 * 30);
+      //setInterval(checkForNewPosts, 1000 * 30);
 
       })();
     </script>

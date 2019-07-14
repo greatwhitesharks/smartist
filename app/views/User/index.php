@@ -35,11 +35,11 @@ if ($user) {
       </div>
       <div class="col-12 col-md-3">
         <div class="row">
-          <div class="col">
+          <div class="col-3">
             <h3 class="mr-2"><?= $user->getDisplayName() ?></h3>
           </div>
           <div class="col">
-            <h5 style="line-height:1.7; color:#cecece;">(<?= $user->getType() ?>)
+            <h5 style="line-height:1.7; color:#cecece;">(<?= $user->getType() ?>)</h5>
               <!--     <?php
                         //if ($user->isOnline) {
                         ?>
@@ -79,6 +79,7 @@ if ($user) {
               if ($_SESSION[ACCOUNT_IDENTIFIER] == $user->getId()) {
                 ?>
                 <button type="button" id="editProfile" class="btn btn-light" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+
 
               <?php
               } else {
@@ -169,7 +170,7 @@ if ($user) {
                 </p>
               </div>
               <div class="row justify-content-center mt-0">
-                <button type="button" id="uploadButton" class="btn btn-primary"> <span>Upload</span></button>
+                <button type="button" id="uploadButton" class="btn btn-primary"  data-toggle="modal" data-target="#uploadModal"> <span>Upload</span></button>
               </div>
             </div>
 
@@ -332,7 +333,7 @@ if ($user) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">Edit Profile</h5>
-        <button type="button" onclick="closeEditProfileModal();" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -373,7 +374,9 @@ if ($user) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
         <button type="button" onclick="submitEditProfileForm()" class="btn btn-primary" data-toggle="modal" data-target="#modal" data-dismiss="modal">Save changes</button>
+
       </div>
     </div>
   </div>
@@ -420,7 +423,6 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
 
 
 
-<script type="text/javascript" src="<?= PUBLIC_URL ?>/js/main.js"></script>
 
 <?php if (Account::isLoggedIn() &&  $user->getId() != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
 

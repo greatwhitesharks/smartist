@@ -90,7 +90,7 @@ class Permission{
             while($result = $stmt->fetch()){
                 $permissions[] =  new Permission(
                     $result['id'],
-                    $result['recipientId'],
+                    $result['viewerId'],
                     Product::getProduct($result['productId'])
                 );
             }

@@ -8,6 +8,9 @@
         </button>
       </div>
       <div class="modal-body">
+        <!-- <div class="search mb-2">
+          <input id="follower-search" class="form-control" placeholder="Type a name & press enter to search">
+        </div> -->
         <div class="card p-2">
           <?php if(count($data['followers']) > 0) :?>
           <?php foreach ($data['followers'] as $follower) : ?>
