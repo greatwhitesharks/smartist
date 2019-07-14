@@ -119,7 +119,7 @@ if (count($lyrics) ==0){
        
             <div class="col">
         <?php echo '<a href="' . PUBLIC_URL . '/view/' . $lyric->getId() .'">' .  $lyric->getTitle() . '</a><br>';?>
-        by <?=$lyric->getAuthor()->getDisplayName()?>
+        by <?=($lyric->getAuthor()) ? $lyric->getAuthor()->getDisplayName() : 'Anonymous'?>
     <br>
         <?=date_format(new DateTime($lyric->getDate()), 'Y/m/d')?>
 </div><?php

@@ -160,8 +160,9 @@ class Product implements JsonSerializable
     public static function findLyrics($key){
         $con = DB::getConnection();
         $key = strtolower(urldecode($key));
-        $sql = "SELECT DISTINCT * FROM product_info WHERE MATCH (keywords,description) AGAINST (lower(:key) IN NATURAL LANGUAGE MODE) OR title like lower(:key) ";
+        $sql = "SELECT DISTINCT * FROM product_info WHERE MATCH (keywords,description) AGAINST (lower(:key) IN BOOLEAN MODE) OR title like lower(:key) ";
         $stmt = $con->prepare($sql);
+        $key .= '*';
         $stmt->bindParam(':key', $key);
         $stmt->execute();
         $lyrics = [];
