@@ -42,10 +42,11 @@ if ($user) {
             <h5 style="line-height:1.7; color:#cecece;">(<?= $user->getType() ?>)</h5>
               <!--     <?php
                         //if ($user->isOnline) {
-                          ?>
-                                            <span class="ml-4 badge badge-success">Online</span>
-                             <?php
-                          //  } ?> -->
+                        ?>
+                                                <span class="ml-4 badge badge-success">Online</span>
+                                 <?php
+                                  //  } 
+                                  ?> -->
           </div>
         </div>
         <div class="row mb-2">
@@ -77,15 +78,16 @@ if ($user) {
             <?php if (Account::isLoggedIn()) {
               if ($_SESSION[ACCOUNT_IDENTIFIER] == $user->getId()) {
                 ?>
-                <button type="button" id="editProfile" class="btn btn-light"  data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+                <button type="button" id="editProfile" class="btn btn-light" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+
 
               <?php
-            } else {
-              ?>
+              } else {
+                ?>
                 <button type="button" class="btn btn-light">Send Message</button>
               <?php
-            }
-          } ?>
+              }
+            } ?>
           </div>
 
 
@@ -115,24 +117,24 @@ if ($user) {
 
 
                       <form action='<?= PUBLIC_URL ?>/artist/follow/<?= $user->getFollowableId() ?>/' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
                         <button type='submit' class="btn btn-primary btn-block btn-sm ">Follow </button>
                       </form>
                     </li>
 
                   <?php
-                } else {
-                  ?>
+                  } else {
+                    ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <form action='./unfollow/<?= $user->getFollowableId() ?>' method="post">
-                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
+                        <input type="hidden" name="url" value="<?= "http://$_SERVER[HTTP_HOST] $_SERVER[REQUEST_URI]" ?>">
                         <button type='submit' class="btn btn-primary btn-block btn-sm">Unfollow </button>
                       </form>
                     </li>
                   <?php
+                  }
                 }
-              }
-            } ?>
+              } ?>
             </ul>
           </div>
         </div>
@@ -177,7 +179,7 @@ if ($user) {
 
 
         <?php
-      } ?>
+        } ?>
 
         <div class="row justify-content-around">
           <?php
@@ -207,17 +209,17 @@ if ($user) {
                 </div>
                 <!-- <div class="row justify-content-center mt-1">
                   
-                                        </div> -->
+                                                    </div> -->
 
                 <!-- <div class="row justify-content-center pb-0">
 
             
         
-                                                                  </div> -->
+                                                                              </div> -->
               </div>
 
             <?php endforeach;
-        } ?>
+          } ?>
 
           <div class="col-5"></div>
         </div>
@@ -246,10 +248,10 @@ if ($user) {
           </div>
 
         <?php
-      }
+        }
 
-      if ($user->getTel() !== null) {
-        ?>
+        if ($user->getTel() !== null) {
+          ?>
           <div class="row justify-content-center mb-3">
             <div class="col-2">
               <i class="material-icons">
@@ -269,10 +271,10 @@ if ($user) {
           </div>
 
         <?php
-      }
+        }
 
-      if (($user->getWebsite())) {
-        ?>
+        if (($user->getWebsite())) {
+          ?>
           <div class="row justify-content-center mb-3">
             <div class="col-2">
               <i class="material-icons">
@@ -289,10 +291,10 @@ if ($user) {
             </div>
           </div>
         <?php
-      }
+        }
 
-      if ($user->getSocial()) {
-        ?>
+        if ($user->getSocial()) {
+          ?>
           <div class="row justify-content-center mb-3">
             <div class="col-2">
               <i class="material-icons">
@@ -312,25 +314,19 @@ if ($user) {
             </div>
           </div>
         <?php
-      } ?>
+        } ?>
 
       </div>
     </div>
   <?php
-} else {
-  echo '<div class="row mt-5 justify-content-center"> <div class="col-12" style="text-align:center;"> User does not exist</div></div>';
-}   ?>
+  } else {
+    echo '<div class="row mt-5 justify-content-center"> <div class="col-12" style="text-align:center;"> User does not exist</div></div>';
+  }   ?>
 </div>
 
 
 
 
-<?php
-
-require_once VIEW_PATH . '/Modals/followingsModal.php';
-require_once VIEW_PATH . '/Modals/followersModal.php';
-
-?>
 
 <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
@@ -342,7 +338,7 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
         </button>
       </div>
       <div class="modal-body">
-        <form action="<?= PUBLIC_URL ?>/artist/edit" method="post">
+        <form id="editForm" action="<?= PUBLIC_URL ?>/artist/edit" method="post">
 
           <div class="form-group">
             <label for="location">Location</label>
@@ -368,112 +364,62 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
             <label for="bio">Bio</label>
             <textarea class="form-control" id="bio" name="bio" rows="3"><?= $user->getBio() ?></textarea>
           </div>
-
         </form>
+        <div class="form-group">
+          <form action="<?= PUBLIC_URL ?>/artist/uploadProfileImage" id="fileToUpload" enctype="multipart/form-data" method="post">
+            <label for="profile_pic">Profile Picture</label>
+            <input type="file" class="form-control" id="profile_pic" name="profile_pic" rows="3"><img id="edit_image" src="<?= $user->getPhoto() ?>">
+          </form>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" onclick="submitEditProfileForm();" class="btn btn-primary">Save changes</button>
+
+        <button type="button" onclick="submitEditProfileForm()" class="btn btn-primary" data-toggle="modal" data-target="#modal" data-dismiss="modal">Save changes</button>
+
       </div>
     </div>
   </div>
 </div>
-
-
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+<!--image config Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Upload</h5>
-        <button type="button" onclick="closeUploadModal();" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="modalLabel">Configure Your Image</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" enctype="multipart/form-data" action="<?= PUBLIC_URL ?>/artist/upload/">
-          <input type="hidden" name="product_type" value="audio">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Title</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" name="title" placeholder="Product Name">
-          </div>
-
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Upload</label>
-            <div class="custom-file">
-              <label class="custom-file-label" for="customFile">Choose file</label>
-              <input type="file" class="custom-file-input" name="product" id="customFile">
-
-            </div>
-          </div>
-
-        </form>
+        <div class="img-container">
+          <img id="image" src='#' alt="Picture">
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeUploadModal();" data-dismiss="modal">Close</button>
-
-        <button type="button" onclick="submitUploadForm();" class="btn btn-primary">Add</button>
+        <button id="img-upload" type="button"  class="btn btn-secondary" data-dismiss="modal">Submit Your Image</button>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-
-<div class="modal fade" id="uploadModal2" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Upload</h5>
-        <button type="button" onclick="closeUploadModal2();" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="post" enctype="multipart/form-data" action="<?= PUBLIC_URL ?>/artist/upload/">
-          <input type="hidden" name="product_type" value="lyric">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Title</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" name="title" placeholder="Product Name">
-          </div>
-
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Upload</label>
-            <div class="custom-file">
-              <label class="custom-file-label" for="customFile">Choose file</label>
-              <input type="file" class="custom-file-input" name="product" id="customFile">
-
-            </div>
-          </div>
-            <div class="form-group">
-              <label>Visibility</label>
-              <div class="custom-file">
-                <label class="custom-file-label" for="customFile">Choose file</label>
-                <input type="file" class="custom-file-input" name="product" id="customFile">
-
-              </div>
-            </div>
-
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeUploadModal2();" data-dismiss="modal">Close</button>
-
-        <button type="button" onclick="submitUploadForm();" class="btn btn-primary">Add</button>
-      </div>
-    </div>
-  </div>
 </div>
+</body>
 
+
+
+
+
+
+
+
+<?php
+
+require_once VIEW_PATH . '/Modals/followingsModal.php';
+require_once VIEW_PATH . '/Modals/followersModal.php';
+
+
+
+?>
 
 
 
@@ -501,3 +447,91 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
     })();
   </script>
 <?php endif; ?>
+
+<script src="<?=PUBLIC_URL?>/cropperjs/dist/cropper.js"></script>
+
+
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    var image = document.getElementById('image');
+    var cropBoxData;
+    var canvasData;
+    var cropper;
+    
+    
+
+    $('#modal').on('shown.bs.modal', function() {
+      cropper = new Cropper(image, {
+        dragMode: 'move',
+        aspectRatio: 1,
+        center: false,
+        highlight: false,
+        viewMode: 3,
+        ready: function () {
+            //Should set crop box data first here
+            cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+          }
+      });
+    }).on('hidden.bs.modal', function() {
+     
+  });
+  
+
+    $('#img-upload').click(function(){
+      cropBoxData = cropper.getCropBoxData();
+      canvasData = cropper.getCanvasData();
+          
+          var canvas = cropper.getCroppedCanvas({
+          width: 160,
+          height: 160,
+          });
+          
+          canvas.toBlob((blob)=>{
+
+
+            var fd = new FormData();
+            fd.append('profile_pic', blob, 'profile.jpg');
+    $.ajax({
+      url: "<?= PUBLIC_URL ?>/artist/uploadProfileImage",
+      type: 'post',
+      data: fd,
+      cache: false,
+      contentType: false,
+      processData: false,
+      
+    });
+          });
+
+          cropper.destroy();
+    });
+    });
+
+  document.getElementById("profile_pic").onchange = function() {
+    var fd = new FormData();
+    var files = $('#profile_pic')[0].files[0];
+    fd.append('profile_pic', files);
+    $.ajax({
+      url: "<?= PUBLIC_URL ?>/artist/uploadProfileImage",
+      type: 'post',
+      data: fd,
+      cache: false,
+      contentType: false,
+      processData: false,
+      
+    });
+   
+    $("#modal").modal();
+    var min=1; 
+    var max=10000; 
+    var random =Math.floor(Math.random() * (+max - +min)) + +min; 
+    document.getElementById("image").setAttribute("src","<?= PUBLIC_URL ?>/images/profile-pics/<?=$_SESSION[ACCOUNT_IDENTIFIER] . "." ."jpg?dummy="?>".concat(random.toString(10)));
+  };
+  
+  
+</script>
+
+
+<script>
+</script>
+
+</html>
