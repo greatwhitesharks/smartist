@@ -9,14 +9,27 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="card p-2">
-        <div class="row">
-  <div class="col">
-  <h6>Artists</h6>
-  <hr>
-</div>
-</div>
-<?php if(key_exists('artists', $data['followings'])): ?>
+
+<!-- 
+      <div class="search mb-2">
+          <input id="follower-search" class="form-control" placeholder="Type a name & press enter to search">
+        </div>
+  -->
+
+
+        <ul class="nav nav-tabs" id="followingTabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="artists-tab" data-toggle="tab" href="#artists" role="tab" aria-controls="home" aria-selected="true">Artists</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="hashtags-tab" data-toggle="tab" href="#hashtags" role="tab" aria-controls="profile" aria-selected="false">Hashtags</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active p-2" id="artists" role="tabpanel" aria-labelledby="artists-tab">
+
+  <?php if(key_exists('artists', $data['followings'])): ?>
           <?php foreach ($data['followings']['artists'] as $following) : ?>
             <div class="row">
               <div class="col-2">
@@ -31,20 +44,11 @@
           <?php else: ?>
 <h6 class="text-center"> Not following any artists</h6>
 <?php endif;?>
-        </div>
 
+  </div>
+  <div class="tab-pane fade p-2" id="hashtags" role="tabpanel" aria-labelledby="hashtags-tab">
 
-
-        <div class="card p-2 mt-4">
-          <div class="row">
-  <div class="col">
-  <h6>Hashtags</h6>
-  <hr>
-</div>
-</div>
-<div class="row">
-              <div class="col">
-              <?php if(key_exists('hashtags', $data['followings'])): ?>
+  <?php if(key_exists('hashtags', $data['followings'])): ?>
           <?php foreach ($data['followings']['hashtags'] as $hashtag) : ?>
             <span>
                 <a href="<?= PUBLIC_URL . '/hashtag/' . $hashtag ?>"> #<?= $hashtag?>
@@ -54,11 +58,12 @@
              <?php else: ?>
 <h6 class="text-center"> Not following any hashtags</h6>
 <?php endif;?>
-              </div>
-            </div>
-         
-        </div>
-      </div>
+
+  </div>
+
+
+
+      </div></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
@@ -66,3 +71,6 @@
     </div>
   </div>
 </div>
+
+
+

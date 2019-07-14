@@ -21,7 +21,7 @@ class FeedController extends Controller
             'profilePic' => $account->getPhoto()
          );
 
-        $this->view('/feed/index', 'Feed', $data);
+        $this->view('feed/index', 'Feed', $data);
     }else{
         header('Location: '. PUBLIC_URL . '/login');
     }

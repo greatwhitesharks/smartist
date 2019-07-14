@@ -9,19 +9,20 @@ class Product implements JsonSerializable
    private $followable_id;
    private $description;
     private $textContent;
-  
+    private $date;
    public $author;
     private $owner;
    private $status;
 
    private $rating;
 
-    public function __construct($id, $title, $type, $url)
+    public function __construct($id, $title, $type, $url, $date = '')
     {
         $this->product_id = $id;
         $this->product_type = $type;
         $this->product_url = $url;
         $this->product_title = $title;
+        $this->date = $date;
     }
     
     public static function exists($id){
@@ -94,7 +95,8 @@ class Product implements JsonSerializable
             $result['title'], 
             $result['type'], 
             $result['url'],
-            $result['description']
+            $result['description'],
+            $result['date']
         );
         
         $product->setAuthor($result['author']);
@@ -143,7 +145,7 @@ class Product implements JsonSerializable
         $products = array();
         
         while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $product = new Product($result['id'], $result['title'], $result['type'], $result['url']);
+            $product = new Product($result['id'], $result['title'], $result['type'], $result['url'], $result['date']);
 
             //TODO: Dont use public fields
             $product->description = $result['description'];
@@ -158,8 +160,9 @@ class Product implements JsonSerializable
     public static function findLyrics($key){
         $con = DB::getConnection();
         $key = strtolower(urldecode($key));
-        $sql = "SELECT * FROM product_info WHERE MATCH (title,keywords,description,author) AGAINST ('$key' IN NATURAL LANGUAGE MODE)";
+        $sql = "SELECT DISTINCT * FROM product_info WHERE MATCH (keywords,description) AGAINST (lower(:key) IN NATURAL LANGUAGE MODE) OR title like lower(:key) ";
         $stmt = $con->prepare($sql);
+        $stmt->bindParam(':key', $key);
         $stmt->execute();
         $lyrics = [];
         while($result = $stmt->fetch()){
@@ -167,8 +170,10 @@ class Product implements JsonSerializable
                 $result['id'],
                 $result['title'],
                 $result['type'],
-                $result['url']
+                $result['url'],
+                $result['date']
             );
+            $product->setAuthor(Account::getProfileByName($result['author']));
             array_push($lyrics, $product);
         }
         return $lyrics;
@@ -296,4 +301,12 @@ class Product implements JsonSerializable
 
       return $this;
    }
+
+    /**
+     * Get the value of date
+     */ 
+    public function getDate()
+    {
+        return $this->date;
+    }
 }

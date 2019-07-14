@@ -1,4 +1,5 @@
     <?php
+use Cake\Core\Exception\Exception;
 
 class Follow
 {
@@ -57,15 +58,19 @@ class Follow
         //return true/false depending on succes
     }
 
-    public static function getFollowers($followable_id,$start = 0, $range = 5)
+    public static function getFollowers($followable_id,$start = 0, $offset= 5)
     {
         try {
             $con = DB::getConnection();
             // delete the record
             $sql = 'SELECT follower_id FROM ' . FOLLOW_TABLE 
-            . ' WHERE followable_id = ?';
+            . " WHERE followable_id = :fid limit :start, :offset";
             $stmt = $con->prepare($sql);
-            $stmt->execute([$followable_id]);
+            $stmt->bindParam(':fid', $followable_id);
+            $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT); 
+            $stmt->execute();
+       
             $followers =[];
 
             while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -78,17 +83,43 @@ class Follow
 
         //return true/false depending on succes
     }
+
+    public static function searchFollowings($follower_id, $key)
+    {
+        try{
+            $con = DB::getConnection();
+            $sql = 'SELECT fi.* FROM ' . FOLLOW_TABLE 
+            . " as fr, followables as fi, account as a WHERE fr.follower_id = ? AND fr.followable_id = fi.followable_id AND fi.type = 'account' AND a.followable_id = fi.followable_id AND (a.name like ? OR a.display_name like ?)";
+            $stmt = $con->prepare($sql);
+            $stmt->execute([$follower_id, $key, $key]);
+
+            $followings = [];
+
+            while ($result = $stmt->fetch()){
+                $followings['artists'][] = Account::getProfileByFolowableId($result[
+                    'followable_id'
+                ]);
+            }
+            
+            return $followings;
+
+        }catch(Exception $e){
+            echo 'Error occured while accessing the database.';
+        }
+    }    
     
-    
-    public static function getFollowings($follower_id, $start = 0, $range = 5)
+    public static function getFollowings($follower_id, $start = 0, $offset= 5)
     {
         try {
             $con = DB::getConnection();
             // delete the record
             $sql = 'SELECT fi.* FROM ' . FOLLOW_TABLE 
-            . " as fr, followables as fi WHERE fr.follower_id = ? AND fr.followable_id = fi.followable_id limit $start, $range";
+            . " as fr, followables as fi WHERE fr.follower_id = :fid AND fr.followable_id = fi.followable_id limit :start, :offset";
             $stmt = $con->prepare($sql);
-            $stmt->execute([$follower_id]);
+            $stmt->bindParam(':fid', $follower_id, PDO::PARAM_INT);
+            $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT); 
+            $stmt->execute();
 
             $followings = [];
 

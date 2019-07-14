@@ -94,15 +94,17 @@ body {
   background: none;
   outline: none;
   float: left;
-  padding: 0;
+
   color: white;
   font-size: 16px;
   transition: 0.6s;
   line-height: 40px;
-  width: 0px;
+  width: 300px;
+  padding: 0 6px;
+
 }
 #srchNav{
-  position: absolute;
+  /* position: absolute; */ */
   top: 100px;
   width: 100%;
   background-color: #563d7c;

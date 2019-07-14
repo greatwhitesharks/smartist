@@ -35,11 +35,11 @@ if ($user) {
       </div>
       <div class="col-12 col-md-3">
         <div class="row">
-          <div class="col">
+          <div class="col-3">
             <h3 class="mr-2"><?= $user->getDisplayName() ?></h3>
           </div>
           <div class="col">
-            <h5 style="line-height:1.7; color:#cecece;">(<?= $user->getType() ?>)
+            <h5 style="line-height:1.7; color:#cecece;">(<?= $user->getType() ?>)</h5>
               <!--     <?php
                         //if ($user->isOnline) {
                           ?>
@@ -477,7 +477,6 @@ require_once VIEW_PATH . '/Modals/followersModal.php';
 
 
 
-<script type="text/javascript" src="<?= PUBLIC_URL ?>/js/main.js"></script>
 
 <?php if (Account::isLoggedIn() &&  $user->getId() != $_SESSION[ACCOUNT_IDENTIFIER]) : ?>
 

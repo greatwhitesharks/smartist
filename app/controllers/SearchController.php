@@ -48,4 +48,12 @@ class SearchController extends Controller
         $filter = 'artists';
         self::view('search/result','Search Results', compact('artists','key','filter'));
     }
+
+    public function followers($key){
+
+    }
+
+    public function followings($key){
+        
+    }
 }
