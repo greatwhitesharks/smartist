@@ -106,8 +106,14 @@ class AccountBuilder
 
     public function Photo($photo)
     {
+        if ($photo==null){
+            $this->photo ="http://localhost/smartist/public/images/profile-pics/default.png";
+       }
+       else{
         $this->photo = $photo;
-        return $this;
+        
+       }
+       return $this;
     }
 
     public function Followers($followers)

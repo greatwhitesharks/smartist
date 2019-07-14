@@ -1,0 +1,98 @@
+li{
+    list-style: none;
+    
+}
+li:hover{
+    color:purple;
+}
+ul{
+    padding-right: 5%;
+    padding-left: 5%;
+}
+img{
+    size:10px;
+    border-radius: 50%
+}
+.chatbox{
+
+    
+    padding-bottom:38.5%;
+    padding-left:5%;
+    padding-right: 5%;
+    padding-top:5%;
+   
+}
+
+.badge{
+    margin-top:5%;
+    font-size:100%;
+    margin-left:30%;
+    padding-left:5%;
+    padding-right:15%
+ 
+
+}
+.left{
+    padding-bottom:111%;
+    background: -moz-linear-gradient(45deg, rgba(213, 15, 61, 0.6), rgba(13, 17, 198, 0.69) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(213, 15, 61, 0.6), rgba(13, 17, 198, 0.69) 100%);
+    background: linear-gradient(to 45deg, rgba(213, 15, 61, 0.6), rgba(13, 17, 198, 0.69) 100%);
+}
+
+body{
+  overflow: hidden;
+  background: rgb(238,174,202);
+  background: radial-gradient(circle, rgba(238,174,202,0) 0%, rgba(148,187,233,1) 100%);
+}
+.right{
+    background:ghostwhite;
+    margin-right: 1%;
+    margin-left: 1%;
+    padding-left: 5%;
+    font-style: italic;
+    color:purple;
+    margin-top:1%;
+}
+
+
+.display{
+    display:none
+}
+.scrollbar {
+    margin-left: 0%;
+    height: 90%;
+    overflow-y: scroll;
+    margin-top:5%;
+    }
+.scrollbar-lady-lips::-webkit-scrollbar-track {
+
+background-color: #F5F5F5;
+border-radius: 10px; }
+
+.scrollbar-lady-lips::-webkit-scrollbar {
+width: 12px;
+background-color: #F5F5F5; }
+
+.scrollbar-lady-lips::-webkit-scrollbar-thumb {
+border-radius: 10px;
+background-image: -webkit-linear-gradient(bottom, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+background-image: linear-gradient(to top, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); }
+
+#followerbox{
+ margin-right:1%
+}
+span{
+    margin-top:1%
+}
+.form-control{
+    width:85%;
+    display:inline;
+}
+.btn{
+    width:14%;
+    
+}
+.input{
+    margin-right: 1%;
+}
+
