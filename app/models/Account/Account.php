@@ -163,7 +163,6 @@ class Account extends Model  implements JsonSerializable
 
 
             $sql = 'UPDATE account set ' . implode(', ', $arr) . ' WHERE id = ?';
-            echo $sql;
 
             $statement = $con->prepare($sql);
             $statement->execute(array_merge(array_values($data), [$id]));
