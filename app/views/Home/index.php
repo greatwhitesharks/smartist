@@ -36,8 +36,12 @@
                         </div>
                         <h3><span id="typed"></span></h3>
                         <h4>Perfect opportunity to join the music industry</h4>
-                        <a href="#" class="btn log-in">Log In</a>
-                        <a href="#" class="btn sign-up">Sign Up</a>
+                        <?php if(Account::isLoggedIn()):?>
+                            Welcome, <?= Account::getProfileById($_SESSION[ÁCCOUNT_IDENTIFIER])->getDisplayName()?>;
+    <?php else:?>
+                        <a href="<?= PUBLIC_URL ?>/login" class="btn log-in">Log In</a>
+                        <a href="<?= PUBLIC_URL ?>/signup" class="btn sign-up">Sign Up</a>
+                        <?php endif;?>
                     </div>
                 </div>
             </div>

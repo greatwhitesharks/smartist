@@ -28,7 +28,7 @@ if(file_exists($file)){
                <div class="collapse navbar-collapse" id="hiddenNav" >
                  <ul class="navbar-nav " >
                    <li class="nav-item active">
-                     <a class="nav-link" href="<?= PUBLIC_URL?>/feed" >Home <span class="sr-only">(current)</span></a>
+                     <a class="nav-link" href="<?= PUBLIC_URL.((Account::isLoggedIn()) ? '/feed' : '/')?>" >Home <span class="sr-only">(current)</span></a>
                    </li>
                    <li class="nav-item">
                      <a class="nav-link" href="<?= PUBLIC_URL?>/search" >Search</a>
