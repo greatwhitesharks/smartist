@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,7 +36,7 @@
                         <h3><span id="typed"></span></h3>
                         <h4>Perfect opportunity to join the music industry</h4>
                         <?php if(Account::isLoggedIn()):?>
-                            Welcome, <?= Account::getProfileById($_SESSION[ÁCCOUNT_IDENTIFIER])->getDisplayName()?>;
+                            <h4>Welcome, <?= Account::getProfileById($_SESSION[ACCOUNT_IDENTIFIER])->getDisplayName()?></h4>
     <?php else:?>
                         <a href="<?= PUBLIC_URL ?>/login" class="btn log-in">Log In</a>
                         <a href="<?= PUBLIC_URL ?>/signup" class="btn sign-up">Sign Up</a>
